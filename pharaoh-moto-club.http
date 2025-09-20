@@ -1,0 +1,6 @@
+@pharaoh_moto_club_HostAddress = http://localhost:5064
+
+GET {{pharaoh_moto_club_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
