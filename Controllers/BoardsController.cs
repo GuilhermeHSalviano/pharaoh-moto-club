@@ -21,11 +21,20 @@ namespace pharaoh_moto_club.Controllers {
         }
 
         [HttpGet("{BoardId}")]
-        public async Task<IActionResult> GetMembersOfBoard(int BoardId) {
+        public async Task<IActionResult> GetMembersOfBoard(int boardId) {
             var membersOfTheBoard = await _context.Members
-                .Where(c => c.BoardId == BoardId)
+                .Where(c => c.BoardId == boardId)
                 .ToListAsync();
             return Ok(membersOfTheBoard);
+        }
+
+        [HttpPut("{BoartId}/member/{MemberId}")]
+        public async Task<IActionResult> RemoveMemberFromBoard(int boardId, int memberId) {
+            var memberOfTheBoard = await _context.Members.FindAsync(memberId);
+            if (memberOfTheBoard == null) return NotFound();
+            memberOfTheBoard.BoardId = null;
+            await _context.SaveChangesAsync();
+            return NoContent();
         }
 
     }

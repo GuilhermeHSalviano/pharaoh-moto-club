@@ -12,6 +12,7 @@ namespace pharaoh_moto_club.Models {
         [Required]
         public required string NickName { get; set; }
         [Required]
+        [RegularExpression(@"^\d{11}$", ErrorMessage = "Seu cpf não está no formato correto!")]
         public required string Cpf { get; set; }
         [JsonIgnore]
         public string Password { get; set; }

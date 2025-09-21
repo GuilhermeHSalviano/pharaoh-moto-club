@@ -140,15 +140,10 @@ namespace pharaoh_moto_club.Migrations
             modelBuilder.Entity("pharaoh_moto_club.Models.Member", b =>
                 {
                     b.HasOne("pharaoh_moto_club.Models.Board", "Board")
-                        .WithMany("Memberships")
+                        .WithMany()
                         .HasForeignKey("BoardId");
 
                     b.Navigation("Board");
-                });
-
-            modelBuilder.Entity("pharaoh_moto_club.Models.Board", b =>
-                {
-                    b.Navigation("Memberships");
                 });
 #pragma warning restore 612, 618
         }

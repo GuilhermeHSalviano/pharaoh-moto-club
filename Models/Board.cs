@@ -10,7 +10,6 @@ namespace pharaoh_moto_club.Models {
         public int? BoardLeaderId {  get; set; }
         [Required]
         public required BoardType BoardType { get; set; }
-        public ICollection<Member>? Memberships { get; set; }
     }
 
     public enum BoardType {
