@@ -7,17 +7,16 @@ namespace pharaoh_moto_club.Models {
         [Key]
         public int BoardId { get; set; }
         [ForeignKey("MemberId")]
-        public int BoardLeaderId {  get; set; }
+        public int? BoardLeaderId {  get; set; }
         [Required]
         public required BoardType BoardType { get; set; }
-        [Required]
         public ICollection<Member>? Memberships { get; set; }
     }
 
-    public enum BoardType { 
+    public enum BoardType {
+        MesaDeGuardiao,
         DiretoriaAdministrativa,
         DiretoriaFinanceira,
-        MesaDeGuardiao,
         DiretoriaRegional,
         DiretoriaEstadual
     }

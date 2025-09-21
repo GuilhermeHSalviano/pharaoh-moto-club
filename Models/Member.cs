@@ -13,9 +13,8 @@ namespace pharaoh_moto_club.Models {
         public required string NickName { get; set; }
         [Required]
         public required string Cpf { get; set; }
-        [Required]
         [JsonIgnore]
-        public required string Password { get; set; }
+        public string Password { get; set; }
         [Required]
         public required string City { get; set; }
         [Required]

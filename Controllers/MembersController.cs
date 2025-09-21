@@ -4,7 +4,7 @@ using pharaoh_moto_club.Dtos;
 using pharaoh_moto_club.Models;
 
 namespace pharaoh_moto_club.Controllers {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class MembersController : ControllerBase {
         private readonly AppDbContext _context;
@@ -47,7 +47,15 @@ namespace pharaoh_moto_club.Controllers {
 
             await _context.SaveChangesAsync();
             return NoContent();
+        }
 
+        [HttpPost("{MemberId}/board/{BoardId}")]
+        public async Task<IActionResult> AssignMemberToBoard(int memberId, int boardId) {
+            var memberToBeAssigned = await _context.Members.FindAsync(memberId);
+            if (memberToBeAssigned == null) return NotFound();
+            memberToBeAssigned.BoardId = boardId;
+            await _context.SaveChangesAsync();
+            return NoContent();
         }
     }
 }

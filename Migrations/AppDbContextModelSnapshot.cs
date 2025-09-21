@@ -30,7 +30,7 @@ namespace pharaoh_moto_club.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BoardId"));
 
-                    b.Property<int>("BoardLeaderId")
+                    b.Property<int?>("BoardLeaderId")
                         .HasColumnType("int");
 
                     b.Property<int>("BoardType")
