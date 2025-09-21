@@ -41,6 +41,54 @@ namespace pharaoh_moto_club.Migrations
                     b.ToTable("Boards");
                 });
 
+            modelBuilder.Entity("pharaoh_moto_club.Models.Candidacy", b =>
+                {
+                    b.Property<int>("CandidacyId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CandidacyId"));
+
+                    b.Property<int>("ElectionId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("VoterId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CandidacyId");
+
+                    b.ToTable("Candidacy");
+                });
+
+            modelBuilder.Entity("pharaoh_moto_club.Models.Election", b =>
+                {
+                    b.Property<int>("ElectionId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ElectionId"));
+
+                    b.Property<int>("AuthorId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("BeginningOfElection")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("EndingOfElection")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("PositionToBeElected")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("WinnerId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ElectionId");
+
+                    b.ToTable("Elections");
+                });
+
             modelBuilder.Entity("pharaoh_moto_club.Models.Member", b =>
                 {
                     b.Property<int>("MemberId")
@@ -135,6 +183,25 @@ namespace pharaoh_moto_club.Migrations
                     b.HasIndex("BoardId");
 
                     b.ToTable("Members");
+                });
+
+            modelBuilder.Entity("pharaoh_moto_club.Models.Voters", b =>
+                {
+                    b.Property<int>("VotersId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("VotersId"));
+
+                    b.Property<int>("ElectionId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("VoterId")
+                        .HasColumnType("int");
+
+                    b.HasKey("VotersId");
+
+                    b.ToTable("Voters");
                 });
 
             modelBuilder.Entity("pharaoh_moto_club.Models.Member", b =>

@@ -12,7 +12,7 @@ using pharaoh_moto_club.Models;
 namespace pharaoh_moto_club.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250921131333_01")]
+    [Migration("20250921201027_01")]
     partial class _01
     {
         /// <inheritdoc />
@@ -33,7 +33,7 @@ namespace pharaoh_moto_club.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BoardId"));
 
-                    b.Property<int>("BoardLeaderId")
+                    b.Property<int?>("BoardLeaderId")
                         .HasColumnType("int");
 
                     b.Property<int>("BoardType")
@@ -42,6 +42,54 @@ namespace pharaoh_moto_club.Migrations
                     b.HasKey("BoardId");
 
                     b.ToTable("Boards");
+                });
+
+            modelBuilder.Entity("pharaoh_moto_club.Models.Candidacy", b =>
+                {
+                    b.Property<int>("CandidacyId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CandidacyId"));
+
+                    b.Property<int>("ElectionId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("VoterId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CandidacyId");
+
+                    b.ToTable("Candidacy");
+                });
+
+            modelBuilder.Entity("pharaoh_moto_club.Models.Election", b =>
+                {
+                    b.Property<int>("ElectionId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ElectionId"));
+
+                    b.Property<int>("AuthorId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("BeginningOfElection")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("EndingOfElection")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("PositionToBeElected")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("WinnerId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ElectionId");
+
+                    b.ToTable("Elections");
                 });
 
             modelBuilder.Entity("pharaoh_moto_club.Models.Member", b =>
@@ -55,7 +103,7 @@ namespace pharaoh_moto_club.Migrations
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("BoardId")
+                    b.Property<int?>("BoardId")
                         .HasColumnType("int");
 
                     b.Property<string>("City")
@@ -140,20 +188,32 @@ namespace pharaoh_moto_club.Migrations
                     b.ToTable("Members");
                 });
 
+            modelBuilder.Entity("pharaoh_moto_club.Models.Voters", b =>
+                {
+                    b.Property<int>("VotersId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("VotersId"));
+
+                    b.Property<int>("ElectionId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("VoterId")
+                        .HasColumnType("int");
+
+                    b.HasKey("VotersId");
+
+                    b.ToTable("Voters");
+                });
+
             modelBuilder.Entity("pharaoh_moto_club.Models.Member", b =>
                 {
                     b.HasOne("pharaoh_moto_club.Models.Board", "Board")
-                        .WithMany("Memberships")
-                        .HasForeignKey("BoardId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany()
+                        .HasForeignKey("BoardId");
 
                     b.Navigation("Board");
-                });
-
-            modelBuilder.Entity("pharaoh_moto_club.Models.Board", b =>
-                {
-                    b.Navigation("Memberships");
                 });
 #pragma warning restore 612, 618
         }

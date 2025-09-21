@@ -17,12 +17,57 @@ namespace pharaoh_moto_club.Migrations
                 {
                     BoardId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    BoardLeaderId = table.Column<int>(type: "int", nullable: false),
+                    BoardLeaderId = table.Column<int>(type: "int", nullable: true),
                     BoardType = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Boards", x => x.BoardId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Candidacy",
+                columns: table => new
+                {
+                    CandidacyId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ElectionId = table.Column<int>(type: "int", nullable: false),
+                    VoterId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Candidacy", x => x.CandidacyId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Elections",
+                columns: table => new
+                {
+                    ElectionId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PositionToBeElected = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    BeginningOfElection = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndingOfElection = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    WinnerId = table.Column<int>(type: "int", nullable: false),
+                    AuthorId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Elections", x => x.ElectionId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Voters",
+                columns: table => new
+                {
+                    VotersId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    VoterId = table.Column<int>(type: "int", nullable: false),
+                    ElectionId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Voters", x => x.VotersId);
                 });
 
             migrationBuilder.CreateTable(
@@ -55,7 +100,7 @@ namespace pharaoh_moto_club.Migrations
                     MotorCycleNickName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     IsSystemManager = table.Column<bool>(type: "bit", nullable: false),
-                    BoardId = table.Column<int>(type: "int", nullable: false)
+                    BoardId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -64,8 +109,7 @@ namespace pharaoh_moto_club.Migrations
                         name: "FK_Members_Boards_BoardId",
                         column: x => x.BoardId,
                         principalTable: "Boards",
-                        principalColumn: "BoardId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "BoardId");
                 });
 
             migrationBuilder.CreateIndex(
@@ -78,7 +122,16 @@ namespace pharaoh_moto_club.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Candidacy");
+
+            migrationBuilder.DropTable(
+                name: "Elections");
+
+            migrationBuilder.DropTable(
                 name: "Members");
+
+            migrationBuilder.DropTable(
+                name: "Voters");
 
             migrationBuilder.DropTable(
                 name: "Boards");
