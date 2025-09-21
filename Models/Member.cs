@@ -41,16 +41,6 @@ namespace pharaoh_moto_club.Models {
         [ForeignKey("BoardId")]
         public int? BoardId { get; set; }
         public Board? Board { get; set; }
-
-        public Member() { }
-        public Member(string name, string nickName, string cpf, string password, string city, string state) {
-            Name = name;
-            NickName = nickName;
-            Cpf = cpf;
-            Password = password;
-            City = city;
-            State = state;
-        }
     }
 
     

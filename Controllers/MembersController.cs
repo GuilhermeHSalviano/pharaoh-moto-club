@@ -15,13 +15,32 @@ namespace pharaoh_moto_club.Controllers {
 
         [HttpPost]
         public async Task<IActionResult> CreateMember(MemberDto model) {
-            Member newMember = new Member(model.Name, model.NickName, model.Cpf, model.City, model.State, model.Password) {
+            Member newMember = new Member {
                 Name = model.Name,
                 NickName = model.NickName,
                 Cpf = model.Cpf,
+                Password = BCrypt.Net.BCrypt.HashPassword(model.Password),
                 City = model.City,
                 State = model.State,
-                Password = BCrypt.Net.BCrypt.HashPassword(model.Password),
+                StatesVisited = model.StatesVisited,
+                EntryDate = model.EntryDate,
+                Rank = model.Rank,
+                Triennium = model.Triennium,
+                HasBeenAbroad = model.HasBeenAbroad,
+                BirthDate = model.BirthDate,
+                IsFirst = model.IsFirst,
+                WifeName = model.WifeName,
+                WifeNickName = model.WifeNickName,
+                CoatOfArms = model.CoatOfArms,
+                OffBoarding = model.OffBoarding,
+                ProfilePhoto = model.ProfilePhoto,
+                MotorCycleSign = model.MotorCycleSign,
+                MotorCycleBrand = model.MotorCycleBrand,
+                MotorCycleName = model.MotorCycleName,
+                MotorCycleNickName = model.MotorCycleNickName,
+                IsActive = model.IsActive,
+                IsSystemManager = model.IsSystemManager,
+                BoardId = model.BoardId,
             };
 
             _context.Members.Add(newMember);
