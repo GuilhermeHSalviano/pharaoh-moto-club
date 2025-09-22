@@ -11,6 +11,6 @@ namespace pharaoh_moto_club.Models {
         public DbSet<Board> Boards { get; set; }
         public DbSet<Election> Elections { get; set; }
         public DbSet<Candidacy> Candidacy { get; set; }
-        public DbSet<Voters> Voters { get; set; }
+        public DbSet<Votes> Votes { get; set; }
     }
 }

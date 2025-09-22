@@ -185,13 +185,16 @@ namespace pharaoh_moto_club.Migrations
                     b.ToTable("Members");
                 });
 
-            modelBuilder.Entity("pharaoh_moto_club.Models.Voters", b =>
+            modelBuilder.Entity("pharaoh_moto_club.Models.Votes", b =>
                 {
                     b.Property<int>("VotersId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("VotersId"));
+
+                    b.Property<int>("CandidateId")
+                        .HasColumnType("int");
 
                     b.Property<int>("ElectionId")
                         .HasColumnType("int");
@@ -201,7 +204,7 @@ namespace pharaoh_moto_club.Migrations
 
                     b.HasKey("VotersId");
 
-                    b.ToTable("Voters");
+                    b.ToTable("Votes");
                 });
 
             modelBuilder.Entity("pharaoh_moto_club.Models.Member", b =>

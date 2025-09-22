@@ -2,13 +2,15 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace pharaoh_moto_club.Models {
-    [Table("Voters")]
-    public class Voters {
+    [Table("Votes")]
+    public class Votes {
         [Key]
         public int VotersId { get; set; }
         [ForeignKey("MemberId")]
         public int VoterId { get; set;}
         [ForeignKey("ElectionId")]
         public int ElectionId { get; set; }
+        [ForeignKey("MemberId")]
+        public int CandidateId { get; set; }
     }
 }

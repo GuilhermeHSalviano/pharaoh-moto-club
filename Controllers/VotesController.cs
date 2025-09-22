@@ -5,18 +5,19 @@ using pharaoh_moto_club.Models;
 namespace pharaoh_moto_club.Controllers {
     [Route("[controller]")]
     [ApiController]
-    public class VotersController : ControllerBase {
+    public class VotesController : ControllerBase {
         private readonly AppDbContext _context;
 
-        public VotersController(AppDbContext context) {
+        public VotesController(AppDbContext context) {
             _context = context;
         }
 
         [HttpPost]
-        public async Task<IActionResult> ToVote(Voters model) {
-            _context.Voters.Add(model);
+        public async Task<IActionResult> ToVote(Votes model) {
+            _context.Votes.Add(model);
             await _context.SaveChangesAsync();
             return NoContent();
         }
     }
+
 }
