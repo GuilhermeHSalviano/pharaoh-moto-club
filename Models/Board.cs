@@ -5,10 +5,13 @@ namespace pharaoh_moto_club.Models {
     [Table("Boards")]
     public class Board {
         [Key]
+        [Column("board_id")]
         public int BoardId { get; set; }
-        [ForeignKey("MemberId")]
+        [ForeignKey("board_leader_id")]
+        [Column("board_leader_id")]
         public int? BoardLeaderId {  get; set; }
         [Required]
+        [Column("board_type")]
         public required BoardType BoardType { get; set; }
     }
 

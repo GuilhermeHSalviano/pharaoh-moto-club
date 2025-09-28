@@ -19,7 +19,7 @@ namespace pharaoh_moto_club.Controllers {
             return NoContent();
         }
         
-        [HttpPost("{ElectionId}")]
+        /*[HttpPost("{ElectionId}")]
         public async Task<IActionResult> CloseElection(int electionId, List<int> Candidates) {
             var election = await _context.Elections.FindAsync(electionId);
             var numberOfVotes = new List<Votes>();
@@ -29,7 +29,7 @@ namespace pharaoh_moto_club.Controllers {
                 //Now you need to add to numberOfVotes an object containing the Id of the candidate and the number of votes he's received
 
             }
-        }     
+        }     */
 
         
 

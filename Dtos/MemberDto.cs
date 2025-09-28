@@ -7,7 +7,7 @@ namespace pharaoh_moto_club.Dtos {
         [Required]
         public required string Name { get; set; }
         [Required]
-        public required string NickName { get; set; }
+        public required string Nickname { get; set; }
         [Required]
         public required string Cpf { get; set; }
         [Required]
@@ -23,15 +23,15 @@ namespace pharaoh_moto_club.Dtos {
         public bool HasBeenAbroad { get; set; }
         public DateTime BirthDate { get; set; }
         public bool IsFirst { get; set; } = false;
-        public string? WifeName { get; set; }
-        public string? WifeNickName { get; set; }
+        public string? Wifename { get; set; }
+        public string? WifeNickname { get; set; }
         public bool CoatOfArms { get; set; }
         public bool OffBoarding { get; set; }
         public byte[]? ProfilePhoto { get; set; }
-        public string? MotorCycleSign { get; set; }
-        public string? MotorCycleBrand { get; set; }
-        public string? MotorCycleName { get; set; }
-        public string? MotorCycleNickName { get; set; }
+        public string? MotorcycleSign { get; set; }
+        public string? MotorcycleBrand { get; set; }
+        public string? MotorcycleName { get; set; }
+        public string? MotorcycleNickName { get; set; }
         public bool IsActive { get; set; } = true;
         public bool IsSystemManager { get; set; } = false;
         public int? BoardId { get; set; }

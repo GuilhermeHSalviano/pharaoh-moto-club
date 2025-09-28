@@ -5,12 +5,12 @@ namespace pharaoh_moto_club.Models {
     [Table("Votes")]
     public class Votes {
         [Key]
-        public int VotersId { get; set; }
-        [ForeignKey("MemberId")]
+        public int VoteId { get; set; }
+        [ForeignKey("voter_id")]
         public int VoterId { get; set;}
-        [ForeignKey("ElectionId")]
+        [ForeignKey("election_id")]
         public int ElectionId { get; set; }
-        [ForeignKey("MemberId")]
+        [ForeignKey("candidate_id")]
         public int CandidateId { get; set; }
     }
 }

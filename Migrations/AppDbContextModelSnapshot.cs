@@ -26,15 +26,18 @@ namespace pharaoh_moto_club.Migrations
                 {
                     b.Property<int>("BoardId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("board_id");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BoardId"));
 
                     b.Property<int?>("BoardLeaderId")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("board_leader_id");
 
                     b.Property<int>("BoardType")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("board_type");
 
                     b.HasKey("BoardId");
 
@@ -45,15 +48,18 @@ namespace pharaoh_moto_club.Migrations
                 {
                     b.Property<int>("CandidacyId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("candidacy_id");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CandidacyId"));
 
                     b.Property<int>("ElectionId")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("election_id");
 
                     b.Property<int>("VoterId")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("voter_id");
 
                     b.HasKey("CandidacyId");
 
@@ -64,7 +70,8 @@ namespace pharaoh_moto_club.Migrations
                 {
                     b.Property<int>("ElectionId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("election_id");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ElectionId"));
 
@@ -72,14 +79,17 @@ namespace pharaoh_moto_club.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime>("BeginningOfElection")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime2")
+                        .HasColumnName("beggining_of_election");
 
                     b.Property<DateTime>("EndingOfElection")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime2")
+                        .HasColumnName("ending_of_election");
 
                     b.Property<string>("PositionToBeElected")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("position_to_be_elected");
 
                     b.Property<int>("WinnerId")
                         .HasColumnType("int");
@@ -93,90 +103,115 @@ namespace pharaoh_moto_club.Migrations
                 {
                     b.Property<int>("MemberId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("member_id");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MemberId"));
 
                     b.Property<DateTime>("BirthDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime2")
+                        .HasColumnName("birth_date");
 
                     b.Property<int?>("BoardId")
                         .HasColumnType("int");
 
                     b.Property<string>("City")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("city");
 
                     b.Property<bool>("CoatOfArms")
-                        .HasColumnType("bit");
+                        .HasColumnType("bit")
+                        .HasColumnName("coat_of_arms");
 
                     b.Property<string>("Cpf")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("cpf");
 
                     b.Property<DateTime>("EntryDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime2")
+                        .HasColumnName("entry_date");
 
                     b.Property<bool>("HasBeenAbroad")
-                        .HasColumnType("bit");
+                        .HasColumnType("bit")
+                        .HasColumnName("has_been_abroad");
 
                     b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
+                        .HasColumnType("bit")
+                        .HasColumnName("is_active");
 
                     b.Property<bool>("IsFirst")
-                        .HasColumnType("bit");
+                        .HasColumnType("bit")
+                        .HasColumnName("is_first");
 
                     b.Property<bool>("IsSystemManager")
-                        .HasColumnType("bit");
+                        .HasColumnType("bit")
+                        .HasColumnName("is_system_manager");
 
-                    b.Property<string>("MotorCycleBrand")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("MotorcycleBrand")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("motorcycle_brand");
 
-                    b.Property<string>("MotorCycleName")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("MotorcycleName")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("motorcycle_name");
 
-                    b.Property<string>("MotorCycleNickName")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("MotorcycleNickName")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("motorcycle_nickname");
 
-                    b.Property<string>("MotorCycleSign")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("MotorcycleSign")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("motorcycle_sign");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("name");
 
-                    b.Property<string>("NickName")
+                    b.Property<string>("Nickname")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("nickname");
 
                     b.Property<bool>("OffBoarding")
-                        .HasColumnType("bit");
+                        .HasColumnType("bit")
+                        .HasColumnName("off_boarding");
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("password");
 
                     b.Property<byte[]>("ProfilePhoto")
-                        .HasColumnType("varbinary(max)");
+                        .HasColumnType("varbinary(max)")
+                        .HasColumnName("profile_photo");
 
                     b.Property<int?>("Rank")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("rank");
 
                     b.Property<string>("State")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("state");
 
                     b.Property<int>("StatesVisited")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("states_visited");
 
                     b.Property<int>("Triennium")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("triennium");
 
                     b.Property<string>("WifeName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("wife_name");
 
-                    b.Property<string>("WifeNickName")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("WifeNickname")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("wife_nickname");
 
                     b.HasKey("MemberId");
 
@@ -187,11 +222,11 @@ namespace pharaoh_moto_club.Migrations
 
             modelBuilder.Entity("pharaoh_moto_club.Models.Votes", b =>
                 {
-                    b.Property<int>("VotersId")
+                    b.Property<int>("VoteId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("VotersId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("VoteId"));
 
                     b.Property<int>("CandidateId")
                         .HasColumnType("int");
@@ -202,7 +237,7 @@ namespace pharaoh_moto_club.Migrations
                     b.Property<int>("VoterId")
                         .HasColumnType("int");
 
-                    b.HasKey("VotersId");
+                    b.HasKey("VoteId");
 
                     b.ToTable("Votes");
                 });

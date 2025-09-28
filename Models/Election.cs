@@ -6,15 +6,19 @@ namespace pharaoh_moto_club.Models {
     [Table("Elections")]
     public class Election {
         [Key]
+        [Column("election_id")]
         public int ElectionId { get; set; }
         [Required]
+        [Column("position_to_be_elected")]
         public required string PositionToBeElected { get; set; }
+        [Column("beggining_of_election")]
         public DateTime BeginningOfElection { get; set; } = DateTime.Now;
         [Required]
+        [Column("ending_of_election")]
         public required DateTime EndingOfElection { get; set; }
-        [ForeignKey("MemberId")]
+        [ForeignKey("winner_id")]
         public int WinnerId {  get; set; }
-        [ForeignKey("MemberId")]
+        [ForeignKey("author_id")]
         public int AuthorId {  get; set; }
     }
 }
