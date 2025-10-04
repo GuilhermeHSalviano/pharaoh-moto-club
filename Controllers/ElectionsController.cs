@@ -60,7 +60,7 @@ namespace pharaoh_moto_club.Controllers {
                 }
             }
 
-            if(even = true) {
+            if(even == true) {
                 election.WinnerId = 0;
                 await _context.SaveChangesAsync();
                 return NoContent();
