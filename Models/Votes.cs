@@ -12,5 +12,13 @@ namespace pharaoh_moto_club.Models {
         public int ElectionId { get; set; }
         [ForeignKey("candidate_id")]
         public int? CandidateId { get; set; }
+
+        public Votes() { }
+
+        public Votes(int voterId, int electionId, int candidateId) {
+            VoterId = voterId;
+            ElectionId = electionId;
+            CandidateId = candidateId;
+        }
     }
 }

@@ -30,22 +30,23 @@ namespace pharaoh_moto_club.Controllers {
         }
 
         [HttpPut("{ElectionId}")]
-        public async Task<IActionResult> CloseElection(int electionId, List<int> Candidates) {
+        public async Task<IActionResult> CloseElection(int electionId) {
             var election = await _context.Elections.FindAsync(electionId);
+            var candidates = _context.Candidacy.Where(x => x.ElectionId == electionId).Select(b => b.CandidateId).ToList();
             if (election == null) return NotFound();
             var counting = new List<VotesPerCandidate>();
             var nullVotes = _context.Votes.Count(c => c.ElectionId == electionId && c.CandidateId == null);
             var even = false;
             VotesPerCandidate possibleWinner = new VotesPerCandidate(0, 0);
 
-            for (int i = 0; i < Candidates.Count; i++) {
+            for (int i = 0; i < candidates.Count; i++) {
                 var votes = _context.Votes
-                    .Count(c => c.CandidateId == Candidates[i] && c.ElectionId == electionId);
-                var candidateVotes = new VotesPerCandidate(Candidates[i], votes);
+                    .Count(c => c.CandidateId == candidates[i] && c.ElectionId == electionId);
+                var candidateVotes = new VotesPerCandidate(candidates[i], votes);
                 counting.Add(candidateVotes);
             }
 
-            if (Candidates.Count == 1) {
+            if (candidates.Count == 1) {
                 election.WinnerId = counting[0].votesReceived > nullVotes ? counting[0].candidateId : 0;
                 await _context.SaveChangesAsync();
                 return NoContent();

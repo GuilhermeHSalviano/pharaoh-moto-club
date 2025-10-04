@@ -53,13 +53,13 @@ namespace pharaoh_moto_club.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CandidacyId"));
 
+                    b.Property<int>("CandidateId")
+                        .HasColumnType("int")
+                        .HasColumnName("candidate_id");
+
                     b.Property<int>("ElectionId")
                         .HasColumnType("int")
                         .HasColumnName("election_id");
-
-                    b.Property<int>("VoterId")
-                        .HasColumnType("int")
-                        .HasColumnName("voter_id");
 
                     b.HasKey("CandidacyId");
 
@@ -228,7 +228,7 @@ namespace pharaoh_moto_club.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("VoteId"));
 
-                    b.Property<int>("CandidateId")
+                    b.Property<int?>("CandidateId")
                         .HasColumnType("int");
 
                     b.Property<int>("ElectionId")
