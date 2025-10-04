@@ -36,7 +36,7 @@ namespace pharaoh_moto_club.Controllers {
             if (election == null) return NotFound();
             var counting = new List<VotesPerCandidate>();
             var nullVotes = _context.Votes.Count(c => c.ElectionId == electionId && c.CandidateId == null);
-            var even = false;
+            var tie = false;
             VotesPerCandidate possibleWinner = new VotesPerCandidate(0, 0);
 
             for (int i = 0; i < candidates.Count; i++) {
@@ -55,13 +55,13 @@ namespace pharaoh_moto_club.Controllers {
             for(int i = 0; i < counting.Count; i++) {
                 if (counting[i].candidateId > possibleWinner.votesReceived) {
                     possibleWinner = counting[i];
-                    even = false;
+                    tie = false;
                 } else if(counting[i].votesReceived == possibleWinner.votesReceived) {
-                    even = true;
+                    tie = true;
                 }
             }
 
-            if(even == true) {
+            if(tie == true) {
                 election.WinnerId = 0;
                 await _context.SaveChangesAsync();
                 return NoContent();
