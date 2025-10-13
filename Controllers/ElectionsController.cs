@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using pharaoh_moto_club.Dtos;
 using pharaoh_moto_club.Models;
 
@@ -82,6 +83,12 @@ namespace pharaoh_moto_club.Controllers {
             election.PositionToBeElected = updatedElection.PositionToBeElected;
             await _context.SaveChangesAsync();
             return NoContent();
+        }
+
+        [HttpGet("{electionId}")]
+        public async Task<IActionResult> GetVotesByElection(int electionId) {
+            var votes = await _context.Votes.Where(x => x.ElectionId == electionId).ToListAsync();
+            return Ok(votes);
         }
     }
 
