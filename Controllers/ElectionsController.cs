@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using pharaoh_moto_club.Dtos;
 using pharaoh_moto_club.Models;
 
 namespace pharaoh_moto_club.Controllers {
@@ -71,6 +72,18 @@ namespace pharaoh_moto_club.Controllers {
                 return NoContent();
             }
         }
+
+        [HttpPut("edit/{ElectionId}")]
+        public async Task<IActionResult> EditElection(int electionId, ElectionDto updatedElection) {
+            var election = await _context.Elections.FindAsync(electionId);
+            if (election == null) NotFound();
+            election.BeginningOfElection = updatedElection.BeginningOfElection;
+            election.EndingOfElection = updatedElection.EndOfElection;
+            election.PositionToBeElected = updatedElection.PositionToBeElected;
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
     }
+
 }
 
