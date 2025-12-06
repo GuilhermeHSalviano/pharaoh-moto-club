@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace pharaoh_moto_club.Migrations
 {
     /// <inheritdoc />
-    public partial class _01 : Migration
+    public partial class firstMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -32,7 +32,7 @@ namespace pharaoh_moto_club.Migrations
                     candidacy_id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     election_id = table.Column<int>(type: "int", nullable: false),
-                    voter_id = table.Column<int>(type: "int", nullable: false)
+                    candidate_id = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -64,7 +64,8 @@ namespace pharaoh_moto_club.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     VoterId = table.Column<int>(type: "int", nullable: false),
                     ElectionId = table.Column<int>(type: "int", nullable: false),
-                    CandidateId = table.Column<int>(type: "int", nullable: false)
+                    CandidateId = table.Column<int>(type: "int", nullable: true),
+                    is_candidates_rejected = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {

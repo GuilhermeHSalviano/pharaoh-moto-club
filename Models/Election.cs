@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace pharaoh_moto_club.Models {
-    [Table("Elections")]
+    [Table("elections")]
     public class Election {
         [Key]
         [Column("election_id")]

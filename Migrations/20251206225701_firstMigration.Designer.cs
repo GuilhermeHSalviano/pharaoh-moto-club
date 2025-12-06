@@ -12,8 +12,8 @@ using pharaoh_moto_club.Models;
 namespace pharaoh_moto_club.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250928233559_01")]
-    partial class _01
+    [Migration("20251206225701_firstMigration")]
+    partial class firstMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -56,13 +56,13 @@ namespace pharaoh_moto_club.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CandidacyId"));
 
+                    b.Property<int>("CandidateId")
+                        .HasColumnType("int")
+                        .HasColumnName("candidate_id");
+
                     b.Property<int>("ElectionId")
                         .HasColumnType("int")
                         .HasColumnName("election_id");
-
-                    b.Property<int>("VoterId")
-                        .HasColumnType("int")
-                        .HasColumnName("voter_id");
 
                     b.HasKey("CandidacyId");
 
@@ -231,11 +231,15 @@ namespace pharaoh_moto_club.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("VoteId"));
 
-                    b.Property<int>("CandidateId")
+                    b.Property<int?>("CandidateId")
                         .HasColumnType("int");
 
                     b.Property<int>("ElectionId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsCandidatesRejected")
+                        .HasColumnType("bit")
+                        .HasColumnName("is_candidates_rejected");
 
                     b.Property<int>("VoterId")
                         .HasColumnType("int");

@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace pharaoh_moto_club.Models {
-    [Table("Boards")]
+    [Table("boards")]
     public class Board {
         [Key]
         [Column("board_id")]

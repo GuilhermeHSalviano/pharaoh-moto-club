@@ -12,8 +12,8 @@ using pharaoh_moto_club.Models;
 namespace pharaoh_moto_club.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251004195552_03")]
-    partial class _03
+    [Migration("20251206230042_changing_name_of_tables")]
+    partial class changing_name_of_tables
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -44,7 +44,7 @@ namespace pharaoh_moto_club.Migrations
 
                     b.HasKey("BoardId");
 
-                    b.ToTable("Boards");
+                    b.ToTable("boards");
                 });
 
             modelBuilder.Entity("pharaoh_moto_club.Models.Candidacy", b =>
@@ -66,7 +66,7 @@ namespace pharaoh_moto_club.Migrations
 
                     b.HasKey("CandidacyId");
 
-                    b.ToTable("Candidacy");
+                    b.ToTable("candidacy");
                 });
 
             modelBuilder.Entity("pharaoh_moto_club.Models.Election", b =>
@@ -99,7 +99,7 @@ namespace pharaoh_moto_club.Migrations
 
                     b.HasKey("ElectionId");
 
-                    b.ToTable("Elections");
+                    b.ToTable("elections");
                 });
 
             modelBuilder.Entity("pharaoh_moto_club.Models.Member", b =>
@@ -220,7 +220,7 @@ namespace pharaoh_moto_club.Migrations
 
                     b.HasIndex("BoardId");
 
-                    b.ToTable("Members");
+                    b.ToTable("members");
                 });
 
             modelBuilder.Entity("pharaoh_moto_club.Models.Votes", b =>
@@ -237,12 +237,16 @@ namespace pharaoh_moto_club.Migrations
                     b.Property<int>("ElectionId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsCandidatesRejected")
+                        .HasColumnType("bit")
+                        .HasColumnName("is_candidates_rejected");
+
                     b.Property<int>("VoterId")
                         .HasColumnType("int");
 
                     b.HasKey("VoteId");
 
-                    b.ToTable("Votes");
+                    b.ToTable("votes");
                 });
 
             modelBuilder.Entity("pharaoh_moto_club.Models.Member", b =>

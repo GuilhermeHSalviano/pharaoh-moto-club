@@ -14,12 +14,12 @@ namespace pharaoh_moto_club.Controllers {
         }
 
         [HttpPost("{voterId}/{electionId}/{candidateId}")]
-        public async Task<IActionResult> ToVote(int voterId, int electionId, int candidateId) {
-            var vote = new Votes(voterId, electionId, candidateId);
+        public async Task<IActionResult> ToVote(int voterId, int electionId, int candidateId, bool isCandidatesRejected) {
+            var vote = new Votes(voterId, electionId, candidateId, isCandidatesRejected);
             var doesCandidateExist = await _context.Candidacy.FirstOrDefaultAsync(x => x.CandidateId == candidateId && x.ElectionId == electionId) != null;
-            var didHeVote = await _context.Votes.FirstOrDefaultAsync(x => x.VoterId == voterId && x.ElectionId == electionId) != null;
+            var didMemberVote = await _context.Votes.FirstOrDefaultAsync(x => x.VoterId == voterId && x.ElectionId == electionId) != null;
             if (!doesCandidateExist) return BadRequest("The candidate does not exist");
-            if (didHeVote) return BadRequest("This member has already voted in this election");
+            if (didMemberVote) return BadRequest("This member has already voted in this election");
             _context.Votes.Add(vote);
             await _context.SaveChangesAsync();
             return NoContent();

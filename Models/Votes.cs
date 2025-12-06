@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace pharaoh_moto_club.Models {
-    [Table("Votes")]
+    [Table("votes")]
     public class Votes {
         [Key]
         public int VoteId { get; set; }
@@ -12,13 +12,17 @@ namespace pharaoh_moto_club.Models {
         public int ElectionId { get; set; }
         [ForeignKey("candidate_id")]
         public int? CandidateId { get; set; }
+        [Column("is_candidates_rejected")]
+        public bool IsCandidatesRejected { get; set; }
 
         public Votes() { }
 
-        public Votes(int voterId, int electionId, int candidateId) {
+        public Votes(int voterId, int electionId, int candidateId, bool isCandidatesRejected) {
             VoterId = voterId;
             ElectionId = electionId;
             CandidateId = candidateId;
+            IsCandidatesRejected = isCandidatesRejected;
         }
     }
+
 }

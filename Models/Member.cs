@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace pharaoh_moto_club.Models {
-    [Table("Members")]
+    [Table("members")]
     public class Member {
         [Key]
         [Column("member_id")]
