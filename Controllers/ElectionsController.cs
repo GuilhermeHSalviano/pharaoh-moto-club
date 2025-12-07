@@ -88,7 +88,7 @@ namespace pharaoh_moto_club.Controllers {
         [HttpGet("{electionId}")]
         public async Task<IActionResult> GetVotesByElection(int electionId) {
             if (await _context.Elections.FindAsync(electionId) == null) return NotFound("Election not found!");
-            var votes = await _context.Votes.Where(x => x.ElectionId == electionId).ToListAsync();
+            var votes = await _context.Votes.Where(x => x.ElectionId == electionId).ToListAsync();  
             return Ok(votes);
         }
     }

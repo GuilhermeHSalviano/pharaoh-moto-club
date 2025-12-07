@@ -17,8 +17,10 @@ namespace pharaoh_moto_club.Models {
         [Column("ending_of_election")]
         public required DateTime EndingOfElection { get; set; }
         [ForeignKey("winner_id")]
+        [Column("winner_id")]
         public int WinnerId {  get; set; }
         [ForeignKey("author_id")]
+        [Column("author_id")]
         public int AuthorId {  get; set; }
     }
 }

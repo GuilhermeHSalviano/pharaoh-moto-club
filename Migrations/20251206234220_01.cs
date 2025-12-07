@@ -6,13 +6,13 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace pharaoh_moto_club.Migrations
 {
     /// <inheritdoc />
-    public partial class firstMigration : Migration
+    public partial class _01 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Boards",
+                name: "boards",
                 columns: table => new
                 {
                     board_id = table.Column<int>(type: "int", nullable: false)
@@ -22,11 +22,11 @@ namespace pharaoh_moto_club.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Boards", x => x.board_id);
+                    table.PrimaryKey("PK_boards", x => x.board_id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Candidacy",
+                name: "candidacy",
                 columns: table => new
                 {
                     candidacy_id = table.Column<int>(type: "int", nullable: false)
@@ -36,11 +36,11 @@ namespace pharaoh_moto_club.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Candidacy", x => x.candidacy_id);
+                    table.PrimaryKey("PK_candidacy", x => x.candidacy_id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Elections",
+                name: "elections",
                 columns: table => new
                 {
                     election_id = table.Column<int>(type: "int", nullable: false)
@@ -48,32 +48,32 @@ namespace pharaoh_moto_club.Migrations
                     position_to_be_elected = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     beggining_of_election = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ending_of_election = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    WinnerId = table.Column<int>(type: "int", nullable: false),
-                    AuthorId = table.Column<int>(type: "int", nullable: false)
+                    winner_id = table.Column<int>(type: "int", nullable: false),
+                    author_id = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Elections", x => x.election_id);
+                    table.PrimaryKey("PK_elections", x => x.election_id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Votes",
+                name: "votes",
                 columns: table => new
                 {
                     VoteId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    VoterId = table.Column<int>(type: "int", nullable: false),
-                    ElectionId = table.Column<int>(type: "int", nullable: false),
-                    CandidateId = table.Column<int>(type: "int", nullable: true),
+                    voter_id = table.Column<int>(type: "int", nullable: false),
+                    election_id = table.Column<int>(type: "int", nullable: false),
+                    candidate_id = table.Column<int>(type: "int", nullable: true),
                     is_candidates_rejected = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Votes", x => x.VoteId);
+                    table.PrimaryKey("PK_votes", x => x.VoteId);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Members",
+                name: "members",
                 columns: table => new
                 {
                     member_id = table.Column<int>(type: "int", nullable: false)
@@ -102,41 +102,41 @@ namespace pharaoh_moto_club.Migrations
                     motorcycle_nickname = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     is_active = table.Column<bool>(type: "bit", nullable: false),
                     is_system_manager = table.Column<bool>(type: "bit", nullable: false),
-                    BoardId = table.Column<int>(type: "int", nullable: true)
+                    board_id = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Members", x => x.member_id);
+                    table.PrimaryKey("PK_members", x => x.member_id);
                     table.ForeignKey(
-                        name: "FK_Members_Boards_BoardId",
-                        column: x => x.BoardId,
-                        principalTable: "Boards",
+                        name: "FK_members_boards_board_id",
+                        column: x => x.board_id,
+                        principalTable: "boards",
                         principalColumn: "board_id");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Members_BoardId",
-                table: "Members",
-                column: "BoardId");
+                name: "IX_members_board_id",
+                table: "members",
+                column: "board_id");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Candidacy");
+                name: "candidacy");
 
             migrationBuilder.DropTable(
-                name: "Elections");
+                name: "elections");
 
             migrationBuilder.DropTable(
-                name: "Members");
+                name: "members");
 
             migrationBuilder.DropTable(
-                name: "Votes");
+                name: "votes");
 
             migrationBuilder.DropTable(
-                name: "Boards");
+                name: "boards");
         }
     }
 }

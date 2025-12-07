@@ -76,7 +76,8 @@ namespace pharaoh_moto_club.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ElectionId"));
 
                     b.Property<int>("AuthorId")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("author_id");
 
                     b.Property<DateTime>("BeginningOfElection")
                         .HasColumnType("datetime2")
@@ -92,7 +93,8 @@ namespace pharaoh_moto_club.Migrations
                         .HasColumnName("position_to_be_elected");
 
                     b.Property<int>("WinnerId")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("winner_id");
 
                     b.HasKey("ElectionId");
 
@@ -113,7 +115,8 @@ namespace pharaoh_moto_club.Migrations
                         .HasColumnName("birth_date");
 
                     b.Property<int?>("BoardId")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("board_id");
 
                     b.Property<string>("City")
                         .IsRequired()
@@ -229,17 +232,20 @@ namespace pharaoh_moto_club.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("VoteId"));
 
                     b.Property<int?>("CandidateId")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("candidate_id");
 
                     b.Property<int>("ElectionId")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("election_id");
 
                     b.Property<bool>("IsCandidatesRejected")
                         .HasColumnType("bit")
                         .HasColumnName("is_candidates_rejected");
 
                     b.Property<int>("VoterId")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("voter_id");
 
                     b.HasKey("VoteId");
 

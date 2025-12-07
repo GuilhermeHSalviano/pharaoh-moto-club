@@ -64,6 +64,7 @@ namespace pharaoh_moto_club.Models {
         [Column("is_system_manager")]
         public bool IsSystemManager { get; set; } = false;
         [ForeignKey("board_id")]
+        [Column("board_id")]
         public int? BoardId { get; set; }
         public Board? Board { get; set; }
     }

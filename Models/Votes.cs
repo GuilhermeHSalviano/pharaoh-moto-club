@@ -7,17 +7,20 @@ namespace pharaoh_moto_club.Models {
         [Key]
         public int VoteId { get; set; }
         [ForeignKey("voter_id")]
+        [Column("voter_id")]
         public int VoterId { get; set;}
         [ForeignKey("election_id")]
+        [Column("election_id")]
         public int ElectionId { get; set; }
         [ForeignKey("candidate_id")]
+        [Column("candidate_id")]
         public int? CandidateId { get; set; }
         [Column("is_candidates_rejected")]
         public bool IsCandidatesRejected { get; set; }
 
         public Votes() { }
 
-        public Votes(int voterId, int electionId, int candidateId, bool isCandidatesRejected) {
+        public Votes(int voterId, int electionId, int? candidateId, bool isCandidatesRejected) {
             VoterId = voterId;
             ElectionId = electionId;
             CandidateId = candidateId;
