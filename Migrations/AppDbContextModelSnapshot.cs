@@ -87,6 +87,10 @@ namespace pharaoh_moto_club.Migrations
                         .HasColumnType("datetime2")
                         .HasColumnName("ending_of_election");
 
+                    b.Property<bool>("IsElectionClosed")
+                        .HasColumnType("bit")
+                        .HasColumnName("is_election_closed");
+
                     b.Property<string>("PositionToBeElected")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")

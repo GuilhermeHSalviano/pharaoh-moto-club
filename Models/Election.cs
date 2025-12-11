@@ -21,6 +21,8 @@ namespace pharaoh_moto_club.Models {
         public int WinnerId {  get; set; }
         [ForeignKey("author_id")]
         [Column("author_id")]
-        public int AuthorId {  get; set; }
+        public required int AuthorId {  get; set; }
+        [Column("is_election_closed")]
+        public bool IsElectionClosed {get; set;} = false;
     }
 }

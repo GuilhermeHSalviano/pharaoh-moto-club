@@ -34,10 +34,12 @@ namespace pharaoh_moto_club.Controllers {
         [HttpPut("{ElectionId}")]
         public async Task<IActionResult> CloseElection(int electionId) {
             var election = await _context.Elections.FindAsync(electionId);
-            var candidates = _context.Candidacy.Where(x => x.ElectionId == electionId).Select(b => b.CandidateId).ToList();
             if (election == null) return NotFound();
+            if (election.IsElectionClosed == true) return BadRequest("The election is already closed");
+            var candidates = _context.Candidacy.Where(x => x.ElectionId == electionId).Select(b => b.CandidateId).ToList();
             var counting = new List<VotesPerCandidate>();
             var nullVotes = _context.Votes.Count(c => c.ElectionId == electionId && c.CandidateId == null);
+            var rejectionVotes = _context.Votes.Count(c => c.ElectionId == electionId && c.IsCandidatesRejected == true);
             var tie = false;
             VotesPerCandidate possibleWinner = new VotesPerCandidate(0, 0);
 
@@ -48,8 +50,9 @@ namespace pharaoh_moto_club.Controllers {
                 counting.Add(candidateVotes);
             }
 
-            if (candidates.Count == 1) {
+            if (candidates.Count == 1 && candidates.Count > rejectionVotes) {
                 election.WinnerId = counting[0].votesReceived > nullVotes ? counting[0].candidateId : 0;
+                election.IsElectionClosed = true;
                 await _context.SaveChangesAsync();
                 return NoContent();
             }
@@ -63,21 +66,21 @@ namespace pharaoh_moto_club.Controllers {
                 }
             }
 
-            if(tie == true) {
+            if(tie == true || possibleWinner.votesReceived < rejectionVotes) {
                 election.WinnerId = 0;
-                await _context.SaveChangesAsync();
-                return NoContent();
             } else {
                 election.WinnerId = possibleWinner.candidateId;
-                await _context.SaveChangesAsync();
-                return NoContent();
             }
+
+            election.IsElectionClosed = true;
+            await _context.SaveChangesAsync();
+            return NoContent();
         }
 
         [HttpPut("edit/{ElectionId}")]
         public async Task<IActionResult> EditElection(int electionId, ElectionDto updatedElection) {
             var election = await _context.Elections.FindAsync(electionId);
-            if (election == null) NotFound();
+            if (election == null) return NotFound();
             election.BeginningOfElection = updatedElection.BeginningOfElection;
             election.EndingOfElection = updatedElection.EndOfElection;
             election.PositionToBeElected = updatedElection.PositionToBeElected;
