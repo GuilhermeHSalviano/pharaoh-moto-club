@@ -5,6 +5,7 @@ namespace pharaoh_moto_club.Models {
     [Table("votes")]
     public class Votes {
         [Key]
+        [Column("vote_id")]
         public int VoteId { get; set; }
         [ForeignKey("voter_id")]
         [Column("voter_id")]
