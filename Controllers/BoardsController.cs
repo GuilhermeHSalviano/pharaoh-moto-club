@@ -15,6 +15,8 @@ namespace pharaoh_moto_club.Controllers {
 
         [HttpPost]
         public async Task<IActionResult> CreateBoard(Board model) {
+            var board = _context.Boards.SingleAsync(b => b.BoardLeaderId == model.BoardLeaderId);
+            if(board != null) return Conflict("Já existe uma mesa com este líder");
             _context.Boards.Add(model);
             await _context.SaveChangesAsync();
             return NoContent();
@@ -28,8 +30,8 @@ namespace pharaoh_moto_club.Controllers {
             return Ok(membersOfTheBoard);
         }
 
-        [HttpPut("{BoartId}/member/{MemberId}")]
-        public async Task<IActionResult> RemoveMemberFromBoard(int boardId, int memberId) {
+        [HttpPut("/member/{MemberId}")]
+        public async Task<IActionResult> RemoveMemberFromBoard(int memberId) {
             var memberOfTheBoard = await _context.Members.FindAsync(memberId);
             if (memberOfTheBoard == null) return NotFound();
             memberOfTheBoard.BoardId = null;

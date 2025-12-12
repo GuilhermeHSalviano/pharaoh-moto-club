@@ -26,6 +26,8 @@ namespace pharaoh_moto_club.Controllers {
 
         [HttpPost]
         public async Task<IActionResult> CreateElection(Election model) {
+            var election = _context.Elections.SingleAsync(b => b.PositionToBeElected == model.PositionToBeElected && b.IsElectionClosed == false);
+            if(election != null) Conflict("Já existe uma eleição aberta para este cargo");
             _context.Elections.Add(model);
             await _context.SaveChangesAsync();
             return NoContent();
@@ -35,7 +37,7 @@ namespace pharaoh_moto_club.Controllers {
         public async Task<IActionResult> CloseElection(int electionId) {
             var election = await _context.Elections.FindAsync(electionId);
             if (election == null) return NotFound();
-            if (election.IsElectionClosed == true) return BadRequest("The election is already closed");
+            if (election.IsElectionClosed == true) return Conflict("Esta eleição já está fechada");
             var candidates = _context.Candidacy.Where(x => x.ElectionId == electionId).Select(b => b.CandidateId).ToList();
             var counting = new List<VotesPerCandidate>();
             var nullVotes = _context.Votes.Count(c => c.ElectionId == electionId && c.CandidateId == null);
@@ -90,7 +92,7 @@ namespace pharaoh_moto_club.Controllers {
 
         [HttpGet("{electionId}")]
         public async Task<IActionResult> GetVotesByElection(int electionId) {
-            if (await _context.Elections.FindAsync(electionId) == null) return NotFound("Election not found!");
+            if (await _context.Elections.FindAsync(electionId) == null) return NotFound("Eleição não encontrada");
             var votes = await _context.Votes.Where(x => x.ElectionId == electionId).ToListAsync();  
             return Ok(votes);
         }

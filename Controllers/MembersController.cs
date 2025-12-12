@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using pharaoh_moto_club.Dtos;
 using pharaoh_moto_club.Models;
 
@@ -15,6 +16,8 @@ namespace pharaoh_moto_club.Controllers {
 
         [HttpPost]
         public async Task<IActionResult> CreateMember(MemberDto model) {
+            var cpf = _context.Members.SingleAsync(b => b.Cpf == model.Cpf);
+            if(cpf != null) return Conflict("Este membro já existe");
             Member newMember = new Member {
                 Name = model.Name,
                 Nickname = model.Nickname,
