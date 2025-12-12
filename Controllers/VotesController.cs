@@ -15,6 +15,8 @@ namespace pharaoh_moto_club.Controllers {
 
         [HttpPost]
         public async Task<IActionResult> ToVote(Votes MyVote) {
+            var voter = await _context.Members.FirstOrDefaultAsync(x => x.MemberId == MyVote.VoterId);
+            if(voter.CoatOfArms == false || voter.IsActive == false) return Conflict("Este membro não pode votar, pois não possui brasão ou está afastado");
             var didMemberAlreadyVote = await _context.Votes.FirstOrDefaultAsync(x => x.VoterId == MyVote.VoterId && x.ElectionId == MyVote.ElectionId) != null;
             if (didMemberAlreadyVote) return Conflict("Este membro já votou nesta eleição");
 
