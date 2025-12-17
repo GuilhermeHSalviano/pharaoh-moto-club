@@ -25,7 +25,7 @@ namespace pharaoh_moto_club.Controllers {
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateElection(Election model) {
+        public async Task<IActionResult> CreateElection(ElectionDto model) {
             var election = _context.Elections.SingleAsync(b => b.PositionToBeElected == model.PositionToBeElected && b.IsElectionClosed == false);
             if(election != null) Conflict("Já existe uma eleição aberta para este cargo");
             _context.Elections.Add(model);

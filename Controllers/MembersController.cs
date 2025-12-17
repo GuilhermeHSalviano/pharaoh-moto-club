@@ -25,7 +25,7 @@ namespace pharaoh_moto_club.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateMember(MemberDto model)
         {
-            var cpf = _context.Members.SingleAsync(b => b.Cpf == model.Cpf);
+            var cpf = await _context.Members.FirstOrDefaultAsync(b => b.Cpf == model.Cpf);
             if (cpf != null) return Conflict("Este membro já existe");
             Member newMember = new Member
             {
@@ -37,7 +37,6 @@ namespace pharaoh_moto_club.Controllers
                 State = model.State,
                 StatesVisited = model.StatesVisited,
                 EntryDate = model.EntryDate,
-                Rank = model.Rank,
                 Triennium = model.Triennium,
                 HasBeenAbroad = model.HasBeenAbroad,
                 BirthDate = model.BirthDate,
@@ -45,14 +44,11 @@ namespace pharaoh_moto_club.Controllers
                 WifeName = model.Wifename,
                 WifeNickname = model.WifeNickname,
                 CoatOfArms = model.CoatOfArms,
-                OffBoarding = model.OffBoarding,
                 ProfilePhoto = model.ProfilePhoto,
                 MotorcycleSign = model.MotorcycleSign,
                 MotorcycleBrand = model.MotorcycleBrand,
                 MotorcycleName = model.MotorcycleName,
                 MotorcycleNickName = model.MotorcycleNickName,
-                IsActive = model.IsActive,
-                IsSystemManager = model.IsSystemManager,
                 BoardId = model.BoardId,
             };
 
@@ -92,7 +88,6 @@ namespace pharaoh_moto_club.Controllers
                 new Claim(ClaimTypes.NameIdentifier, model.MemberId.ToString()),
                 new Claim("name", model.Name),
                 new Claim("nickname", model.Nickname),
-                new Claim(ClaimTypes.Role, model.Rank.ToString())
             ]);
 
             var tokenDescriptor = new SecurityTokenDescriptor

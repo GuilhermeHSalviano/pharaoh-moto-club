@@ -8,7 +8,6 @@ namespace pharaoh_moto_club.Models {
         [Key]
         [Column("member_id")]
         public int MemberId { get; set; }
-        [Required]
         [Column("name")]
         public required string Name { get; set; }
         [Required]
@@ -20,19 +19,16 @@ namespace pharaoh_moto_club.Models {
         public required string Cpf { get; set; }
         [JsonIgnore]
         [Column("password")]
-        public string Password { get; set; }
+        public string Password { get; set; } = null!;
         [Required]
         [Column("city")]
         public required string City { get; set; }
-        [Required]
         [Column("state")]
         public required string State { get; set; }
         [Column("states_visited")]
         public int StatesVisited { get; set; }
         [Column("entry_date")]
         public DateTime EntryDate { get; set; }
-        [Column("rank")]
-        public Rank? Rank { get; set; }
         [Column("triennium")]
         public int Triennium { get; set; }
         [Column("has_been_abroad")]
@@ -47,8 +43,6 @@ namespace pharaoh_moto_club.Models {
         public string? WifeNickname { get; set; }
         [Column("coat_of_arms")]
         public bool CoatOfArms { get; set; }
-        [Column("off_boarding")]
-        public bool OffBoarding { get; set; }
         [Column("profile_photo")]
         public byte[]? ProfilePhoto { get; set; }
         [Column("motorcycle_sign")]
@@ -59,29 +53,8 @@ namespace pharaoh_moto_club.Models {
         public string? MotorcycleName { get; set; }
         [Column("motorcycle_nickname")]
         public string? MotorcycleNickName { get; set; }
-        [Column("is_active")]
-        public bool IsActive { get; set; } = true;
-        [Column("is_system_manager")]
-        public bool IsSystemManager { get; set; } = false;
-        [ForeignKey("board_id")]
         [Column("board_id")]
         public int? BoardId { get; set; }
         public Board? Board { get; set; }
-    }
-
-    
-
-    public enum Rank {
-        Suporte,
-        Prospect,
-        Presidente,
-        VicePresidente,
-        DiretorRegional,
-        DiretorEstadual,
-        Guardiao,
-        DiretorAdministrativo,
-        DiretorFinanceiro,
-        MembroDiretoriaFinanceira,
-        MembroDiretoriaAdministrativa,
     }
 }

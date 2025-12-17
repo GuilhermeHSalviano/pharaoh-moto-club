@@ -4,9 +4,7 @@ namespace pharaoh_moto_club.Dtos
 {
     public class AuthenticationDto
     {
-        [Required]
-        public int MemberId { get; set; }
-        [Required]
-        public string Password { get; set; }
+        public required int MemberId { get; set; }
+        public required string Password { get; set; }
     }
 }

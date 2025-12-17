@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.Net.Http.Headers;
 
 namespace pharaoh_moto_club.Models {
     [Table("votes")]
@@ -7,15 +8,15 @@ namespace pharaoh_moto_club.Models {
         [Key]
         [Column("vote_id")]
         public int VoteId { get; set; }
-        [ForeignKey("voter_id")]
         [Column("voter_id")]
         public int VoterId { get; set;}
-        [ForeignKey("election_id")]
+        public Member Voter {get; set;} = null!;
         [Column("election_id")]
         public int ElectionId { get; set; }
-        [ForeignKey("candidate_id")]
+        public Election Election {get; set;} = null!;
         [Column("candidate_id")]
         public int? CandidateId { get; set; }
+        public Member Candidate {get; set;} = null!;
         [Column("is_candidates_rejected")]
         public bool IsCandidatesRejected { get; set; }
 
