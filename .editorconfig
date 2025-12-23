@@ -1,4 +1,6 @@
 ﻿[*.cs]
+root = true
 
-# IDE0320: Tornar a função anônima estática
-csharp_prefer_static_anonymous_function = false
+[*.cs]
+csharp_new_line_before_open_brace = none
+

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using pharaoh_moto_club.Dtos;
+using pharaoh_moto_club.Factories;
 using pharaoh_moto_club.Models;
 
 namespace pharaoh_moto_club.Controllers {
@@ -26,9 +27,12 @@ namespace pharaoh_moto_club.Controllers {
 
         [HttpPost]
         public async Task<IActionResult> CreateElection(ElectionDto model) {
-            var election = _context.Elections.SingleAsync(b => b.PositionToBeElected == model.PositionToBeElected && b.IsElectionClosed == false);
-            if(election != null) Conflict("Já existe uma eleição aberta para este cargo");
-            _context.Elections.Add(model);
+            var election = await _context.Elections.FirstOrDefaultAsync(b => b.PositionToBeElected == model.PositionToBeElected && b.IsElectionClosed == false);
+            var author = await _context.Members.FirstOrDefaultAsync(b => b.MemberId == model.AuthorId);
+            if (author == null) return NotFound("O autor informado não existe");
+            if (election != null) return Conflict("Já existe uma eleição aberta para este cargo");
+            Election newElection = ElectionFactory.CreateElection(model);
+            _context.Elections.Add(newElection);
             await _context.SaveChangesAsync();
             return NoContent();
         }
@@ -59,18 +63,20 @@ namespace pharaoh_moto_club.Controllers {
                 return NoContent();
             }
 
-            for(int i = 0; i < counting.Count; i++) {
-                if (counting[i].candidateId > possibleWinner.votesReceived) {
+            for (int i = 0; i < counting.Count; i++) {
+                if (counting[i].votesReceived > possibleWinner.votesReceived) {
                     possibleWinner = counting[i];
                     tie = false;
-                } else if(counting[i].votesReceived == possibleWinner.votesReceived) {
+                }
+                else if (counting[i].votesReceived == possibleWinner.votesReceived) {
                     tie = true;
                 }
             }
 
-            if(tie == true || possibleWinner.votesReceived < rejectionVotes) {
+            if (tie == true || possibleWinner.votesReceived < rejectionVotes) {
                 election.WinnerId = 0;
-            } else {
+            }
+            else {
                 election.WinnerId = possibleWinner.candidateId;
             }
 
@@ -84,7 +90,7 @@ namespace pharaoh_moto_club.Controllers {
             var election = await _context.Elections.FindAsync(electionId);
             if (election == null) return NotFound();
             election.BeginningOfElection = updatedElection.BeginningOfElection;
-            election.EndingOfElection = updatedElection.EndOfElection;
+            election.EndingOfElection = updatedElection.EndingOfElection;
             election.PositionToBeElected = updatedElection.PositionToBeElected;
             await _context.SaveChangesAsync();
             return NoContent();
@@ -93,7 +99,7 @@ namespace pharaoh_moto_club.Controllers {
         [HttpGet("{electionId}")]
         public async Task<IActionResult> GetVotesByElection(int electionId) {
             if (await _context.Elections.FindAsync(electionId) == null) return NotFound("Eleição não encontrada");
-            var votes = await _context.Votes.Where(x => x.ElectionId == electionId).ToListAsync();  
+            var votes = await _context.Votes.Where(x => x.ElectionId == electionId).ToListAsync();
             return Ok(votes);
         }
     }

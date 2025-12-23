@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using pharaoh_moto_club.Dtos;
+using pharaoh_moto_club.Factories;
 using pharaoh_moto_club.Models;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -27,30 +27,7 @@ namespace pharaoh_moto_club.Controllers
         {
             var cpf = await _context.Members.FirstOrDefaultAsync(b => b.Cpf == model.Cpf);
             if (cpf != null) return Conflict("Este membro já existe");
-            Member newMember = new Member
-            {
-                Name = model.Name,
-                Nickname = model.Nickname,
-                Cpf = model.Cpf,
-                Password = BCrypt.Net.BCrypt.HashPassword(model.Password),
-                City = model.City,
-                State = model.State,
-                StatesVisited = model.StatesVisited,
-                EntryDate = model.EntryDate,
-                Triennium = model.Triennium,
-                HasBeenAbroad = model.HasBeenAbroad,
-                BirthDate = model.BirthDate,
-                IsFirst = model.IsFirst,
-                WifeName = model.Wifename,
-                WifeNickname = model.WifeNickname,
-                CoatOfArms = model.CoatOfArms,
-                ProfilePhoto = model.ProfilePhoto,
-                MotorcycleSign = model.MotorcycleSign,
-                MotorcycleBrand = model.MotorcycleBrand,
-                MotorcycleName = model.MotorcycleName,
-                MotorcycleNickName = model.MotorcycleNickName,
-                BoardId = model.BoardId,
-            };
+            Member newMember = MemberFactory.CreateMember(model);
 
             _context.Members.Add(newMember);
 
