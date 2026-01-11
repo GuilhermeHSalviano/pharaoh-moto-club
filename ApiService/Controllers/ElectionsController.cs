@@ -37,6 +37,12 @@ namespace pharaoh_moto_club.Controllers {
             return NoContent();
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetFinishedElection() {
+            var finishedElection = await _context.Elections.Where(x => x.IsElectionClosed == false || x.EndingOfElection < DateTime.Now).FirstOrDefaultAsync();
+            return Ok(finishedElection);
+        }
+
         [HttpPut("{ElectionId}")]
         public async Task<IActionResult> CloseElection(int electionId) {
             var election = await _context.Elections.FindAsync(electionId);

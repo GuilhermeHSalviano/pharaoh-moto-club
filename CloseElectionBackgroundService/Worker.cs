@@ -13,7 +13,7 @@ public class Worker : BackgroundService
     {
         while (!stoppingToken.IsCancellationRequested)
         {
-           Console.WriteLine("Olá mundo!");
+            Console.WriteLine("Olá mundo!");
             await Task.Delay(1000, stoppingToken);
         }
     }
