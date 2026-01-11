@@ -9,22 +9,18 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
 
-namespace pharaoh_moto_club.Controllers
-{
+namespace pharaoh_moto_club.Controllers {
     [Route("[controller]")]
     [ApiController]
-    public class MembersController : ControllerBase
-    {
+    public class MembersController : ControllerBase {
         private readonly AppDbContext _context;
 
-        public MembersController(AppDbContext context)
-        {
+        public MembersController(AppDbContext context) {
             _context = context;
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateMember(MemberDto model)
-        {
+        public async Task<IActionResult> CreateMember(MemberDto model) {
             var cpf = await _context.Members.FirstOrDefaultAsync(b => b.Cpf == model.Cpf);
             if (cpf != null) return Conflict("Este membro já existe");
             Member newMember = MemberFactory.CreateMember(model);
@@ -36,8 +32,7 @@ namespace pharaoh_moto_club.Controllers
         }
 
         [HttpPost("{MemberId}/board/{BoardId}")]
-        public async Task<IActionResult> AssignMemberToBoard(int memberId, int boardId)
-        {
+        public async Task<IActionResult> AssignMemberToBoard(int memberId, int boardId) {
             var memberToBeAssigned = await _context.Members.FindAsync(memberId);
             if (memberToBeAssigned == null) return NotFound();
             memberToBeAssigned.BoardId = boardId;
@@ -47,8 +42,7 @@ namespace pharaoh_moto_club.Controllers
 
         [AllowAnonymous]
         [HttpPost("login")]
-        public async Task<ActionResult> Authenticate(AuthenticationDto model)
-        {
+        public async Task<ActionResult> Authenticate(AuthenticationDto model) {
             var Member = await _context.Members.FindAsync(model.MemberId);
             if (Member == null || !BCrypt.Net.BCrypt.Verify(model.Password, Member.Password)) return Unauthorized();
             var jwt = GenerateJwtToken(Member);
@@ -56,8 +50,7 @@ namespace pharaoh_moto_club.Controllers
             return Ok(new { jwtToken = jwt });
         }
 
-        private string GenerateJwtToken(Member model)
-        {
+        private string GenerateJwtToken(Member model) {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes("Ry74cBQva5dThwbwchR9jhbtRFnJxWSZ");
             var claims = new ClaimsIdentity(
@@ -67,8 +60,7 @@ namespace pharaoh_moto_club.Controllers
                 new Claim("nickname", model.Nickname),
             ]);
 
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
+            var tokenDescriptor = new SecurityTokenDescriptor {
                 Subject = claims,
                 Expires = DateTime.UtcNow.AddHours(8),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
