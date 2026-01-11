@@ -4,6 +4,7 @@ using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using ElectionBackgroundService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,6 +32,8 @@ builder.Services.AddAuthentication(options => {
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("Ry74cBQva5dThwbwchR9jhbtRFnJxWSZ"))
     };
 });
+
+builder.Services.AddHostedService<Worker>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
