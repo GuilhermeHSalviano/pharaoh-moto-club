@@ -12,7 +12,7 @@ public class Worker : BackgroundService
     {
         while (!stoppingToken.IsCancellationRequested)
         {
-            await _myHttpClient.GetFinishedElectionAsync();
+            await _myHttpClient.GetAndCloseFinishedElectionAsync();
             await Task.Delay(1000, stoppingToken);
         }
     }

@@ -1,3 +1,4 @@
+using System.Net;
 using System.Net.Http;
 
 namespace CloseElectionBackgroundService;
@@ -12,7 +13,7 @@ public class MyHttpClient
         _httpClientFactory = httpClientFactory;
     }
 
-    public async Task GetFinishedElectionAsync()
+    public async Task GetAndCloseFinishedElectionAsync()
     {
         var httpRequestMessage = new HttpRequestMessage(
             HttpMethod.Get,
@@ -23,8 +24,15 @@ public class MyHttpClient
 
         var httpResponseMessage = await httpClient.SendAsync(httpRequestMessage);
 
-        var response = await httpResponseMessage.Content.ReadAsStringAsync();
+        if(httpResponseMessage.StatusCode != HttpStatusCode.NoContent)
+        {
+            var electionId = await httpResponseMessage.Content.ReadAsStringAsync();
+            var request = new HttpRequestMessage(
+                HttpMethod.Put,
+                $"http://localhost:5064/elections/{electionId}"
+            );
 
-        Console.WriteLine(response);
+            await httpClient.SendAsync(request);
+        }
     }
 }

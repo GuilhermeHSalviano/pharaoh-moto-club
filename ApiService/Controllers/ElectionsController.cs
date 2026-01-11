@@ -39,14 +39,19 @@ namespace pharaoh_moto_club.Controllers {
 
         [HttpGet]
         public async Task<IActionResult> GetFinishedElection() {
-            var finishedElection = await _context.Elections.Where(x => x.IsElectionClosed == false || x.EndingOfElection < DateTime.Now).FirstOrDefaultAsync();
-            return Ok(finishedElection);
+            var finishedElection = await _context.Elections.Where(x => x.IsElectionClosed == false && x.EndingOfElection < DateTime.Now).FirstOrDefaultAsync();
+            if(finishedElection == null) {
+                return Ok(finishedElection);
+            }
+            else {
+                return Ok(finishedElection.ElectionId);
+            }
         }
 
         [HttpPut("{ElectionId}")]
         public async Task<IActionResult> CloseElection(int electionId) {
             var election = await _context.Elections.FindAsync(electionId);
-            if (election == null) return NotFound();
+            if (election == null) return NotFound("Eleição não encontrada");
             if (election.IsElectionClosed == true) return Conflict("Esta eleição já está fechada");
             var candidates = _context.Candidacy.Where(x => x.ElectionId == electionId).Select(b => b.CandidateId).ToList();
             var counting = new List<VotesPerCandidate>();
@@ -60,6 +65,12 @@ namespace pharaoh_moto_club.Controllers {
                     .Count(c => c.CandidateId == candidates[i] && c.ElectionId == electionId);
                 var candidateVotes = new VotesPerCandidate(candidates[i], votes);
                 counting.Add(candidateVotes);
+            }
+
+            if(counting.Count == 0) {
+                election.IsElectionClosed = true;
+                await _context.SaveChangesAsync();
+                return NoContent();
             }
 
             if (candidates.Count == 1 && candidates.Count > rejectionVotes) {
