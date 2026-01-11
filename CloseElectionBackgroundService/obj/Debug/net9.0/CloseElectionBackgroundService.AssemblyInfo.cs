@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CloseElectionBackgroundService")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+77d29f178095a3182bf730965b7ea5b699a25080")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0252751dc50f3b952dccc3e45e56a8eb3d276088")]
 [assembly: System.Reflection.AssemblyProductAttribute("CloseElectionBackgroundService")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CloseElectionBackgroundService")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

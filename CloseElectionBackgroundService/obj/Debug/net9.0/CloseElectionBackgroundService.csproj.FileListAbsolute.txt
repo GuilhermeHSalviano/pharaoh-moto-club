@@ -47,3 +47,5 @@ C:\Users\Usuário\Documents\pharaoh-moto-club\CloseElectionBackgroundService\obj
 C:\Users\Usuário\Documents\pharaoh-moto-club\CloseElectionBackgroundService\obj\Debug\net9.0\CloseElectionBackgroundService.pdb
 C:\Users\Usuário\Documents\pharaoh-moto-club\CloseElectionBackgroundService\obj\Debug\net9.0\CloseElectionBackgroundService.genruntimeconfig.cache
 C:\Users\Usuário\Documents\pharaoh-moto-club\CloseElectionBackgroundService\obj\Debug\net9.0\ref\CloseElectionBackgroundService.dll
+C:\Users\Usuário\Documents\pharaoh-moto-club\CloseElectionBackgroundService\bin\Debug\net9.0\Microsoft.Extensions.Http.dll
+C:\Users\Usuário\Documents\pharaoh-moto-club\CloseElectionBackgroundService\bin\Debug\net9.0\System.Diagnostics.DiagnosticSource.dll

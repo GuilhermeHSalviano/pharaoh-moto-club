@@ -2,18 +2,17 @@ namespace CloseElectionBackgroundService;
 
 public class Worker : BackgroundService
 {
-    private readonly ILogger<Worker> _logger;
-
-    public Worker(ILogger<Worker> logger)
+    private readonly MyHttpClient _myHttpClient;
+    public Worker(MyHttpClient myHttpClient)
     {
-        _logger = logger;
+        _myHttpClient = myHttpClient;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         while (!stoppingToken.IsCancellationRequested)
         {
-            Console.WriteLine("Olá mundo!");
+            await _myHttpClient.GetFinishedElectionAsync();
             await Task.Delay(1000, stoppingToken);
         }
     }
