@@ -10,13 +10,16 @@ namespace pharaoh_moto_club.Models {
         public int VoteId { get; set; }
         [Column("voter_id")]
         public int VoterId { get; set;}
+        [ForeignKey(nameof(VoterId))]
         public Member Voter {get; set;} = null!;
         [Column("election_id")]
         public int ElectionId { get; set; }
+        [ForeignKey(nameof(ElectionId))]
         public Election Election {get; set;} = null!;
         [Column("candidate_id")]
         public int? CandidateId { get; set; }
-        public Member Candidate {get; set;} = null!;
+        [ForeignKey(nameof(CandidateId))]
+        public Member? Candidate {get; set;} = null!;
         [Column("is_candidates_rejected")]
         public bool IsCandidatesRejected { get; set; }
 

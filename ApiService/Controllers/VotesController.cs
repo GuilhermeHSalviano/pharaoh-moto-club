@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using pharaoh_moto_club.Models;
+using pharaoh_moto_club.Dtos;
+using pharaoh_moto_club.Factories;
 
 namespace pharaoh_moto_club.Controllers {
     [Route("[controller]")]
@@ -14,7 +16,7 @@ namespace pharaoh_moto_club.Controllers {
         }
 
         [HttpPost]
-        public async Task<IActionResult> ToVote(Votes MyVote) {
+        public async Task<IActionResult> ToVote(CreateVoteDto MyVote) {
             var voter = await _context.Members.FirstOrDefaultAsync(x => x.MemberId == MyVote.VoterId);
             if(voter == null) return NotFound("Este membro votante não existe");
             if(voter.CoatOfArms == false) return Conflict("Este membro não pode votar, pois não possui brasão");
@@ -28,7 +30,7 @@ namespace pharaoh_moto_club.Controllers {
 
             if (MyVote.IsCandidatesRejected == true && MyVote.CandidateId != null) return BadRequest("O membro não pode votar em um candidato e rejeitá-lo ao mesmo tempo");
 
-            _context.Votes.Add(MyVote);
+            _context.Votes.Add(VoteFactory.CreateVote(MyVote));
 
             await _context.SaveChangesAsync();
 
