@@ -17,7 +17,7 @@ namespace pharaoh_moto_club.Controllers {
         public async Task<IActionResult> CreateCandidacy(int electionId, int candidateId ) {
             var election = await _context.Elections.FirstOrDefaultAsync(c => c.ElectionId == electionId);
             if(election == null) return NotFound("Esta eleição não existe");
-            if(election.IsElectionClosed == true || election.BeginningOfElection < DateTime.UtcNow) return Conflict("Esta eleição já se iniciou ou já se encontra fechada");
+            if(election.IsElectionClosed == true || election.EndingOfElection < DateTime.UtcNow) return Conflict("Esta eleição já se iniciou ou já se encontra fechada");
             var doesCandidateExist = await _context.Candidacy.FirstOrDefaultAsync(x => x.CandidateId == candidateId && x.ElectionId == electionId) != null;
             if (doesCandidateExist) return Conflict("Este candidato já se candidatou para esta eleição");
             var candidacy = new Candidacy(electionId, candidateId);

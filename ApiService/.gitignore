@@ -47,3 +47,4 @@ TestResults/
 # Others
 *.pdb
 *.cache
+appsettings.json
