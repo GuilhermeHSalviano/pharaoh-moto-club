@@ -13,37 +13,22 @@ public class Worker : BackgroundService {
         _scopeFactory = serviceScopeFactory;
     }
 
-    public class VotesPerCandidate {
-
-        public int candidateId { get; set; }
-        public int votesReceived { get; set; }
-        public VotesPerCandidate(int id, int votes) {
-            candidateId = id;
-            votesReceived = votes;
-        }
-    }
-
     public async Task GetAndCloseElectionAsync(
             AppDbContext context,
             CancellationToken cancellationToken,
-            ElectionServices electionServices
+            ElectionServices electionServices,
+            VotesServices votesServices,
+            CandidacyServices candidacyServices,
+            ElectionCountingServices electionCountingServices
         ) {
             var election = await electionServices.GetFinishedNotClosedElection();
 
             if (election != null) {
-                var candidates = context.Candidacy.Where(x => x.ElectionId == election.ElectionId).Select(b => b.CandidateId).ToList();
-                var counting = new List<VotesPerCandidate>();
-                var nullVotes = context.Votes.Count(c => c.ElectionId == election.ElectionId && c.CandidateId == null);
-                var rejectionVotes = context.Votes.Count(c => c.ElectionId == election.ElectionId && c.IsCandidatesRejected == true);
+                var candidates = candidacyServices.GetCandidatesByElection(election);
+                var counting = electionCountingServices.GetElectionCountingResult(candidates, election);
+                var rejectionVotes = votesServices.CountRejectionVotes(election);
                 var tie = false;
                 VotesPerCandidate possibleWinner = new VotesPerCandidate(0, 0);
-
-                for (int i = 0; i < candidates.Count; i++) {
-                    var votes = context.Votes
-                        .Count(c => c.CandidateId == candidates[i] && c.ElectionId == election.ElectionId);
-                    var candidateVotes = new VotesPerCandidate(candidates[i], votes);
-                    counting.Add(candidateVotes);
-                }
 
                 if (counting.Count == 0) {
                     election.IsElectionClosed = true;
@@ -89,9 +74,12 @@ public class Worker : BackgroundService {
                 using var scope = _scopeFactory.CreateScope();
                 var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
                 var electionServices = scope.ServiceProvider.GetRequiredService<ElectionServices>();
+                var votesServices = scope.ServiceProvider.GetRequiredService<VotesServices>();
+                var candidacyServices = scope.ServiceProvider.GetRequiredService<CandidacyServices>();
+                var electionCountingServices = scope.ServiceProvider.GetRequiredService<ElectionCountingServices>();
 
 
-                await GetAndCloseElectionAsync(context, stoppingToken, electionServices);
+                await GetAndCloseElectionAsync(context, stoppingToken, electionServices, votesServices, candidacyServices, electionCountingServices);
                 Console.WriteLine("testando");
                 await Task.Delay(1000, stoppingToken);
             }

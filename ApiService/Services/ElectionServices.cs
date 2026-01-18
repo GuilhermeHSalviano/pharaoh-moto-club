@@ -15,5 +15,6 @@ namespace Services {
         public async Task<Election?> GetFinishedNotClosedElection() {
             return await _context.Elections.Where(x => x.IsElectionClosed == false && x.EndingOfElection < BrazilTime.Now()).FirstOrDefaultAsync();
         }
+
     }
 }

@@ -36,6 +36,9 @@ builder.Services.AddAuthentication(options => {
 
 builder.Services.AddHostedService<Worker>();
 builder.Services.AddScoped<ElectionServices>();
+builder.Services.AddScoped<VotesServices>();
+builder.Services.AddScoped<CandidacyServices>();
+builder.Services.AddScoped<ElectionCountingServices>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
