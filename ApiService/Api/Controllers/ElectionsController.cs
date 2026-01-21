@@ -1,28 +1,23 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Entities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using My.Exceptions;
 using pharaoh_moto_club.Dtos;
 using pharaoh_moto_club.Factories;
 using pharaoh_moto_club.Models;
+using Services;
 
 namespace pharaoh_moto_club.Controllers {
     [Route("[controller]")]
     [ApiController]
     public class ElectionsController : ControllerBase {
         private readonly AppDbContext _context;
+        private readonly EditElection _editElection;
 
-        public ElectionsController(AppDbContext context) {
+        public ElectionsController(AppDbContext context, EditElection editElection) {
             _context = context;
-        }
-
-        public class VotesPerCandidate {
-
-            public int candidateId { get; set; }
-            public int votesReceived { get; set; }
-            public VotesPerCandidate(int id, int votes) {
-                candidateId = id;
-                votesReceived = votes;
-            }
+            _editElection = editElection;
         }
 
         [HttpPost]
@@ -37,16 +32,6 @@ namespace pharaoh_moto_club.Controllers {
             return NoContent();
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetFinishedElection() {
-            var finishedElection = await _context.Elections.Where(x => x.IsElectionClosed == false && x.EndingOfElection < DateTime.Now).FirstOrDefaultAsync();
-            if(finishedElection == null) {
-                return Ok(finishedElection);
-            }
-            else {
-                return Ok(finishedElection.ElectionId);
-            }
-        }
 
         [HttpPut("{ElectionId}")]
         public async Task<IActionResult> CloseElection(int electionId) {
@@ -104,13 +89,21 @@ namespace pharaoh_moto_club.Controllers {
 
         [HttpPut("edit/{ElectionId}")]
         public async Task<IActionResult> EditElection(int electionId, ElectionDto updatedElection) {
-            var election = await _context.Elections.FindAsync(electionId);
+            try {
+                await _editElection.EditElectionById(electionId, updatedElection);
+                return NoContent();
+            }
+            catch (EntityNotFound error) {
+                return NotFound(error.Message);
+            }
+
+            /*var election = await _electionServices.GetElectionById(electionId);
             if (election == null) return NotFound();
             election.BeginningOfElection = updatedElection.BeginningOfElection;
             election.EndingOfElection = updatedElection.EndingOfElection;
             election.PositionToBeElected = updatedElection.PositionToBeElected;
             await _context.SaveChangesAsync();
-            return NoContent();
+            return NoContent();*/
         }
 
         [HttpGet("{electionId}")]

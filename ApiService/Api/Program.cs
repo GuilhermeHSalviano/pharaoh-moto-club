@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using ElectionBackgroundService;
 using Services;
+using Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,6 +40,7 @@ builder.Services.AddScoped<ElectionServices>();
 builder.Services.AddScoped<VotesServices>();
 builder.Services.AddScoped<CandidacyServices>();
 builder.Services.AddScoped<ElectionCountingServices>();
+builder.Services.AddScoped<EditElection>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

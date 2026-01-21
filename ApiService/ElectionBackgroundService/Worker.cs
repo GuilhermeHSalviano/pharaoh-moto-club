@@ -81,7 +81,7 @@ public class Worker : BackgroundService {
 
                 await GetAndCloseElectionAsync(context, stoppingToken, electionServices, votesServices, candidacyServices, electionCountingServices);
                 Console.WriteLine("testando");
-                await Task.Delay(1000, stoppingToken);
+                await Task.Delay(10000, stoppingToken);
             }
             catch (OperationCanceledException) when (stoppingToken.IsCancellationRequested) {
                 // graceful shutdown

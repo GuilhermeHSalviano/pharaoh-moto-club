@@ -16,5 +16,8 @@ namespace Services {
             return await _context.Elections.Where(x => x.IsElectionClosed == false && x.EndingOfElection < BrazilTime.Now()).FirstOrDefaultAsync();
         }
 
+        public async Task<Election?> GetElectionById(int electionId) {
+            return await _context.Elections.FindAsync(electionId);
+        }
     }
 }
