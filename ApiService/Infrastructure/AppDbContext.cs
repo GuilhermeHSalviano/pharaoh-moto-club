@@ -13,17 +13,6 @@ namespace pharaoh_moto_club.Models
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Member>()
-                .HasOne(m => m.Board)
-                .WithMany()
-                .HasForeignKey(m => m.BoardId)
-                .OnDelete(DeleteBehavior.SetNull);
-
-            modelBuilder.Entity<Board>()
-                .HasOne(b => b.BoardLeader)
-                .WithMany()
-                .HasForeignKey(b => b.BoardLeaderId)
-                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Election>()
                 .HasOne(e => e.Author)
@@ -39,7 +28,6 @@ namespace pharaoh_moto_club.Models
         }
 
         public DbSet<Member> Members { get; set; }
-        public DbSet<Board> Boards { get; set; }
         public DbSet<Election> Elections { get; set; }
         public DbSet<Candidacy> Candidacy { get; set; }
         public DbSet<Votes> Votes { get; set; }

@@ -96,14 +96,6 @@ namespace pharaoh_moto_club.Controllers {
             catch (EntityNotFound error) {
                 return NotFound(error.Message);
             }
-
-            /*var election = await _electionServices.GetElectionById(electionId);
-            if (election == null) return NotFound();
-            election.BeginningOfElection = updatedElection.BeginningOfElection;
-            election.EndingOfElection = updatedElection.EndingOfElection;
-            election.PositionToBeElected = updatedElection.PositionToBeElected;
-            await _context.SaveChangesAsync();
-            return NoContent();*/
         }
 
         [HttpGet("{electionId}")]

@@ -22,26 +22,6 @@ namespace pharaoh_moto_club.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("pharaoh_moto_club.Models.Board", b =>
-                {
-                    b.Property<int>("BoardId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("board_id");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BoardId"));
-
-                    b.Property<int>("BoardLeaderId")
-                        .HasColumnType("int")
-                        .HasColumnName("board_leader_id");
-
-                    b.HasKey("BoardId");
-
-                    b.HasIndex("BoardLeaderId");
-
-                    b.ToTable("boards");
-                });
-
             modelBuilder.Entity("pharaoh_moto_club.Models.Candidacy", b =>
                 {
                     b.Property<int>("CandidacyId")
@@ -120,19 +100,6 @@ namespace pharaoh_moto_club.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MemberId"));
 
-                    b.Property<DateTime>("BirthDate")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("birth_date");
-
-                    b.Property<int?>("BoardId")
-                        .HasColumnType("int")
-                        .HasColumnName("board_id");
-
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("city");
-
                     b.Property<bool>("CoatOfArms")
                         .HasColumnType("bit")
                         .HasColumnName("coat_of_arms");
@@ -142,33 +109,9 @@ namespace pharaoh_moto_club.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("cpf");
 
-                    b.Property<DateTime>("EntryDate")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("entry_date");
-
-                    b.Property<bool>("HasBeenAbroad")
+                    b.Property<bool>("IsmemberActive")
                         .HasColumnType("bit")
-                        .HasColumnName("has_been_abroad");
-
-                    b.Property<bool>("IsFirst")
-                        .HasColumnType("bit")
-                        .HasColumnName("is_first");
-
-                    b.Property<string>("MotorcycleBrand")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("motorcycle_brand");
-
-                    b.Property<string>("MotorcycleName")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("motorcycle_name");
-
-                    b.Property<string>("MotorcycleNickName")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("motorcycle_nickname");
-
-                    b.Property<string>("MotorcycleSign")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("motorcycle_sign");
+                        .HasColumnName("is_member_active");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -185,34 +128,7 @@ namespace pharaoh_moto_club.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("password");
 
-                    b.Property<byte[]>("ProfilePhoto")
-                        .HasColumnType("varbinary(max)")
-                        .HasColumnName("profile_photo");
-
-                    b.Property<string>("State")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("state");
-
-                    b.Property<int>("StatesVisited")
-                        .HasColumnType("int")
-                        .HasColumnName("states_visited");
-
-                    b.Property<int>("Triennium")
-                        .HasColumnType("int")
-                        .HasColumnName("triennium");
-
-                    b.Property<string>("WifeName")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("wife_name");
-
-                    b.Property<string>("WifeNickname")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("wife_nickname");
-
                     b.HasKey("MemberId");
-
-                    b.HasIndex("BoardId");
 
                     b.ToTable("members");
                 });
@@ -281,17 +197,6 @@ namespace pharaoh_moto_club.Migrations
                     b.ToTable("votes");
                 });
 
-            modelBuilder.Entity("pharaoh_moto_club.Models.Board", b =>
-                {
-                    b.HasOne("pharaoh_moto_club.Models.Member", "BoardLeader")
-                        .WithMany()
-                        .HasForeignKey("BoardLeaderId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("BoardLeader");
-                });
-
             modelBuilder.Entity("pharaoh_moto_club.Models.Candidacy", b =>
                 {
                     b.HasOne("pharaoh_moto_club.Models.Member", "Candidate")
@@ -327,16 +232,6 @@ namespace pharaoh_moto_club.Migrations
                     b.Navigation("Author");
 
                     b.Navigation("Winner");
-                });
-
-            modelBuilder.Entity("pharaoh_moto_club.Models.Member", b =>
-                {
-                    b.HasOne("pharaoh_moto_club.Models.Board", "Board")
-                        .WithMany()
-                        .HasForeignKey("BoardId")
-                        .OnDelete(DeleteBehavior.SetNull);
-
-                    b.Navigation("Board");
                 });
 
             modelBuilder.Entity("pharaoh_moto_club.Models.Offboarding", b =>

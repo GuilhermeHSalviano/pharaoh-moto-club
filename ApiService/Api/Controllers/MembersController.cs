@@ -31,15 +31,6 @@ namespace pharaoh_moto_club.Controllers {
             return NoContent();
         }
 
-        [HttpPost("{MemberId}/board/{BoardId}")]
-        public async Task<IActionResult> AssignMemberToBoard(int memberId, int boardId) {
-            var memberToBeAssigned = await _context.Members.FindAsync(memberId);
-            if (memberToBeAssigned == null) return NotFound();
-            memberToBeAssigned.BoardId = boardId;
-            await _context.SaveChangesAsync();
-            return NoContent();
-        }
-
         [AllowAnonymous]
         [HttpPost("login")]
         public async Task<ActionResult> Authenticate(AuthenticationDto model) {
