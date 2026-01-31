@@ -8,27 +8,29 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
+using Services;
+using My.Exceptions;
 
 namespace pharaoh_moto_club.Controllers {
     [Route("[controller]")]
     [ApiController]
     public class MembersController : ControllerBase {
         private readonly AppDbContext _context;
+        public MemberServices _memberServices;
 
-        public MembersController(AppDbContext context) {
+        public MembersController(AppDbContext context, MemberServices memberServices) {
             _context = context;
+            _memberServices = memberServices;
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateMember(MemberDto model) {
-            var cpf = await _context.Members.FirstOrDefaultAsync(b => b.Cpf == model.Cpf);
-            if (cpf != null) return Conflict("Este membro já existe");
-            Member newMember = MemberFactory.CreateMember(model);
-
-            _context.Members.Add(newMember);
-
-            await _context.SaveChangesAsync();
-            return NoContent();
+            try {
+                await _memberServices.InsertNewMemberOnDb(model);
+                return NoContent();
+            } catch (EntityAlreadyExists error) {
+                return Conflict(error.Message);
+            }
         }
 
         [AllowAnonymous]
