@@ -1,31 +1,30 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using My.Exceptions;
 using pharaoh_moto_club.Models;
+using Services;
 
 namespace pharaoh_moto_club.Controllers {
     [Route("[controller]")]
     [ApiController]
     public class CandidaciesController : ControllerBase {
-        private readonly AppDbContext _context;
+        private readonly CandidacyServices _candidacyServices;
 
-        public CandidaciesController(AppDbContext context) {
-            _context = context;
+        public CandidaciesController(CandidacyServices candidacyServices) {
+            _candidacyServices = candidacyServices;
         }
 
         [HttpPost("{electionId}/{candidateId}")]
         public async Task<IActionResult> CreateCandidacy(int electionId, int candidateId ) {
-            var timeZone = TimeZoneInfo.FindSystemTimeZoneById("America/Sao_Paulo");
-            var nowBrazilTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, timeZone);
-            var election = await _context.Elections.FirstOrDefaultAsync(c => c.ElectionId == electionId);
-            if(election == null) return NotFound("Esta eleição não existe");
-            if(election.IsElectionClosed == true || election.EndingOfElection < nowBrazilTime) return Conflict($"Esta eleição já se encerrou ou já se encontra fechada ");
-            var doesCandidateExist = await _context.Candidacy.FirstOrDefaultAsync(x => x.CandidateId == candidateId && x.ElectionId == electionId) != null;
-            if (doesCandidateExist) return Conflict("Este candidato já se candidatou para esta eleição");
-            var candidacy = new Candidacy(electionId, candidateId);
-            _context.Candidacy.Add(candidacy);
-            _context.SaveChanges();
-            return Ok(candidacy);
+            try {
+                await _candidacyServices.SaveCandidacyOnDb(electionId, candidateId);
+                return NoContent();
+            } catch(EntityNotFound error) {
+                return NotFound(error.Message);
+            } catch(MemberNotAllowed error) {
+                return Conflict(error.Message);
+            }
         }
     }
 }

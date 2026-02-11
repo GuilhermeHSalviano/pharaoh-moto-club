@@ -12,7 +12,6 @@ namespace Entities {
 
         public async Task EditElectionById(int electionId, ElectionDto updatedElection) {
             var election = await _context.Elections.FindAsync(electionId);
-            Console.WriteLine(election);
             if(election == null) throw new EntityNotFound("A eleição não foi encontrada!");
             election.BeginningOfElection = updatedElection.BeginningOfElection;
             election.EndingOfElection = updatedElection.EndingOfElection;
