@@ -20,7 +20,7 @@ public class CloseElectionService {
                 var tie = false;
                 VotesPerCandidate possibleWinner = new VotesPerCandidate(0, 0);
 
-                if (counting.Count == 0) {
+                if (counting.Count == 0 || ElectionCountingServices.DidAnybodyVote(counting)) {
                     election.IsElectionClosed = true;
                     await context.SaveChangesAsync();
                 }
