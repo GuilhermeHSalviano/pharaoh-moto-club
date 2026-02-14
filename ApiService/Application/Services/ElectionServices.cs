@@ -34,5 +34,59 @@ namespace Services {
             _context.Elections.Add(newElection);
             await _context.SaveChangesAsync();
         }
+        
+        /*public async Task CloseElections(
+            CandidacyServices candidacyServices, 
+            ElectionCountingServices electionCountingServices,
+            VotesServices votesServices,
+            AppDbContext context,
+            CancellationToken cancellationToken
+            ) {
+            var election = await GetFinishedNotClosedElection();
+
+            if (election != null) {
+                var candidates = candidacyServices.GetCandidatesByElection(election);
+                var counting = electionCountingServices.GetElectionCountingResult(candidates, election);
+                var rejectionVotes = votesServices.CountRejectionVotes(election);
+                var tie = false;
+                VotesPerCandidate possibleWinner = new VotesPerCandidate(0, 0);
+
+                if (counting.Count == 0) {
+                    election.IsElectionClosed = true;
+                    await context.SaveChangesAsync();
+                }
+                else {
+                    if (candidates.Count == 1 && counting[0].votesReceived > rejectionVotes) {
+                        election.WinnerId = counting[0].candidateId;
+                        election.IsElectionClosed = true;
+                        await context.SaveChangesAsync();
+                    }
+                    else {
+                        for (int i = 0; i < counting.Count; i++) {
+                            if (counting[i].votesReceived > possibleWinner.votesReceived) {
+                                possibleWinner = counting[i];
+                                tie = false;
+                            }
+                            else if (counting[i].votesReceived == possibleWinner.votesReceived) {
+                                tie = true;
+                            }
+                        }
+
+                        if (tie == true || possibleWinner.votesReceived <= rejectionVotes) {
+                            election.WinnerId = 0;
+                        }
+                        else {
+                            election.WinnerId = possibleWinner.candidateId;
+                        }
+
+                        election.IsElectionClosed = true;
+                        await context.SaveChangesAsync();
+                    }
+
+                    await context.SaveChangesAsync(cancellationToken);
+            }
+        }
+        }*/
     }
+    
 }
