@@ -20,12 +20,12 @@ namespace Services {
             return counting;
         }
 
-        static public bool DidAnybodyVote(List<VotesPerCandidate> counting) {
+        static public bool CheckIfNobodyVoted(List<VotesPerCandidate> counting) {
             var votes = 0;
             foreach(VotesPerCandidate candidate in counting) {
                 votes = candidate.votesReceived++;
             }
-            return votes > 0;
+            return votes == 0;
         }
     }
 }
