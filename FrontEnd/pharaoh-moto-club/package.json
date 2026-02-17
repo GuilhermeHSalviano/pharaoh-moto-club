@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fontsource/bebas-neue": "^5.2.7",
+    "@fontsource/big-shoulders-inline-text": "^5.2.5",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-router": "^7.13.0",
