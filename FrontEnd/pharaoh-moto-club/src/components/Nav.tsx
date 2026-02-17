@@ -1,0 +1,63 @@
+import styled from "styled-components";
+import { colors } from "../styles/colors";
+import { fonts } from "../styles/fonts";
+import { sizes } from "../styles/sizes";
+import type { NavComponent } from "../types/Interfaces";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLessThan } from "@fortawesome/free-solid-svg-icons";
+
+export function Nav({title}: NavComponent) {
+  return (
+    <>
+      <MyNav>
+        <DivLessThan>
+          <LessThan icon={faLessThan}></LessThan>
+          <DivTitle>
+            <Title>{title}</Title>
+          </DivTitle>
+        </DivLessThan>
+      </MyNav>
+    </>
+  );
+}
+
+const MyNav = styled.nav`
+  align-items: center;
+  background-color: ${colors.navBackground};
+  display: flex;
+  height: 5rem;
+  position: relative;
+  width: 100%;
+`;
+
+const DivLessThan = styled.div`
+  align-items: center;
+  display: flex;
+  height: 100%;
+  justify-content: start;
+  position: absolute;
+  width: 100%;
+  z-index: 2;
+`;
+
+const LessThan = styled(FontAwesomeIcon)`
+  color: ${colors.label};
+  font-size: 1.5rem;
+  padding-left: 2rem;
+`;
+
+const DivTitle = styled.div`
+  align-items: center;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  position: absolute;
+  width: 100%;
+  z-index: 1;
+`;
+
+const Title = styled.h1`
+  color: ${colors.label};
+  font-family: ${fonts.labelFont};
+  font-size: ${sizes.navTitle};
+`;

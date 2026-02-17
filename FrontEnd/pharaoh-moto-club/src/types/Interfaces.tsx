@@ -12,3 +12,7 @@ export interface MainGenericButton{
   doOnClick: () => void; 
   title: string;
 }
+
+export interface NavComponent{
+  title: string;
+}

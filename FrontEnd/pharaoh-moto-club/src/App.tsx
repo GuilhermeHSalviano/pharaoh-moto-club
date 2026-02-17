@@ -8,12 +8,15 @@ import { MyInput } from "./components/Input.tsx";
 import { useState } from "react";
 import { fonts } from "./styles/fonts.tsx";
 import { MainButton } from "./components/MainButton.tsx";
+import { useNavigate } from "react-router";
 
 function App() {
   const [userName, setUserName] = useState<string>();
+  const navigate = useNavigate();
 
-  function teste(): void {
-    console.log(userName);
+  function teste(): void{
+    console.log(userName + "teste");
+    navigate("/dashboard");
   }
 
   return (

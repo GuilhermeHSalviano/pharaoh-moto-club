@@ -7,5 +7,6 @@ export const sizes = {
   borderButton: "8px",
   widthButton: "7rem",
   heightButton: "2.5rem",
-  buttonShadow: "2px 2px 5px 0.1px #000000"
+  buttonShadow: "2px 2px 5px 0.1px #000000",
+  navTitle: "2rem"
 };
