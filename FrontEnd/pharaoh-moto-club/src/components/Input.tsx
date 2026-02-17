@@ -22,10 +22,20 @@ const GenericInput = styled.input`
   border-radius: ${sizes.borderInput};
   border: none;
   height: ${sizes.inputHight};
+  padding-left: 1rem;
 
   &::placeholder {
     color: ${colors.lines};
     font-family: "Big Shoulders Inline", sans-serif;
-    padding-left: 1rem;
+  }
+
+  &:focus {
+    color: white;
+    font-family: "Big Shoulders Inline", sans-serif;
+  }
+
+  &:not(:focus) {
+    color: white;
+    font-family: "Big Shoulders Inline", sans-serif;
   }
 `;

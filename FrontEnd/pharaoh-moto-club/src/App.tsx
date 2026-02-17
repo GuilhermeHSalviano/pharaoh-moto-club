@@ -13,7 +13,7 @@ function App() {
   const [userName, setUserName] = useState<string>();
 
   function teste(): void {
-    console.log("olá mundo");
+    console.log(userName);
   }
 
   return (
