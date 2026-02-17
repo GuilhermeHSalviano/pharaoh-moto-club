@@ -26,5 +26,6 @@ const GenericInput = styled.input`
   &::placeholder {
     color: ${colors.lines};
     font-family: "Big Shoulders Inline", sans-serif;
+    padding-left: 1rem;
   }
 `;

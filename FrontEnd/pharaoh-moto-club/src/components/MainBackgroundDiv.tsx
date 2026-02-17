@@ -19,8 +19,8 @@ const BackgroundDiv = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: start;
-  height: 100%;
-  width: 100%;
+  height: 100dvh;
+  width: 100dvw;
 `;
 
 const GlobalStyle = createGlobalStyle`

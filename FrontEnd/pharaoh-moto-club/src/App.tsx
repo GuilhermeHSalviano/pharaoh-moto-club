@@ -12,8 +12,8 @@ import { MainButton } from "./components/MainButton.tsx";
 function App() {
   const [userName, setUserName] = useState<string>();
 
-  function teste () : void{
-    console.log("olá mundo")
+  function teste(): void {
+    console.log("olá mundo");
   }
 
   return (
@@ -65,10 +65,15 @@ const DivSeven = styled.div`
   align-items: center;
   display: flex;
   flex-direction: column;
+  height: 65dvh;
   width: 100%;
 `;
 const DivLogin = styled.div`
+  align-items: center;
   flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
   padding: 0 3rem 0 2rem;
   width: 100%;
 `;
