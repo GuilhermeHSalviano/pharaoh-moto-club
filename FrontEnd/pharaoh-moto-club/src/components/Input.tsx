@@ -1,7 +1,15 @@
 import styled from "styled-components";
 import { colors } from "../styles/colors";
-import type { InputComponent } from "../types/Interfaces";
 import { sizes } from "../styles/sizes";
+
+interface InputComponent {
+  setValue: React.Dispatch<React.SetStateAction<string | undefined>>;
+  width: string;
+  type: string;
+  name: string;
+  placeholder: string;
+  id: string
+}
 
 export function MyInput({ setValue, width, type, name, placeholder, id }: InputComponent) {
   return (
