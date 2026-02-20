@@ -10,7 +10,7 @@ export default defineConfig({
       registerType: "autoUpdate",
       includeAssets: ["favicon.ico", "robots.txt", "apple-touch-icon.png"],
       manifest: {
-        short_name: "Faraós - MC",
+        short_name: "Faraos",
         name: "Faraós Moto Clube",
         start_url: "/",
         display: "standalone",
@@ -18,12 +18,12 @@ export default defineConfig({
         theme_color: "#000000",
         icons: [
           {
-            src: "/public/seven-192.png",
+            src: "seven-192.png",
             sizes: "192x192",
             type: "image/png",
           },
           {
-            src: "/public/seven-512.png",
+            src: "seven-512.png",
             sizes: "512x512",
             type: "image/png",
           },
@@ -35,11 +35,5 @@ export default defineConfig({
         navigateFallback: "index.html",
       },
     }),
-  ],
-  server: {
-    allowedHosts: [
-      "your-domain.com",
-      "unrubricated-adele-travelled.ngrok-free.dev",
-    ],
-  },
+  ]
 });
