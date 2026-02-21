@@ -9,14 +9,23 @@ import { useState } from "react";
 import { fonts } from "./styles/fonts.tsx";
 import { MainButton } from "./components/MainButton.tsx";
 import { useNavigate } from "react-router";
+import axios from "axios";
 
 function App() {
-  const [userName, setUserName] = useState<string>();
+  const [userName, setUserName] = useState("");
+  const [userPassword, setUserPassword] = useState("");
   const navigate = useNavigate();
-
-  function teste(): void{
-    console.log(userName + "teste");
-    navigate("/dashboard");
+  const baseURL = import.meta.env.VITE_API_URL;
+  async function login(){
+    try{
+      const response = await axios.post(`${baseURL}/members/login`, {
+        memberId: parseInt(userName),
+        password: userPassword
+      });
+      console.log(response);
+    } catch(error){
+      console.log(error);
+    }
   }
 
   return (
@@ -43,7 +52,7 @@ function App() {
                 ></MyInput>
                 <MyLabel htmlFor="password">Senha</MyLabel>
                 <MyInput
-                  setValue={setUserName}
+                  setValue={setUserPassword}
                   type={"password"}
                   width={"100%"}
                   name={"senha"}
@@ -51,7 +60,7 @@ function App() {
                   id="password"
                 ></MyInput>
               </DivInput>
-              <MainButton title={"entrar"} doOnClick={teste}></MainButton>
+              <MainButton title={"entrar"} doOnClick={login}></MainButton>
             </DivLogin>
           </>
         }

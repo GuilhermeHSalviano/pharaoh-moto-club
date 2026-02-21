@@ -35,6 +35,10 @@ const CardDiv = styled.div`
   height: 8rem;
   margin: 2rem 0 2rem 0;
   width: 80%;
+
+  &:active{
+    opacity: 70%;
+  }
 `;
 
 const IconDiv = styled.div`

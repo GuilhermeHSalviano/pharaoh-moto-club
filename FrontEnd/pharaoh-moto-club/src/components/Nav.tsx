@@ -4,16 +4,19 @@ import { fonts } from "../styles/fonts";
 import { sizes } from "../styles/sizes";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLessThan } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router";
 
 export interface NavComponent{
   title: string;
 }
 
 export function Nav({title}: NavComponent) {
+  const navigate = useNavigate()
+
   return (
     <>
       <MyNav>
-        <DivLessThan>
+        <DivLessThan onClick={() => navigate(-1)}>
           <LessThan icon={faLessThan}></LessThan>
           <DivTitle>
             <Title>{title}</Title>

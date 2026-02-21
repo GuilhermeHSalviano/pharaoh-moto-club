@@ -35,6 +35,19 @@ builder.Services.AddAuthentication(options => {
     };
 });
 
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
+builder.Services.AddCors(options => {
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+        builder => {
+            builder.WithOrigins("http://localhost:5173",
+                                "https://pharaoh-moto-club.netlify.app/")
+                   .AllowAnyHeader()
+                   .AllowAnyMethod();
+        });
+});
+
+
 builder.Services.AddHostedService<Worker>();
 builder.Services.AddScoped<ElectionServices>();
 builder.Services.AddScoped<VotesServices>();
@@ -55,6 +68,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors(MyAllowSpecificOrigins);
 app.UseHttpsRedirection();
 
 app.UseAuthentication();

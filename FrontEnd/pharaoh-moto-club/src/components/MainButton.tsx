@@ -25,4 +25,8 @@ const MyButton = styled.button`
     font-size: 1.3rem;
     height: ${sizes.heightButton};
     width: ${sizes.widthButton};
+
+    &:active{
+      opacity: 50%;
+    }
 `;

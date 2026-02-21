@@ -3,7 +3,7 @@ import { colors } from "../styles/colors";
 import { sizes } from "../styles/sizes";
 
 interface InputComponent {
-  setValue: React.Dispatch<React.SetStateAction<string | undefined>>;
+  setValue: React.Dispatch<React.SetStateAction<string>>;
   width: string;
   type: string;
   name: string;
