@@ -1,15 +1,28 @@
 import styled from "styled-components";
 import { colors } from "../styles/colors";
 import { sizes } from "../styles/sizes";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheckToSlot } from "@fortawesome/free-solid-svg-icons";
+import { fonts } from "../styles/fonts";
+import goImage from "../assets/go.png";
 
-export function DashboardCard() {
+interface PropsDashboardCard {
+  image: string;
+  title: string;
+  subtitle: string;
+}
+
+export function DashboardCard({ image, title, subtitle }: PropsDashboardCard) {
   return (
     <CardDiv>
       <IconDiv>
-        <Icon icon={faCheckToSlot}/>
+        <Icon src={image} />
       </IconDiv>
+      <DescriptionDiv>
+        <Title>{title}</Title>
+        <Subtitle>{subtitle}</Subtitle>
+      </DescriptionDiv>
+      <GoDiv>
+        <GoImage src={goImage}/>
+      </GoDiv>
     </CardDiv>
   );
 }
@@ -32,7 +45,39 @@ const IconDiv = styled.div`
   width: 30%;
 `;
 
-const Icon = styled(FontAwesomeIcon)`
-    color: ${colors.mainButtonBackground};
-    font-size: 3rem;
+const Icon = styled.img`
+  color: ${colors.mainButtonBackground};
+  font-size: 3rem;
+`;
+
+const DescriptionDiv = styled.div`
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 50%;
+`;
+
+const Title = styled.h2`
+  color: ${colors.label};
+  font-family: ${fonts.cardFont};
+  font-size: 1.3rem;
+`;
+
+const Subtitle = styled.h3`
+  text-shadow: 3px 3px 7px black;
+  color: ${colors.lines};
+  font-family: ${fonts.cardFont};
+`;
+
+const GoDiv = styled.div`
+  align-items: center;
+  display: flex;
+  flex-grow: 1;
+  justify-content: center;
+`;
+
+const GoImage = styled.img`
+  height: 1rem;
+  width: 0.7rem;
 `

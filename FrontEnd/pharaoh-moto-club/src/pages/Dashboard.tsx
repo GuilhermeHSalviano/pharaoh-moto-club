@@ -3,6 +3,8 @@ import { MainBackgroundDiv } from "../components/MainBackgroundDiv";
 import { Nav } from "../components/Nav";
 import { MyFooter } from "../components/MyFooter";
 import { DashboardCard } from "../components/DashboardCard";
+import ballot_box from "../assets/box-ballot.svg";
+import location_icon from "../assets/locationIcon.png";
 
 export function Dashboard() {
   return (
@@ -12,8 +14,17 @@ export function Dashboard() {
           <>
             <Nav title={"DASHBOARD"}></Nav>
             <MainSection>
-              <WelcomeDiv/>
-                <DashboardCard />
+              <WelcomeDiv />
+              <DashboardCard
+                image={ballot_box}
+                title={"Eleições"}
+                subtitle={"Votar e acompanhar os resultados"}
+              />
+              <DashboardCard
+                image={location_icon}
+                title={"Eventos"}
+                subtitle={"Próximos eventos e localização"}
+              />
             </MainSection>
             <MyFooter></MyFooter>
           </>
@@ -34,4 +45,6 @@ const MainSection = styled.main`
 const WelcomeDiv = styled.div`
   height: 3rem;
   width: 100%;
-`
+`;
+
+
