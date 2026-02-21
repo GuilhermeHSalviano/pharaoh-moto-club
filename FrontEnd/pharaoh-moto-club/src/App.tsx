@@ -11,20 +11,27 @@ import { MainButton } from "./components/MainButton.tsx";
 import { useNavigate } from "react-router";
 import axios from "axios";
 
-function App() {
+interface Token {
+  insertTokenToContext: React.Dispatch<React.SetStateAction<string>> 
+}
+
+function App({insertTokenToContext}: Token ) {
   const [userName, setUserName] = useState("");
   const [userPassword, setUserPassword] = useState("");
   const navigate = useNavigate();
   const baseURL = import.meta.env.VITE_API_URL;
+  
   async function login(){
     try{
       const response = await axios.post(`${baseURL}/members/login`, {
         memberId: parseInt(userName),
         password: userPassword
       });
-      console.log(response);
+      insertTokenToContext(response.data.jwtToken);
+      navigate("/dashboard");
+
     } catch(error){
-      console.log(error);
+      console.log(error + "este é o erro");
     }
   }
 
