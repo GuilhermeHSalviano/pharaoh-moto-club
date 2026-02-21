@@ -1,8 +1,12 @@
 import styled from "styled-components";
-import type { MainGenericButton } from "../types/Interfaces";
 import { colors } from "../styles/colors";
 import { sizes } from "../styles/sizes";
 import { fonts } from "../styles/fonts";
+
+interface MainGenericButton{
+  doOnClick: () => void; 
+  title: string;
+}
 
 export function MainButton({doOnClick, title}: MainGenericButton) {
   return (

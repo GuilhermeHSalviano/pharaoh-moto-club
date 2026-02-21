@@ -4,5 +4,6 @@ export const colors = {
     lines: "#827E7E",
     inputBackground: "#3A3636",
     mainButtonBackground: "#FFA704",
-    navBackground: "#000000"
+    navFooterBackground: "#000000",
+    footerIcons: "#3A3636"
 }

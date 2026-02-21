@@ -2,9 +2,12 @@ import styled from "styled-components";
 import { colors } from "../styles/colors";
 import { fonts } from "../styles/fonts";
 import { sizes } from "../styles/sizes";
-import type { NavComponent } from "../types/Interfaces";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLessThan } from "@fortawesome/free-solid-svg-icons";
+
+export interface NavComponent{
+  title: string;
+}
 
 export function Nav({title}: NavComponent) {
   return (
@@ -23,7 +26,7 @@ export function Nav({title}: NavComponent) {
 
 const MyNav = styled.nav`
   align-items: center;
-  background-color: ${colors.navBackground};
+  background-color: ${colors.navFooterBackground};
   display: flex;
   height: 5rem;
   position: relative;
