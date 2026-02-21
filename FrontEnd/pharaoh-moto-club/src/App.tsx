@@ -20,7 +20,7 @@ function App({insertTokenToContext}: Token ) {
   const [userPassword, setUserPassword] = useState("");
   const navigate = useNavigate();
   const baseURL = import.meta.env.VITE_API_URL;
-  
+
   async function login(){
     try{
       const response = await axios.post(`${baseURL}/members/login`, {
@@ -31,7 +31,7 @@ function App({insertTokenToContext}: Token ) {
       navigate("/dashboard");
 
     } catch(error){
-      console.log(error + "este é o erro");
+      alert("Erro de autenticação:" + error);
     }
   }
 

@@ -50,8 +50,10 @@ namespace Services {
             return member;
         }
 
-        public bool IsPasswordValid(AuthenticationDto model, Member member) {
-            return BCrypt.Net.BCrypt.Verify(model.Password, member.Password);
+        public async void checkUserCredentials(AuthenticationDto model) {
+            var member = await FindMemberById(model.MemberId);
+            if(member == null) throw new EntityNotFound("Usuário ou senha incorretos!");
+            if (!BCrypt.Net.BCrypt.Verify(model.Password, member.Password)) throw new MemberNotAllowed("Usuário ou senha incorretos!");
         }
     }
 }

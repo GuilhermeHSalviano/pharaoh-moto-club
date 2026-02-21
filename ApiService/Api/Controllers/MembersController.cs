@@ -30,13 +30,16 @@ namespace pharaoh_moto_club.Controllers {
         [HttpPost("login")]
         public async Task<ActionResult> Authenticate(AuthenticationDto model) {
             try {
+                _memberServices.checkUserCredentials(model);
                 var member = await _memberServices.FindMemberById(model.MemberId);
-                if (!_memberServices.IsPasswordValid(model, member)) return Unauthorized();
                 var jwt = _memberServices.GenerateJwtToken(member);
                 return Ok(new { jwtToken = jwt });
             }
             catch (EntityNotFound error) {
-                return NotFound(error.Message);
+                return Unauthorized(error.Message);
+            }
+            catch(MemberNotAllowed error) {
+                return Unauthorized(error.Message);
             }
         }
     }
