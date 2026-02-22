@@ -55,6 +55,11 @@ builder.Services.AddScoped<CandidacyServices>();
 builder.Services.AddScoped<ElectionCountingServices>();
 builder.Services.AddScoped<EditElection>();
 builder.Services.AddScoped<MemberServices>();
+builder.Services.AddScoped<Comment>();
+builder.Services.AddScoped<TypeOfEvent>();
+builder.Services.AddScoped<Event>();
+builder.Services.AddScoped<EventAttendant>();
+builder.Services.AddScoped<EventServices>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

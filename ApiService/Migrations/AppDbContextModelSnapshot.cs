@@ -48,6 +48,29 @@ namespace pharaoh_moto_club.Migrations
                     b.ToTable("candidacy");
                 });
 
+            modelBuilder.Entity("pharaoh_moto_club.Models.Comment", b =>
+                {
+                    b.Property<int>("CommentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("comment_id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CommentId"));
+
+                    b.Property<DateTime>("CommentDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("comment_date");
+
+                    b.Property<string>("CommentText")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("comment_text");
+
+                    b.HasKey("CommentId");
+
+                    b.ToTable("comment");
+                });
+
             modelBuilder.Entity("pharaoh_moto_club.Models.Election", b =>
                 {
                     b.Property<int>("ElectionId")
@@ -89,6 +112,82 @@ namespace pharaoh_moto_club.Migrations
                     b.HasIndex("WinnerId");
 
                     b.ToTable("elections");
+                });
+
+            modelBuilder.Entity("pharaoh_moto_club.Models.Event", b =>
+                {
+                    b.Property<int>("EventId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("event_id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EventId"));
+
+                    b.Property<int>("AuthorId")
+                        .HasColumnType("int")
+                        .HasColumnName("author_id");
+
+                    b.Property<DateTime>("BeginningOfEvent")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("beginning_of_event");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("city");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("description");
+
+                    b.Property<string>("State")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("state");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("title");
+
+                    b.Property<int>("TypeOfEventId")
+                        .HasColumnType("int")
+                        .HasColumnName("type_of_event_id");
+
+                    b.HasKey("EventId");
+
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("TypeOfEventId");
+
+                    b.ToTable("events");
+                });
+
+            modelBuilder.Entity("pharaoh_moto_club.Models.EventAttendant", b =>
+                {
+                    b.Property<int>("EventAttendantId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("event_attendant_id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EventAttendantId"));
+
+                    b.Property<int>("AttendantId")
+                        .HasColumnType("int")
+                        .HasColumnName("attendant_id");
+
+                    b.Property<int>("EventId")
+                        .HasColumnType("int")
+                        .HasColumnName("event_id");
+
+                    b.HasKey("EventAttendantId");
+
+                    b.HasIndex("AttendantId");
+
+                    b.HasIndex("EventId");
+
+                    b.ToTable("event_attendant");
                 });
 
             modelBuilder.Entity("pharaoh_moto_club.Models.Member", b =>
@@ -133,32 +232,23 @@ namespace pharaoh_moto_club.Migrations
                     b.ToTable("members");
                 });
 
-            modelBuilder.Entity("pharaoh_moto_club.Models.Offboarding", b =>
+            modelBuilder.Entity("pharaoh_moto_club.Models.TypeOfEvent", b =>
                 {
-                    b.Property<int>("OffboardingId")
+                    b.Property<int>("TypeOfEventId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasColumnName("offboarding_id");
+                        .HasColumnName("type_of_event_id");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OffboardingId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TypeOfEventId"));
 
-                    b.Property<int>("MemberId")
-                        .HasColumnType("int")
-                        .HasColumnName("member_id");
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("description");
 
-                    b.Property<DateTime>("OffboardingBeggining")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("offboarding_beggining");
+                    b.HasKey("TypeOfEventId");
 
-                    b.Property<DateTime>("OffboardingEnd")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("offboarding_end");
-
-                    b.HasKey("OffboardingId");
-
-                    b.HasIndex("MemberId");
-
-                    b.ToTable("offboardings");
+                    b.ToTable("type_of_event");
                 });
 
             modelBuilder.Entity("pharaoh_moto_club.Models.Votes", b =>
@@ -202,13 +292,13 @@ namespace pharaoh_moto_club.Migrations
                     b.HasOne("pharaoh_moto_club.Models.Member", "Candidate")
                         .WithMany()
                         .HasForeignKey("CandidateId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("pharaoh_moto_club.Models.Election", "Election")
                         .WithMany()
                         .HasForeignKey("ElectionId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Candidate");
@@ -227,40 +317,68 @@ namespace pharaoh_moto_club.Migrations
                     b.HasOne("pharaoh_moto_club.Models.Member", "Winner")
                         .WithMany()
                         .HasForeignKey("WinnerId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Author");
 
                     b.Navigation("Winner");
                 });
 
-            modelBuilder.Entity("pharaoh_moto_club.Models.Offboarding", b =>
+            modelBuilder.Entity("pharaoh_moto_club.Models.Event", b =>
                 {
-                    b.HasOne("pharaoh_moto_club.Models.Member", "Member")
+                    b.HasOne("pharaoh_moto_club.Models.Member", "Author")
                         .WithMany()
-                        .HasForeignKey("MemberId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Member");
+                    b.HasOne("pharaoh_moto_club.Models.TypeOfEvent", "TypeOfEvent")
+                        .WithMany()
+                        .HasForeignKey("TypeOfEventId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Author");
+
+                    b.Navigation("TypeOfEvent");
+                });
+
+            modelBuilder.Entity("pharaoh_moto_club.Models.EventAttendant", b =>
+                {
+                    b.HasOne("pharaoh_moto_club.Models.Member", "Attendant")
+                        .WithMany()
+                        .HasForeignKey("AttendantId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("pharaoh_moto_club.Models.Event", "Event")
+                        .WithMany()
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Attendant");
+
+                    b.Navigation("Event");
                 });
 
             modelBuilder.Entity("pharaoh_moto_club.Models.Votes", b =>
                 {
                     b.HasOne("pharaoh_moto_club.Models.Member", "Candidate")
                         .WithMany()
-                        .HasForeignKey("CandidateId");
+                        .HasForeignKey("CandidateId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("pharaoh_moto_club.Models.Election", "Election")
                         .WithMany()
                         .HasForeignKey("ElectionId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("pharaoh_moto_club.Models.Member", "Voter")
                         .WithMany()
                         .HasForeignKey("VoterId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Candidate");
