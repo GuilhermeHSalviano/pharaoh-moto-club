@@ -12,26 +12,31 @@ import { useNavigate } from "react-router";
 import axios from "axios";
 
 interface Token {
-  insertTokenToContext: React.Dispatch<React.SetStateAction<string>> 
+  insertTokenToContext: React.Dispatch<React.SetStateAction<string>>;
 }
 
-function App({insertTokenToContext}: Token ) {
+function App({ insertTokenToContext }: Token) {
   const [userName, setUserName] = useState("");
   const [userPassword, setUserPassword] = useState("");
   const navigate = useNavigate();
   const baseURL = import.meta.env.VITE_API_URL;
 
-  async function login(){
-    try{
+  async function login() {
+    try {
+      if(userName == "" || userPassword == "") throw new Error("Preencha devidamente todos os campos");
       const response = await axios.post(`${baseURL}/members/login`, {
         memberId: parseInt(userName),
-        password: userPassword
+        password: userPassword,
       });
       insertTokenToContext(response.data.jwtToken);
       navigate("/dashboard");
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        alert(error.response?.data.message);
+      } else{
+        alert(error);
+      }
 
-    } catch(error){
-      alert("Erro de autenticação:" + error);
     }
   }
 

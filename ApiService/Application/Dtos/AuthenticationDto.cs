@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 
 namespace pharaoh_moto_club.Dtos {
     public class AuthenticationDto {

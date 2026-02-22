@@ -50,8 +50,9 @@ namespace Services {
             return member;
         }
 
-        public async void checkUserCredentials(AuthenticationDto model) {
-            var member = await FindMemberById(model.MemberId);
+        public async Task checkUserCredentials(AuthenticationDto model) {
+            if (model.GetType() != typeof(AuthenticationDto)) throw new BadRequest("Os dados enviados não são do tipo esperado.");
+            var member = await _context.Members.FindAsync(model.MemberId);
             if(member == null) throw new EntityNotFound("Usuário ou senha incorretos!");
             if (!BCrypt.Net.BCrypt.Verify(model.Password, member.Password)) throw new MemberNotAllowed("Usuário ou senha incorretos!");
         }
