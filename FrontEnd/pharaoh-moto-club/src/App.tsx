@@ -16,16 +16,16 @@ interface Token {
 }
 
 function App({ insertTokenToContext }: Token) {
-  const [userName, setUserName] = useState("");
+  const [userCpf, setUserCpf] = useState("");
   const [userPassword, setUserPassword] = useState("");
   const navigate = useNavigate();
   const baseURL = import.meta.env.VITE_API_URL;
 
   async function login() {
     try {
-      if(userName == "" || userPassword == "") throw new Error("Preencha devidamente todos os campos");
+      if(userCpf == "" || userPassword == "") throw new Error("Preencha devidamente todos os campos");
       const response = await axios.post(`${baseURL}/members/login`, {
-        memberId: parseInt(userName),
+        cpf: userCpf,
         password: userPassword,
       });
       insertTokenToContext(response.data.jwtToken);
@@ -55,11 +55,11 @@ function App({ insertTokenToContext }: Token) {
               <DivInput>
                 <MyLabel htmlFor="user">Usuário</MyLabel>
                 <MyInput
-                  setValue={setUserName}
+                  setValue={setUserCpf}
                   type={"email"}
                   width={"100%"}
                   name={"usuario"}
-                  placeholder="digite seu usuário aqui"
+                  placeholder="digite seu CPF"
                   id="user"
                 ></MyInput>
                 <MyLabel htmlFor="password">Senha</MyLabel>

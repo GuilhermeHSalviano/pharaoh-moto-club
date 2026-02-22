@@ -50,9 +50,14 @@ namespace Services {
             return member;
         }
 
+        public async Task<Member> FindMemberByCpf(string cpf) {
+            var member =  await _context.Members.FirstOrDefaultAsync(c => c.Cpf == cpf);
+            if(member == null) throw new EntityNotFound("O membro não foi encontrado");
+            return member;
+        }
+
         public async Task checkUserCredentials(AuthenticationDto model) {
-            if (model.GetType() != typeof(AuthenticationDto)) throw new BadRequest("Os dados enviados não são do tipo esperado.");
-            var member = await _context.Members.FindAsync(model.MemberId);
+            var member = await _context.Members.FirstOrDefaultAsync(c => c.Cpf == model.Cpf);
             if(member == null) throw new EntityNotFound("Usuário ou senha incorretos!");
             if (!BCrypt.Net.BCrypt.Verify(model.Password, member.Password)) throw new MemberNotAllowed("Usuário ou senha incorretos!");
         }
