@@ -5,8 +5,20 @@ import { MyFooter } from "../components/MyFooter";
 import { DashboardCard } from "../components/DashboardCard";
 import ballot_box from "../assets/box-ballot.svg";
 import location_icon from "../assets/locationIcon.png";
+import { TokenContext } from "../components/TokenContext";
+import { useContext } from "react";
+import { jwtDecode } from "jwt-decode";
+import { colors } from "../styles/colors";
+import { fonts } from "../styles/fonts";
+
+interface Jwt{
+  name: string,
+  nickname: string
+}
 
 export function Dashboard() {
+  const token: Jwt = jwtDecode(useContext(TokenContext));
+
   return (
     <>
       <MainBackgroundDiv>
@@ -14,7 +26,10 @@ export function Dashboard() {
           <>
             <Nav title={"DASHBOARD"}></Nav>
             <MainSection>
-              <WelcomeDiv />
+              <WelcomeDiv>
+                <WelcomeTitle>Bem vindo:</WelcomeTitle>
+                <WelcomeSubtitle>{token.nickname}</WelcomeSubtitle>
+              </WelcomeDiv>
               <DashboardCard
                 image={ballot_box}
                 title={"Eleições"}
@@ -43,8 +58,23 @@ const MainSection = styled.main`
 `;
 
 const WelcomeDiv = styled.div`
+  display: flex;
+  flex-direction: column;
   height: 3rem;
-  width: 100%;
+  width: 80%;
 `;
+
+const WelcomeTitle = styled.h2`
+  color: ${colors.mainButtonBackground};
+  font-family: ${fonts.labelFont};
+  font-size: 1rem;
+  margin: 0.5rem 0 0 0;
+`
+
+const WelcomeSubtitle = styled.h3`
+  color: ${colors.label};
+  font-family: ${fonts.labelFont};
+  font-size: 1.5rem;
+`
 
 

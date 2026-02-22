@@ -7,6 +7,7 @@ export function ProtectedRoutes() {
   const tokenDoUsuario = useContext(TokenContext);
 
   useEffect(() => {
+    console.log(tokenDoUsuario)
     if (!tokenDoUsuario || tokenDoUsuario == null) navigate("/");
   }, [tokenDoUsuario, navigate]);
 
