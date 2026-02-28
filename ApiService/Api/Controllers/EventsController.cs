@@ -1,3 +1,4 @@
+using Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using My.Exceptions;
@@ -9,9 +10,11 @@ namespace pharaoh_moto_club.Controllers {
     [ApiController]
     public class EventsController : ControllerBase {
         private readonly EventServices _eventServices;
+        private readonly EditEvent _editEvent;
 
-        public EventsController(EventServices eventServices) {
+        public EventsController(EventServices eventServices, EditEvent editEvent) {
             _eventServices = eventServices;
+            _editEvent = editEvent;
         }
 
         [HttpPost("create")]
@@ -23,6 +26,21 @@ namespace pharaoh_moto_club.Controllers {
                 return Conflict(error.Message);
             }
         }
+
+        [HttpPut("edit/{eventId}/{authorId}")]
+        public async Task<IActionResult> EditEvent(int eventId, EventDto model, int authorId) {
+            try {
+                await _editEvent.EditEventById(eventId, model, authorId);
+                return NoContent();
+            }
+            catch (MemberNotAllowed error) {
+                return Conflict(error.Message);
+            }
+            catch(EntityNotFound error) {
+                return NotFound(error.Message);
+            }
+        }
+
     }
 
 }
