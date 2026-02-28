@@ -7,6 +7,8 @@ namespace pharaoh_moto_club.Factories {
             Event newEvent = new Event {
                 Title = model.Title,
                 State = model.State,
+                CityId = model.CityId,
+                StateId = model.StateId,
                 City = model.City,
                 BeginningOfEvent = model.BeginningOfEvent,
                 Description = model.Description,

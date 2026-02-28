@@ -11,7 +11,8 @@ namespace pharaoh_moto_club.Models {
         public required string CommentText { get; set; }
         [Column("comment_date")]
         public required DateTime CommentDate { get; set; }
-
-        
+        [Column("author_id")]
+        public required int AuthorId { get; set; }
+        public required Member Author { get; set; } = null!;
     }
 }

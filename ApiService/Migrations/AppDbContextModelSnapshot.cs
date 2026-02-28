@@ -57,6 +57,10 @@ namespace pharaoh_moto_club.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CommentId"));
 
+                    b.Property<int>("AuthorId")
+                        .HasColumnType("int")
+                        .HasColumnName("author_id");
+
                     b.Property<DateTime>("CommentDate")
                         .HasColumnType("datetime2")
                         .HasColumnName("comment_date");
@@ -67,6 +71,8 @@ namespace pharaoh_moto_club.Migrations
                         .HasColumnName("comment_text");
 
                     b.HasKey("CommentId");
+
+                    b.HasIndex("AuthorId");
 
                     b.ToTable("comment");
                 });
@@ -136,6 +142,10 @@ namespace pharaoh_moto_club.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("city");
 
+                    b.Property<int>("CityId")
+                        .HasColumnType("int")
+                        .HasColumnName("city_id");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
@@ -145,6 +155,10 @@ namespace pharaoh_moto_club.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("state");
+
+                    b.Property<int>("StateId")
+                        .HasColumnType("int")
+                        .HasColumnName("state_id");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -304,6 +318,17 @@ namespace pharaoh_moto_club.Migrations
                     b.Navigation("Candidate");
 
                     b.Navigation("Election");
+                });
+
+            modelBuilder.Entity("pharaoh_moto_club.Models.Comment", b =>
+                {
+                    b.HasOne("pharaoh_moto_club.Models.Member", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Author");
                 });
 
             modelBuilder.Entity("pharaoh_moto_club.Models.Election", b =>

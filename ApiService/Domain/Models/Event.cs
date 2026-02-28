@@ -9,9 +9,13 @@ namespace pharaoh_moto_club.Models {
         public int EventId { get; set; }
         [Column("title")]
         public required string Title {get; set;}
+        [Column("state_id")]
+        public required int StateId { get; set; }
         [Column("state")]
         public required string State {get; set;}
-         [Column("city")]
+        [Column("city_id")]
+        public required int CityId { get; set; }
+        [Column("city")]
         public required string City {get; set;}
         [Column("beginning_of_event")]
         public required DateTime BeginningOfEvent {get; set;}

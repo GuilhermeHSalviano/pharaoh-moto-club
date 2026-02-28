@@ -19,7 +19,10 @@ namespace Entities {
             Event.TypeOfEventId = updatedEvent.TypeOfEventId;
             Event.BeginningOfEvent = updatedEvent.BeginningOfEvent;
             Event.Title = updatedEvent.Title;
+            Event.City  = updatedEvent.City;
+            Event.CityId = updatedEvent.CityId;
             Event.State = updatedEvent.State;
+            Event.StateId = updatedEvent.StateId;
             Event.Description = updatedEvent.Description;
 
             await _context.SaveChangesAsync();
