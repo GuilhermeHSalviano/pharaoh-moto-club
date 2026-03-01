@@ -17,6 +17,16 @@ namespace pharaoh_moto_club.Controllers {
             _editEvent = editEvent;
         }
 
+        [HttpGet("{eventId}")]
+        public async Task<IActionResult> GetEventById(int eventId) {
+            try {
+                var Event = await _eventServices.GetEventByIdFromDb(eventId);
+                return Ok(Event);
+            } catch(EntityNotFound error) {
+                return NotFound(error.Message);
+            }
+        }
+
         [HttpPost("create")]
         public async Task<IActionResult> CreateEvent(EventDto model) {
             try {

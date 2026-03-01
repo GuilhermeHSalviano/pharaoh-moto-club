@@ -70,9 +70,15 @@ namespace pharaoh_moto_club.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("comment_text");
 
+                    b.Property<int>("EventId")
+                        .HasColumnType("int")
+                        .HasColumnName("event_id");
+
                     b.HasKey("CommentId");
 
                     b.HasIndex("AuthorId");
+
+                    b.HasIndex("EventId");
 
                     b.ToTable("comment");
                 });
@@ -328,7 +334,15 @@ namespace pharaoh_moto_club.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("pharaoh_moto_club.Models.Event", "Event")
+                        .WithMany("Comments")
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.Navigation("Author");
+
+                    b.Navigation("Event");
                 });
 
             modelBuilder.Entity("pharaoh_moto_club.Models.Election", b =>
@@ -411,6 +425,11 @@ namespace pharaoh_moto_club.Migrations
                     b.Navigation("Election");
 
                     b.Navigation("Voter");
+                });
+
+            modelBuilder.Entity("pharaoh_moto_club.Models.Event", b =>
+                {
+                    b.Navigation("Comments");
                 });
 #pragma warning restore 612, 618
         }

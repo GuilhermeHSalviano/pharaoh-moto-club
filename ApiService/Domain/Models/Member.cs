@@ -18,7 +18,8 @@ namespace pharaoh_moto_club.Models {
         public required string Cpf { get; set; }
         [JsonIgnore]
         [Column("password")]
-        public required string Password { get; set; }
+        [Required]
+        public string? Password { get; set; }
         [Column("coat_of_arms")]
         public bool CoatOfArms { get; set; } = false;
         [Column("is_member_active")]

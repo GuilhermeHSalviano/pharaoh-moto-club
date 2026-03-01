@@ -30,5 +30,7 @@ namespace pharaoh_moto_club.Models {
         [Column("type_of_event_id")]
         public required int TypeOfEventId {get; set;}
         public TypeOfEvent TypeOfEvent {get; set;} = null!;
+        
+        public ICollection<Comment>? Comments {get; set;} = new List<Comment>();
     }
 }

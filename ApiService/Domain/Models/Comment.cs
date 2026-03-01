@@ -1,5 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
+using Utilities;
 
 namespace pharaoh_moto_club.Models {
     [Table("comment")]
@@ -10,9 +12,17 @@ namespace pharaoh_moto_club.Models {
         [Column("comment_text")]
         public required string CommentText { get; set; }
         [Column("comment_date")]
-        public required DateTime CommentDate { get; set; }
+        public required DateTime CommentDate { get; set;}
+
+        [Column("event_id")]
+        public required int EventId {get; set;}
+        [JsonIgnore]
+        public Event Event {get; set;} = null!;
+        
+        
         [Column("author_id")]
         public required int AuthorId { get; set; }
-        public required Member Author { get; set; } = null!;
+        [JsonIgnore]
+        public Member Author { get; set; } = null!;
     }
 }
