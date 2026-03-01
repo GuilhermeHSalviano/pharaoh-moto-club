@@ -1,5 +1,4 @@
 using Entities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using My.Exceptions;
 using pharaoh_moto_club.Dtos;
@@ -22,7 +21,8 @@ namespace pharaoh_moto_club.Controllers {
             try {
                 var Event = await _eventServices.GetEventByIdFromDb(eventId);
                 return Ok(Event);
-            } catch(EntityNotFound error) {
+            }
+            catch (EntityNotFound error) {
                 return NotFound(error.Message);
             }
         }
@@ -32,7 +32,8 @@ namespace pharaoh_moto_club.Controllers {
             try {
                 await _eventServices.SaveEventOnDb(model);
                 return NoContent();
-            } catch(MemberNotAllowed error) {
+            }
+            catch (MemberNotAllowed error) {
                 return Conflict(error.Message);
             }
         }
@@ -46,11 +47,31 @@ namespace pharaoh_moto_club.Controllers {
             catch (MemberNotAllowed error) {
                 return Conflict(error.Message);
             }
-            catch(EntityNotFound error) {
+            catch (EntityNotFound error) {
                 return NotFound(error.Message);
             }
         }
 
+        [HttpGet("state")]
+        public List<string> GetAllFutureEventStates() {
+            return _eventServices.GetAllFutureEventStatesFromDb();
+        }
+
+        [HttpGet("cities/{state}")]
+        public List<string> GetAllFutureEventcitiesByState(string state) {
+            return _eventServices.GetAllFutureEventCitiesFromDb(state);
+        }
+
+        [HttpGet("city/{city}")]
+        public IActionResult GetAllFutureEventsByCity(int city) {
+            try {
+                var events = _eventServices.GetAllFutureEventsByCityFromDb(city);
+                return Ok(events);
+            } catch(EntityNotFound error) {
+                return NotFound(error.Message);
+            }
+            
+        }
     }
 
 }

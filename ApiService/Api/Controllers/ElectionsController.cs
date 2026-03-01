@@ -4,8 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using My.Exceptions;
 using pharaoh_moto_club.Dtos;
-using pharaoh_moto_club.Factories;
-using pharaoh_moto_club.Models;
 using Services;
 
 namespace pharaoh_moto_club.Controllers {
