@@ -22,13 +22,38 @@ namespace Services {
             await _context.SaveChangesAsync();
         }
 
-        public async Task<Event> GetEventByIdFromDb(int eventId) {
+        public async Task<EventWithAttendantsDto> GetEventByIdFromDb(int eventId) {
             var Event = await _context.Event
-                .Include(e => e.Comments)
-                .Take(50)
                 .FirstOrDefaultAsync(e => e.EventId == eventId);
+            if(Event == null) throw new EntityNotFound("O evento não foi encontrado");
             if(Event == null) throw new EntityNotFound("O evento não foi encontrado!");
-            return Event;
+
+            var attedants = _context.EventAttendants
+                .Where(c => c.EventId == Event.EventId)
+                .Join(_context.Members,
+                    c => c.AttendantId,
+                    m => m.MemberId,
+                    (c,m) => m.Nickname
+                );
+
+            var comments = _context.Comment
+                .Where(c => c.EventId == eventId)
+                .Join(_context.Members,
+                    c => c.AuthorId,
+                    m => m.MemberId,
+                    (c,m) => new CommentWithNicknameDto {
+                        CommentText = c.CommentText,
+                        Author = m.Nickname
+                    }
+                );
+
+            var newEventWithAttendants = new EventWithAttendantsDto {
+                Event = Event,
+                Attendants = attedants,
+                Comments = comments
+            };
+            
+            return newEventWithAttendants;
         }
 
         public List<string> GetAllFutureEventStatesFromDb() {

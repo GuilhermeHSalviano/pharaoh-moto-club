@@ -14,7 +14,7 @@ namespace pharaoh_moto_club.Controllers {
         }
 
         [HttpPost("create/{eventId}/{authorId}")]
-        public async Task<IActionResult> CreateEvent(CommentDto model, int eventId, int authorId) {
+        public async Task<IActionResult> CreateComment(CommentDto model, int eventId, int authorId) {
             try {
                 await _commentServices.SaveCommentOnDb(model, eventId, authorId);
                 return NoContent();

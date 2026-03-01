@@ -62,6 +62,7 @@ builder.Services.AddScoped<EventAttendant>();
 builder.Services.AddScoped<EventServices>();
 builder.Services.AddScoped<EditEvent>();
 builder.Services.AddScoped<CommentServices>();
+builder.Services.AddScoped<EventAttendantServices>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
