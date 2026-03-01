@@ -43,7 +43,8 @@ namespace Services {
                     m => m.MemberId,
                     (c,m) => new CommentWithNicknameDto {
                         CommentText = c.CommentText,
-                        Author = m.Nickname
+                        Author = m.Nickname,
+                        CommentDate = c.CommentDate
                     }
                 );
 
