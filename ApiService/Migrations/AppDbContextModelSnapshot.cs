@@ -45,7 +45,7 @@ namespace pharaoh_moto_club.Migrations
 
                     b.HasIndex("ElectionId");
 
-                    b.ToTable("candidacy");
+                    b.ToTable("candidacy", (string)null);
                 });
 
             modelBuilder.Entity("pharaoh_moto_club.Models.Comment", b =>
@@ -80,7 +80,7 @@ namespace pharaoh_moto_club.Migrations
 
                     b.HasIndex("EventId");
 
-                    b.ToTable("comment");
+                    b.ToTable("comment", (string)null);
                 });
 
             modelBuilder.Entity("pharaoh_moto_club.Models.Election", b =>
@@ -123,7 +123,7 @@ namespace pharaoh_moto_club.Migrations
 
                     b.HasIndex("WinnerId");
 
-                    b.ToTable("elections");
+                    b.ToTable("elections", (string)null);
                 });
 
             modelBuilder.Entity("pharaoh_moto_club.Models.Event", b =>
@@ -181,7 +181,7 @@ namespace pharaoh_moto_club.Migrations
 
                     b.HasIndex("TypeOfEventId");
 
-                    b.ToTable("events");
+                    b.ToTable("events", (string)null);
                 });
 
             modelBuilder.Entity("pharaoh_moto_club.Models.EventAttendant", b =>
@@ -207,7 +207,7 @@ namespace pharaoh_moto_club.Migrations
 
                     b.HasIndex("EventId");
 
-                    b.ToTable("event_attendant");
+                    b.ToTable("event_attendant", (string)null);
                 });
 
             modelBuilder.Entity("pharaoh_moto_club.Models.Member", b =>
@@ -249,7 +249,7 @@ namespace pharaoh_moto_club.Migrations
 
                     b.HasKey("MemberId");
 
-                    b.ToTable("members");
+                    b.ToTable("members", (string)null);
                 });
 
             modelBuilder.Entity("pharaoh_moto_club.Models.TypeOfEvent", b =>
@@ -268,7 +268,7 @@ namespace pharaoh_moto_club.Migrations
 
                     b.HasKey("TypeOfEventId");
 
-                    b.ToTable("type_of_event");
+                    b.ToTable("type_of_event", (string)null);
                 });
 
             modelBuilder.Entity("pharaoh_moto_club.Models.Votes", b =>
@@ -304,7 +304,7 @@ namespace pharaoh_moto_club.Migrations
 
                     b.HasIndex("VoterId");
 
-                    b.ToTable("votes");
+                    b.ToTable("votes", (string)null);
                 });
 
             modelBuilder.Entity("pharaoh_moto_club.Models.Candidacy", b =>

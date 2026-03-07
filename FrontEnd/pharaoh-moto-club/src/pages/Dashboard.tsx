@@ -10,6 +10,7 @@ import { useContext } from "react";
 import { jwtDecode } from "jwt-decode";
 import { colors } from "../styles/colors";
 import { fonts } from "../styles/fonts";
+import { sizes } from "../styles/sizes";
 
 interface Jwt{
   name: string,
@@ -34,11 +35,13 @@ export function Dashboard() {
                 image={ballot_box}
                 title={"Eleições"}
                 subtitle={"Votar e acompanhar os resultados"}
+                link={"/dashboard"}
               />
               <DashboardCard
                 image={location_icon}
                 title={"Eventos"}
                 subtitle={"Próximos eventos e localização"}
+                link={"/events"}
               />
             </MainSection>
             <MyFooter></MyFooter>
@@ -53,7 +56,7 @@ const MainSection = styled.main`
   align-items: center;
   flex-direction: column;
   display: flex;
-  height: 82%;
+  min-height: ${sizes.mainSection};
   width: 100%;
 `;
 

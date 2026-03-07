@@ -10,5 +10,6 @@ export const sizes = {
   buttonShadow: "2px 2px 5px 0.1px #000000",
   dashboardCardShadow: "0 2px 5px 0.1px #000000",
   navTitle: "2rem",
-  footerIcons: "3rem"
+  footerIcons: "3rem",
+  mainSection: "82%"
 };

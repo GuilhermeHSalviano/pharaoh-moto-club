@@ -3,16 +3,20 @@ import { colors } from "../styles/colors";
 import { sizes } from "../styles/sizes";
 import { fonts } from "../styles/fonts";
 import goImage from "../assets/go.png";
+import { useNavigate } from "react-router";
 
 interface PropsDashboardCard {
   image: string;
   title: string;
   subtitle: string;
+  link: string
 }
 
-export function DashboardCard({ image, title, subtitle }: PropsDashboardCard) {
+export function DashboardCard({ image, title, subtitle, link }: PropsDashboardCard) {
+  const navigate = useNavigate();
+
   return (
-    <CardDiv>
+    <CardDiv onClick={()=> navigate(link)}>
       <IconDiv>
         <Icon src={image} />
       </IconDiv>
