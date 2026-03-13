@@ -52,15 +52,11 @@ namespace pharaoh_moto_club.Controllers {
             }
         }
 
-        [HttpGet("state")]
-        public List<string> GetAllFutureEventStates() {
+        [HttpGet("states")]
+        public List<StateAndItsCities> GetAllFutureEventStates() {
             return _eventServices.GetAllFutureEventStatesFromDb();
         }
 
-        [HttpGet("cities/{state}")]
-        public List<string> GetAllFutureEventcitiesByState(string state) {
-            return _eventServices.GetAllFutureEventCitiesFromDb(state);
-        }
 
         [HttpGet("city/{city}")]
         public IActionResult GetAllFutureEventsByCity(int city) {

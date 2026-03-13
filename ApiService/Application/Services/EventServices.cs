@@ -16,7 +16,7 @@ namespace Services {
         }
 
         public async Task SaveEventOnDb(EventDto model) {
-            if(model.BeginningOfEvent < BrazilTime.Now()) throw new MemberNotAllowed("O início do evento deve ser posterior ao momento atual");
+            if (model.BeginningOfEvent < BrazilTime.Now()) throw new MemberNotAllowed("O início do evento deve ser posterior ao momento atual");
             var newEvent = EventFactory.CreateEvent(model);
             _context.Event.Add(newEvent);
             await _context.SaveChangesAsync();
@@ -25,15 +25,15 @@ namespace Services {
         public async Task<EventWithAttendantsDto> GetEventByIdFromDb(int eventId) {
             var Event = await _context.Event
                 .FirstOrDefaultAsync(e => e.EventId == eventId);
-            if(Event == null) throw new EntityNotFound("O evento não foi encontrado");
-            if(Event == null) throw new EntityNotFound("O evento não foi encontrado!");
+            if (Event == null) throw new EntityNotFound("O evento não foi encontrado");
+            if (Event == null) throw new EntityNotFound("O evento não foi encontrado!");
 
             var attedants = _context.EventAttendants
                 .Where(c => c.EventId == Event.EventId)
                 .Join(_context.Members,
                     c => c.AttendantId,
                     m => m.MemberId,
-                    (c,m) => m.Nickname
+                    (c, m) => m.Nickname
                 );
 
             var comments = _context.Comment
@@ -41,7 +41,7 @@ namespace Services {
                 .Join(_context.Members,
                     c => c.AuthorId,
                     m => m.MemberId,
-                    (c,m) => new CommentWithNicknameDto {
+                    (c, m) => new CommentWithNicknameDto {
                         CommentText = c.CommentText,
                         Author = m.Nickname,
                         CommentDate = c.CommentDate
@@ -53,28 +53,47 @@ namespace Services {
                 Attendants = attedants,
                 Comments = comments
             };
-            
+
             return newEventWithAttendants;
         }
 
-        public List<string> GetAllFutureEventStatesFromDb() {
-            var states =  _context.Event
+        public List<StateAndItsCities> GetAllFutureEventStatesFromDb() {
+            var states = _context.Event
                 .Where(c => c.BeginningOfEvent > BrazilTime.Now().Date)
-                .Select(s => s.State)
+                .Select(s => new { s.State, s.StateId })
                 .Distinct()
                 .ToList();
-            if(states == null) return new List<string>();
-            return states;
+            if (states == null) return new List<StateAndItsCities>();
+            var statesAndCities = new List<StateAndItsCities>();
+            foreach (var entity in states) {
+                StateAndItsCities stateAndCity = new StateAndItsCities() {
+                    State = entity.State,
+                    StateId = entity.StateId
+                };
+                var cities = GetAllFutureEventCitiesFromDb(entity.State);
+
+                stateAndCity.Cities = cities;
+                statesAndCities.Add(stateAndCity);
+            }
+            return statesAndCities;
         }
 
-        public List<string> GetAllFutureEventCitiesFromDb(string state) {
-            var states =  _context.Event
+        public List<CityWithId> GetAllFutureEventCitiesFromDb(string state) {
+            var result = _context.Event
                 .Where(c => c.BeginningOfEvent > BrazilTime.Now().Date && c.State == state)
-                .Select(s => s.City)
+                .Select(s => new { s.City, s.CityId })
                 .Distinct()
                 .ToList();
-            if(states == null) return new List<string>();
-            return states;
+            if (result == null) return new List<CityWithId>();
+            var cityWithIdList = new List<CityWithId>();
+            foreach (var element in result) {
+                CityWithId city = new CityWithId() {
+                    City = element.City,
+                    CityId = element.CityId
+                };
+                cityWithIdList.Add(city);   
+            }
+            return cityWithIdList;
         }
 
         public List<Event> GetAllFutureEventsByCityFromDb(int cityId) {
@@ -82,11 +101,11 @@ namespace Services {
                 .Where(c => c.CityId == cityId)
                 .ToList();
 
-            if(events.Count == 0) throw new EntityNotFound("Não foram encontrados eventos nesta cidade");
+            if (events.Count == 0) throw new EntityNotFound("Não foram encontrados eventos nesta cidade");
 
             return events;
         }
-        
+
     }
-    
+
 }
