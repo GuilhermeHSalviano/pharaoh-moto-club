@@ -1,14 +1,12 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { BrowserRouter } from "react-router";
-import { MyRoutes } from "./routes.tsx";
+
 import { MyGlobalStyle } from "./components/GlobalStyle.tsx";
+import App from "./App.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <MyGlobalStyle></MyGlobalStyle>
-    <BrowserRouter>
-      <MyRoutes></MyRoutes>
-    </BrowserRouter>
+    <App></App>
   </StrictMode>,
 );
