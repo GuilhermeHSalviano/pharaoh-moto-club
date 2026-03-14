@@ -29,13 +29,13 @@ export function Events() {
 
   const StateArray = states?.map((state) => {
     return (
-      <li key={state.state}>
+      <StatesContainer key={state.state}>
         <StateContainer
           state={state.state}
           stateId={state.stateId}
           cities={state.cities}
         ></StateContainer>
-      </li>
+      </StatesContainer>
     );
   });
 
@@ -55,6 +55,16 @@ export function Events() {
 }
 
 const MainSection = styled.section`
+  align-items: center;
+  display: flex;
+  flex-direction: column;
   min-height: ${sizes.mainSection};
   width: 100%;
+`;
+
+const StatesContainer = styled.div`
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  width: 80%;
 `;
