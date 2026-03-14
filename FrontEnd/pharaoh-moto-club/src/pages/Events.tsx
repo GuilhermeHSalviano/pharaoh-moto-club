@@ -4,32 +4,34 @@ import { MyFooter } from "../components/MyFooter";
 import styled from "styled-components";
 import { sizes } from "../styles/sizes";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 
-interface StatesAndCities{
-  state: string,
-  stateId: number,
-  cities: [{city: string, cityId: number}]
+interface StatesAndCities {
+  state: string;
+  stateId: number;
+  cities: [{ city: string; cityId: number }];
 }
 
-
 export function Events() {
-  const [statesAndCities, setStatesAndCities] = useState<StatesAndCities>();
   const baseURL = import.meta.env.VITE_API_URL;
+
   async function getStatesAndCities() {
     try {
       console.log("teste");
-      const result = await axios.get<StatesAndCities>(`${baseURL}/events/states`);
-      setStatesAndCities(result.data);
+      return await axios.get<StatesAndCities>(`${baseURL}/events/states`);
     } catch (error) {
       console.log(error);
     }
   }
 
+  const { data: states } = useQuery({
+    queryKey: ["states"],
+    queryFn: () => {
+      return getStatesAndCities();
+    },
+  });
 
-  useEffect(() =>{
-    getStatesAndCities();
-  }, [])
+
 
   return (
     <>
@@ -50,7 +52,3 @@ const MainSection = styled.section`
   min-height: ${sizes.mainSection};
   width: 100%;
 `;
-function AxiosResponse<T, U, V>() {
-  throw new Error("Function not implemented.");
-}
-
