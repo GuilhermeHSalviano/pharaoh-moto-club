@@ -5,20 +5,16 @@ import styled from "styled-components";
 import { sizes } from "../styles/sizes";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
-
-interface StatesAndCities {
-  state: string;
-  stateId: number;
-  cities: [{ city: string; cityId: number }];
-}
+import { StateContainer } from "../components/StateContainer";
+import type { State } from "../interfaces";
 
 export function Events() {
   const baseURL = import.meta.env.VITE_API_URL;
 
   async function getStatesAndCities() {
     try {
-      console.log("teste");
-      return await axios.get<StatesAndCities>(`${baseURL}/events/states`);
+      const result = await axios.get<Array<State>>(`${baseURL}/events/states`);
+      return result.data;
     } catch (error) {
       console.log(error);
     }
@@ -31,7 +27,17 @@ export function Events() {
     },
   });
 
-
+  const StateArray = states?.map((state) => {
+    return (
+      <li key={state.state}>
+        <StateContainer
+          state={state.state}
+          stateId={state.stateId}
+          cities={state.cities}
+        ></StateContainer>
+      </li>
+    );
+  });
 
   return (
     <>
@@ -39,7 +45,7 @@ export function Events() {
         {
           <>
             <Nav title={"Eventos por estado"}></Nav>
-            <MainSection></MainSection>
+            <MainSection>{StateArray}</MainSection>
             <MyFooter></MyFooter>
           </>
         }
