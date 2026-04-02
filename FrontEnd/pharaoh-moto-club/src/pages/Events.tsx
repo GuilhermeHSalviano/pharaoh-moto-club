@@ -7,6 +7,7 @@ import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { StateContainer } from "../components/StateContainer";
 import type { State } from "../interfaces";
+import { MainSection } from "../components/MainSection";
 
 export function Events() {
   const baseURL = import.meta.env.VITE_API_URL;
@@ -54,13 +55,6 @@ export function Events() {
   );
 }
 
-const MainSection = styled.section`
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  min-height: ${sizes.mainSection};
-  width: 100%;
-`;
 
 const StatesContainer = styled.div`
   align-items: center;

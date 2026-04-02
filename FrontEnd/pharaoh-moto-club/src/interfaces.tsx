@@ -3,3 +3,7 @@ export interface State {
     stateId: number;
     cities: [city: string, cityId: number];
 }
+
+export interface CityEvents{
+    
+}
