@@ -5,5 +5,6 @@ export const colors = {
     inputBackground: "#3A3636",
     mainButtonBackground: "#FFA704",
     navFooterBackground: "#000000",
-    footerIcons: "#3A3636"
+    footerIcons: "#3A3636",
+    selectedCard: "#242222"
 }
