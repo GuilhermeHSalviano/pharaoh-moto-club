@@ -6,19 +6,21 @@ import { fonts } from "../styles/fonts.tsx";
 import { sizes } from "../styles/sizes.tsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGreaterThan } from "@fortawesome/free-solid-svg-icons";
+import {useNavigate } from "react-router";
 
 
 export function StateContainer({ state, stateId, cities }: State) {
   const [visible, setVisible] = useState(false);
   const [changeDisplayIcon, setchangeDisplayIcon] = useState("inline");
   const [containerBackgroundColor, setcontainerBackgroundColor] = useState(colors.inputBackground);
+  const navigate = useNavigate();
 
   const toggleCities = () => {
     if (visible) {
       return cities.map((city) => {
         return (
           <CityContainer key={city.city}>
-            <CityName>{city.city}</CityName>
+            <CityName onClick={()=> navigate(`/event/${city.city}`)}>{city.city}</CityName>
             <GreaterThan icon={faGreaterThan}></GreaterThan>
           </CityContainer>
         );
