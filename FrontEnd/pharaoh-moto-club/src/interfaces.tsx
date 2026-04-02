@@ -1,5 +1,5 @@
 export interface State {
     state: string;
     stateId: number;
-    cities: [city: string, cityId: string];
+    cities: [city: string, cityId: number];
 }
