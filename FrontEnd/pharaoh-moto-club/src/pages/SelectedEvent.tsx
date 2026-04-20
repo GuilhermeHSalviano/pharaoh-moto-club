@@ -35,11 +35,11 @@ export default function SelectedEvent() {
         <Nav title={"Evento"}></Nav>
         <MainSection>
           <>
-            <Title>{eventData.event.title}</Title>
+            <Title>{eventData?.event.title}</Title>
             <DescriptionBaloon>
               <DescriptionTitle>Descrição</DescriptionTitle>
-              <Description>{eventData.event.description}</Description>
-              <Author>{`Author: ${eventData.event.authorName}`}</Author>
+              <Description>{eventData?.event.description}</Description>
+              <Author>{`Author: ${eventData?.event.authorName}`}</Author>
             </DescriptionBaloon>
           </>
         </MainSection>
