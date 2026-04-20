@@ -20,7 +20,7 @@ export function StateContainer({ state, stateId, cities }: State) {
       return cities.map((city) => {
         return (
           <CityContainer key={city.city}>
-            <CityName onClick={()=> navigate(`/cityEvents/${city.cityId}`)}>{city.city}</CityName>
+            <CityName onClick={()=> navigate(`/cityEvents/${city.cityId}`, {state: city.city})}>{city.city}</CityName>
             <GreaterThan icon={faGreaterThan}></GreaterThan>
           </CityContainer>
         );

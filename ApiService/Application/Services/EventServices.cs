@@ -4,6 +4,7 @@ using pharaoh_moto_club.Dtos;
 using My.Exceptions;
 using pharaoh_moto_club.Factories;
 using Microsoft.EntityFrameworkCore;
+using pharaoh_moto_club.Migrations;
 
 
 namespace Services {
@@ -24,7 +25,22 @@ namespace Services {
 
         public async Task<EventWithAttendantsDto> GetEventByIdFromDb(int eventId) {
             var Event = await _context.Event
-                .FirstOrDefaultAsync(e => e.EventId == eventId);
+                .Where(e => e.EventId == eventId)
+                .Select(c => new EventDto {
+                    Title = c.Title,
+                        StateId = c.StateId,
+                        State = c.State,
+                        CityId = c.CityId,
+                        City = c.City,
+                        BeginningOfEvent = c.BeginningOfEvent,
+                        Description = c.Description,
+                        AuthorId = c.AuthorId,
+                        TypeOfEventId = c.TypeOfEventId,
+                        AuthorName = c.Author.Nickname,
+                        EventId = c.EventId
+                })
+                .FirstOrDefaultAsync();
+            
             if (Event == null) throw new EntityNotFound("O evento não foi encontrado");
             if (Event == null) throw new EntityNotFound("O evento não foi encontrado!");
 

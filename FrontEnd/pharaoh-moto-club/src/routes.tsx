@@ -5,7 +5,8 @@ import { TokenContext } from "./components/TokenContext.tsx";
 import {ProtectedRoutes} from "./components/ProtectedRoutes.tsx"
 import { Events } from "./pages/Events.tsx";
 import Login from "./pages/Login.tsx";
-import SelectedEvent from "./pages/SelectedCity.tsx";
+import SelectedCity from "./pages/SelectedCity.tsx";
+import SelectedEvent from "./pages/SelectedEvent.tsx";
 
 
 export function MyRoutes() {
@@ -19,7 +20,8 @@ export function MyRoutes() {
         <Route element={<ProtectedRoutes />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/events" element={<Events />} />
-        <Route path="/cityEvents/:city" element={<SelectedEvent />} />
+        <Route path="/cityEvents/:city" element={<SelectedCity />} />
+        <Route path="/event/:eventId" element={<SelectedEvent />} />
         <Route />
       </Routes>
     </TokenContext>

@@ -9,5 +9,7 @@ namespace pharaoh_moto_club.Dtos {
         public required string Description { get; set; }
         public required int AuthorId { get; set; }
         public required int TypeOfEventId { get; set; }
+        public string? AuthorName {get; set;}
+        public int? EventId {get; set;}
     }
 }

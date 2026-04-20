@@ -4,15 +4,19 @@ import { getDay, getMonth } from "../utilFunctions";
 import { fonts } from "../styles/fonts";
 import { sizes } from "../styles/sizes";
 import goButton from "../assets/go.png"
+import { useNavigate } from "react-router";
 
 interface Event {
   date: Date;
   description: string;
+  eventId: string
 }
 
-export function EventCard({ date, description }: Event) {
+export function EventCard({ date, description, eventId }: Event) {
+  const navigate = useNavigate();
+
   return (
-    <EventContainer>
+    <EventContainer onClick={() => navigate(`/event/${eventId}`)}>
       <DateContainer>
         <DateNumber>{getDay(date)}</DateNumber>
       </DateContainer>
