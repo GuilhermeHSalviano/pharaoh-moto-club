@@ -4,6 +4,7 @@ export interface State {
     cities: [city: string, cityId: number];
 }
 
-export interface CityEvents{
-    
+export interface ApiError{
+    message: string
 }
+

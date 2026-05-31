@@ -3,35 +3,31 @@ import { MainBackgroundDiv } from "../components/MainBackgroundDiv";
 import { Nav } from "../components/Nav";
 import { MyFooter } from "../components/MyFooter";
 import { MainSection } from "../components/MainSection";
-import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import styled from "styled-components";
 import { colors } from "../styles/colors";
 import { fonts } from "../styles/fonts";
 import { EventCard } from "../components/EventCard";
+import { getCityEvents } from "../api/config/services/eventService";
+
+interface MotoClubEvent{
+  beginningOfEvent: Date;
+  title: string;
+  eventId: string;
+}
 
 export default function SelectedCity() {
-  const baseURL = import.meta.env.VITE_API_URL;
   let params = useParams();
   let city = useLocation();
-
-  async function getCityEvents() {
-    try {
-      const result = await axios.get(`${baseURL}/events/city/${params.city}`);
-      return result.data;
-    } catch (error) {
-      console.log(error);
-    }
-  }
 
   const { data: cityEvents } = useQuery({
     queryKey: ["cityEvents"],
     queryFn: () => {
-      return getCityEvents();
+      return getCityEvents(params.city);
     },
   });
 
-  const eventsByCity = cityEvents?.map((myEvent) => {
+  const eventsByCity = cityEvents?.map((myEvent : MotoClubEvent) => {
     return (
       <EventCard
         date={myEvent.beginningOfEvent}

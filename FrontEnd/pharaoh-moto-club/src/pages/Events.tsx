@@ -6,21 +6,10 @@ import { sizes } from "../styles/sizes";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { StateContainer } from "../components/StateContainer";
-import type { State } from "../interfaces";
 import { MainSection } from "../components/MainSection";
+import { getStatesAndCities } from "../api/config/services/eventService";
 
 export function Events() {
-  const baseURL = import.meta.env.VITE_API_URL;
-
-  async function getStatesAndCities() {
-    try {
-      const result = await axios.get<Array<State>>(`${baseURL}/events/states`);
-      return result.data;
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
   const { data: states } = useQuery({
     queryKey: ["states"],
     queryFn: () => {

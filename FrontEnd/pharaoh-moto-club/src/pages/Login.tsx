@@ -1,4 +1,4 @@
-import { MainBackgroundDiv } from "../components/MainBackgroundDiv.tsx"
+import { MainBackgroundDiv } from "../components/MainBackgroundDiv.tsx";
 import styled from "styled-components";
 import seven from "../assets/seven.png";
 import { colors } from "../styles/colors.tsx";
@@ -8,7 +8,9 @@ import { useState } from "react";
 import { fonts } from "../styles/fonts.tsx";
 import { MainButton } from "../components/MainButton.tsx";
 import { useNavigate } from "react-router";
+import { getTokenByLoggingIn } from "../api/config/services/loginService.tsx";
 import axios from "axios";
+import type { ApiError } from "../types/globalTypes.tsx";
 
 interface Token {
   insertTokenToContext: React.Dispatch<React.SetStateAction<string>>;
@@ -18,24 +20,22 @@ function App({ insertTokenToContext }: Token) {
   const [userCpf, setUserCpf] = useState("");
   const [userPassword, setUserPassword] = useState("");
   const navigate = useNavigate();
-  const baseURL = import.meta.env.VITE_API_URL;
 
   async function login() {
     try {
-      if(userCpf == "" || userPassword == "") throw new Error("Preencha devidamente todos os campos");
-      const response = await axios.post(`${baseURL}/members/login`, {
-        cpf: userCpf,
-        password: userPassword,
-      });
+      if (userCpf == "" || userPassword == "")
+        throw new Error("Preencha devidamente todos os campos");
+      const response = await getTokenByLoggingIn(userCpf, userPassword);
       insertTokenToContext(response.data.jwtToken);
       navigate("/dashboard");
     } catch (error) {
-      if (axios.isAxiosError(error)) {
+      if (axios.isAxiosError<ApiError>(error)) {
         alert(error.response?.data.message);
-      } else{
+      } else if (error instanceof Error) {
+        alert(error.message);
+      } else {
         alert(error);
       }
-
     }
   }
 
