@@ -17,7 +17,7 @@ namespace Services {
         }
 
         public async Task InsertNewMemberOnDb(MemberDto model) {
-            var doesMemberAlreadyExist = await _context.Members.FirstOrDefaultAsync(c => c.Cpf == model.Cpf) != null;
+            var doesMemberAlreadyExist = await _context.Members.FirstOrDefaultAsync(c => c.Email == model.Email) != null;
             if (doesMemberAlreadyExist) throw new EntityAlreadyExists("O membro já existe");
             Member newMember = MemberFactory.CreateMember(model);
             _context.Members.Add(newMember);
@@ -50,14 +50,14 @@ namespace Services {
             return member;
         }
 
-        public async Task<Member> FindMemberByCpf(string cpf) {
-            var member =  await _context.Members.FirstOrDefaultAsync(c => c.Cpf == cpf);
+        public async Task<Member> FindMemberByEmail(string email) {
+            var member =  await _context.Members.FirstOrDefaultAsync(c => c.Email == email);
             if(member == null) throw new EntityNotFound("O membro não foi encontrado");
             return member;
         }
 
         public async Task checkUserCredentials(AuthenticationDto model) {
-            var member = await _context.Members.FirstOrDefaultAsync(c => c.Cpf == model.Cpf);
+            var member = await _context.Members.FirstOrDefaultAsync(c => c.Email == model.Email);
             if(member == null) throw new EntityNotFound("Usuário ou senha incorretos!");
             if (!BCrypt.Net.BCrypt.Verify(model.Password, member.Password)) throw new MemberNotAllowed("Usuário ou senha incorretos!");
         }

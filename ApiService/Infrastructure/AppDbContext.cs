@@ -16,17 +16,9 @@ namespace pharaoh_moto_club.Models {
             }
 
 
-            modelBuilder.Entity<Election>()
-                .HasOne(e => e.Author)
-                .WithMany()
-                .HasForeignKey(e => e.AuthorId)
-                .OnDelete(DeleteBehavior.Restrict);
         }
 
         public DbSet<Member> Members { get; set; }
-        public DbSet<Election> Elections { get; set; }
-        public DbSet<Candidacy> Candidacy { get; set; }
-        public DbSet<Votes> Votes { get; set; }
         public DbSet<EventAttendant> EventAttendants { get; set; }
         public DbSet<Event> Event { get; set; }
         public DbSet<Comment> Comment { get; set; }

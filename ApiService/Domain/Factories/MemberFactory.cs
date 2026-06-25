@@ -7,10 +7,8 @@ namespace pharaoh_moto_club.Factories {
             Member newMember = new Member {
                 Name = model.Name,
                 Nickname = model.Nickname,
-                Cpf = model.Cpf,
+                Email = model.Email,
                 Password = BCrypt.Net.BCrypt.HashPassword(model.Password),
-                CoatOfArms = model.CoatOfArms,
-                IsmemberActive = model.IsMemberActive
             };
 
             return newMember;

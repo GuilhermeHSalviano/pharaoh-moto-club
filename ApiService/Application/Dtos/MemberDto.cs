@@ -6,9 +6,7 @@ namespace pharaoh_moto_club.Dtos {
     public class MemberDto {
         public required string Name { get; set; }
         public required string Nickname { get; set; }
-        public required string Cpf { get; set; }
+        public required string Email { get; set; }
         public required string Password { get; set; }
-        public bool CoatOfArms { get; set; }
-        public bool IsMemberActive { get; set; } = true;
     }
 }

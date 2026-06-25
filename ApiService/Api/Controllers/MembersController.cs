@@ -31,7 +31,7 @@ namespace pharaoh_moto_club.Controllers {
         public async Task<ActionResult> Authenticate(AuthenticationDto model) {
             try {
                 await _memberServices.checkUserCredentials(model);
-                var member = await _memberServices.FindMemberByCpf(model.Cpf);
+                var member = await _memberServices.FindMemberByEmail(model.Email);
                 var jwt = _memberServices.GenerateJwtToken(member);
                 return Ok(new { jwtToken = jwt });
             }

@@ -13,16 +13,12 @@ namespace pharaoh_moto_club.Models {
         [Column("nickname")]
         public required string Nickname { get; set; }
         [Required]
-        [Column("cpf")]
-        [RegularExpression(@"^\d{11}$", ErrorMessage = "Seu cpf não está no formato correto!")]
-        public required string Cpf { get; set; }
+        [RegularExpression(@"^[^@\s]+@[^@\s]+\.[^@\s]+$", ErrorMessage = "Invalid email format.")]
+        [Column("email")]
+        public required string Email { get; set; }
         [JsonIgnore]
         [Column("password")]
         [Required]
         public string? Password { get; set; }
-        [Column("coat_of_arms")]
-        public bool CoatOfArms { get; set; } = false;
-        [Column("is_member_active")]
-        public bool IsmemberActive {get; set;} = true;
     }
 }

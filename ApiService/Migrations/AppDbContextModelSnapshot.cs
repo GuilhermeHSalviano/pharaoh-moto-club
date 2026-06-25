@@ -22,32 +22,6 @@ namespace pharaoh_moto_club.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("pharaoh_moto_club.Models.Candidacy", b =>
-                {
-                    b.Property<int>("CandidacyId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("candidacy_id");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CandidacyId"));
-
-                    b.Property<int>("CandidateId")
-                        .HasColumnType("int")
-                        .HasColumnName("candidate_id");
-
-                    b.Property<int>("ElectionId")
-                        .HasColumnType("int")
-                        .HasColumnName("election_id");
-
-                    b.HasKey("CandidacyId");
-
-                    b.HasIndex("CandidateId");
-
-                    b.HasIndex("ElectionId");
-
-                    b.ToTable("candidacy", (string)null);
-                });
-
             modelBuilder.Entity("pharaoh_moto_club.Models.Comment", b =>
                 {
                     b.Property<int>("CommentId")
@@ -80,50 +54,7 @@ namespace pharaoh_moto_club.Migrations
 
                     b.HasIndex("EventId");
 
-                    b.ToTable("comment", (string)null);
-                });
-
-            modelBuilder.Entity("pharaoh_moto_club.Models.Election", b =>
-                {
-                    b.Property<int>("ElectionId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("election_id");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ElectionId"));
-
-                    b.Property<int>("AuthorId")
-                        .HasColumnType("int")
-                        .HasColumnName("author_id");
-
-                    b.Property<DateTime>("BeginningOfElection")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("beggining_of_election");
-
-                    b.Property<DateTime>("EndingOfElection")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("ending_of_election");
-
-                    b.Property<bool>("IsElectionClosed")
-                        .HasColumnType("bit")
-                        .HasColumnName("is_election_closed");
-
-                    b.Property<string>("PositionToBeElected")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("position_to_be_elected");
-
-                    b.Property<int?>("WinnerId")
-                        .HasColumnType("int")
-                        .HasColumnName("winner_id");
-
-                    b.HasKey("ElectionId");
-
-                    b.HasIndex("AuthorId");
-
-                    b.HasIndex("WinnerId");
-
-                    b.ToTable("elections", (string)null);
+                    b.ToTable("comment");
                 });
 
             modelBuilder.Entity("pharaoh_moto_club.Models.Event", b =>
@@ -181,7 +112,7 @@ namespace pharaoh_moto_club.Migrations
 
                     b.HasIndex("TypeOfEventId");
 
-                    b.ToTable("events", (string)null);
+                    b.ToTable("events");
                 });
 
             modelBuilder.Entity("pharaoh_moto_club.Models.EventAttendant", b =>
@@ -207,7 +138,7 @@ namespace pharaoh_moto_club.Migrations
 
                     b.HasIndex("EventId");
 
-                    b.ToTable("event_attendant", (string)null);
+                    b.ToTable("event_attendant");
                 });
 
             modelBuilder.Entity("pharaoh_moto_club.Models.Member", b =>
@@ -219,18 +150,10 @@ namespace pharaoh_moto_club.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MemberId"));
 
-                    b.Property<bool>("CoatOfArms")
-                        .HasColumnType("bit")
-                        .HasColumnName("coat_of_arms");
-
-                    b.Property<string>("Cpf")
+                    b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
-                        .HasColumnName("cpf");
-
-                    b.Property<bool>("IsmemberActive")
-                        .HasColumnType("bit")
-                        .HasColumnName("is_member_active");
+                        .HasColumnName("email");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -249,7 +172,7 @@ namespace pharaoh_moto_club.Migrations
 
                     b.HasKey("MemberId");
 
-                    b.ToTable("members", (string)null);
+                    b.ToTable("members");
                 });
 
             modelBuilder.Entity("pharaoh_moto_club.Models.TypeOfEvent", b =>
@@ -268,62 +191,7 @@ namespace pharaoh_moto_club.Migrations
 
                     b.HasKey("TypeOfEventId");
 
-                    b.ToTable("type_of_event", (string)null);
-                });
-
-            modelBuilder.Entity("pharaoh_moto_club.Models.Votes", b =>
-                {
-                    b.Property<int>("VoteId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("vote_id");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("VoteId"));
-
-                    b.Property<int?>("CandidateId")
-                        .HasColumnType("int")
-                        .HasColumnName("candidate_id");
-
-                    b.Property<int>("ElectionId")
-                        .HasColumnType("int")
-                        .HasColumnName("election_id");
-
-                    b.Property<bool>("IsCandidatesRejected")
-                        .HasColumnType("bit")
-                        .HasColumnName("is_candidates_rejected");
-
-                    b.Property<int>("VoterId")
-                        .HasColumnType("int")
-                        .HasColumnName("voter_id");
-
-                    b.HasKey("VoteId");
-
-                    b.HasIndex("CandidateId");
-
-                    b.HasIndex("ElectionId");
-
-                    b.HasIndex("VoterId");
-
-                    b.ToTable("votes", (string)null);
-                });
-
-            modelBuilder.Entity("pharaoh_moto_club.Models.Candidacy", b =>
-                {
-                    b.HasOne("pharaoh_moto_club.Models.Member", "Candidate")
-                        .WithMany()
-                        .HasForeignKey("CandidateId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("pharaoh_moto_club.Models.Election", "Election")
-                        .WithMany()
-                        .HasForeignKey("ElectionId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Candidate");
-
-                    b.Navigation("Election");
+                    b.ToTable("type_of_event");
                 });
 
             modelBuilder.Entity("pharaoh_moto_club.Models.Comment", b =>
@@ -335,7 +203,7 @@ namespace pharaoh_moto_club.Migrations
                         .IsRequired();
 
                     b.HasOne("pharaoh_moto_club.Models.Event", "Event")
-                        .WithMany("Comments")
+                        .WithMany()
                         .HasForeignKey("EventId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -343,24 +211,6 @@ namespace pharaoh_moto_club.Migrations
                     b.Navigation("Author");
 
                     b.Navigation("Event");
-                });
-
-            modelBuilder.Entity("pharaoh_moto_club.Models.Election", b =>
-                {
-                    b.HasOne("pharaoh_moto_club.Models.Member", "Author")
-                        .WithMany()
-                        .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("pharaoh_moto_club.Models.Member", "Winner")
-                        .WithMany()
-                        .HasForeignKey("WinnerId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("Author");
-
-                    b.Navigation("Winner");
                 });
 
             modelBuilder.Entity("pharaoh_moto_club.Models.Event", b =>
@@ -399,37 +249,6 @@ namespace pharaoh_moto_club.Migrations
                     b.Navigation("Attendant");
 
                     b.Navigation("Event");
-                });
-
-            modelBuilder.Entity("pharaoh_moto_club.Models.Votes", b =>
-                {
-                    b.HasOne("pharaoh_moto_club.Models.Member", "Candidate")
-                        .WithMany()
-                        .HasForeignKey("CandidateId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("pharaoh_moto_club.Models.Election", "Election")
-                        .WithMany()
-                        .HasForeignKey("ElectionId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("pharaoh_moto_club.Models.Member", "Voter")
-                        .WithMany()
-                        .HasForeignKey("VoterId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Candidate");
-
-                    b.Navigation("Election");
-
-                    b.Navigation("Voter");
-                });
-
-            modelBuilder.Entity("pharaoh_moto_club.Models.Event", b =>
-                {
-                    b.Navigation("Comments");
                 });
 #pragma warning restore 612, 618
         }

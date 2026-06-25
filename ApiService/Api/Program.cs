@@ -4,13 +4,13 @@ using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using ElectionBackgroundService;
 using Services;
 using Entities;
+using RepositoryInterfaces;
+using Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 
 builder.Services.AddControllers()
     .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
@@ -48,12 +48,7 @@ builder.Services.AddCors(options => {
 });
 
 
-builder.Services.AddHostedService<Worker>();
-builder.Services.AddScoped<ElectionServices>();
-builder.Services.AddScoped<VotesServices>();
-builder.Services.AddScoped<CandidacyServices>();
-builder.Services.AddScoped<ElectionCountingServices>();
-builder.Services.AddScoped<EditElection>();
+
 builder.Services.AddScoped<MemberServices>();
 builder.Services.AddScoped<Comment>();
 builder.Services.AddScoped<TypeOfEvent>();
@@ -63,6 +58,7 @@ builder.Services.AddScoped<EventServices>();
 builder.Services.AddScoped<EditEvent>();
 builder.Services.AddScoped<CommentServices>();
 builder.Services.AddScoped<EventAttendantServices>();
+builder.Services.AddScoped<IMemberRepository, MemberRepository>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
