@@ -17,15 +17,15 @@ interface Token {
 }
 
 function App({ insertTokenToContext }: Token) {
-  const [userCpf, setUserCpf] = useState("");
+  const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
   const navigate = useNavigate();
 
   async function login() {
     try {
-      if (userCpf == "" || userPassword == "")
+      if (userEmail == "" || userPassword == "")
         throw new Error("Preencha devidamente todos os campos");
-      const response = await getTokenByLoggingIn(userCpf, userPassword);
+      const response = await getTokenByLoggingIn(userEmail, userPassword);
       insertTokenToContext(response.data.jwtToken);
       navigate("/dashboard");
     } catch (error) {
@@ -54,11 +54,11 @@ function App({ insertTokenToContext }: Token) {
               <DivInput>
                 <MyLabel htmlFor="user">Usuário</MyLabel>
                 <MyInput
-                  setValue={setUserCpf}
+                  setValue={setUserEmail}
                   type={"email"}
                   width={"100%"}
                   name={"usuario"}
-                  placeholder="digite seu CPF"
+                  placeholder="digite seu Email"
                   id="user"
                 ></MyInput>
                 <MyLabel htmlFor="password">Senha</MyLabel>

@@ -8,6 +8,7 @@ import { fonts } from "../styles/fonts";
 import { colors } from "../styles/colors";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
+import { getDate, getTime } from "../utilFunctions";
 
 export default function SelectedEvent() {
   const params = useParams();
@@ -41,6 +42,10 @@ export default function SelectedEvent() {
               <Description>{eventData?.event.description}</Description>
               <Author>{`Author: ${eventData?.event.authorName}`}</Author>
             </DescriptionBaloon>
+            <TimeAndDateContainer>
+              <TimeAndDate>HORÁRIO E DATA DO EVENTO:</TimeAndDate>
+              <EventDate>{ `${getDate(eventData?.event.beginningOfEvent)} - ${getTime(eventData?.event.beginningOfEvent)}`}</EventDate>
+            </TimeAndDateContainer>
           </>
         </MainSection>
         <MyFooter></MyFooter>
@@ -83,3 +88,26 @@ const Description = styled.p`
 const Author = styled.p`
   font-family: ${fonts.citiesFont};
 `;
+
+const TimeAndDateContainer = styled.div`
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  padding: 0 1em 0 1em;
+  width: 100%;
+`
+
+const TimeAndDate = styled.h2`
+  color: ${colors.titleInDarkBackground};
+  font-family: ${fonts.citiesFont};
+  font-weight: 600;
+  margin: 0.5em 0 0.3em 0;
+`
+
+const EventDate = styled.h3`
+  color: ${colors.minorTitle};
+  font-family: ${fonts.citiesFont};
+  font-weight: 600;
+`
+
+

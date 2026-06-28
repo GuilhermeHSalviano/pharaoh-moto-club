@@ -1,9 +1,9 @@
 import apiClient from "../axiosInstance";
 
-export async function getTokenByLoggingIn(userCpf: string, userPassword: string) {
+export async function getTokenByLoggingIn(userEmail: string, userPassword: string) {
 
   return await apiClient.post(`/members/login`, {
-    cpf: userCpf,
+    Email: userEmail,
     password: userPassword,
   });
 }

@@ -24,26 +24,31 @@ builder.Services.AddAuthentication(options => {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(options =>
-{
+}).AddJwtBearer(options => {
     options.SaveToken = true;
     options.RequireHttpsMetadata = false;
-    options.TokenValidationParameters = new TokenValidationParameters()
-    {
+    options.TokenValidationParameters = new TokenValidationParameters() {
         ValidateIssuer = false,
         ValidateAudience = false,
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(ApiKey))
     };
 });
 
-var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+var MyAllowedSpecificOrigins = builder.Configuration.GetSection("CorsSettings:AllowedOrigins").Get<string[]>();
+
+if (MyAllowedSpecificOrigins == null || MyAllowedSpecificOrigins.Length == 0) {
+    throw new InvalidOperationException("CorsSettings:AllowedOrigins não está configurado ou está vazio. Adicione as configurações em ApiService/appsettings.json.");
+}
+
+Console.WriteLine($"Configured CORS origins: {string.Join(", ", MyAllowedSpecificOrigins)}");
 
 builder.Services.AddCors(options => {
-    options.AddPolicy(name: MyAllowSpecificOrigins,
-        builder => {
-            builder.WithOrigins("AllowedOrigins")
+    options.AddPolicy(name: "AllowedSpecificOrigins",
+        policy => {
+            policy.WithOrigins(MyAllowedSpecificOrigins)
                    .AllowAnyHeader()
-                   .AllowAnyMethod();
+                   .AllowAnyMethod()
+                   .AllowCredentials();
         });
 });
 
@@ -66,13 +71,12 @@ builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+if (app.Environment.IsDevelopment()) {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-app.UseCors(MyAllowSpecificOrigins);
+app.UseCors("AllowedSpecificOrigins");
 app.UseHttpsRedirection();
 
 app.UseAuthentication();

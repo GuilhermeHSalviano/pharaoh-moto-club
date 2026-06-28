@@ -8,3 +8,18 @@ export function getMonth(date: Date): string{
     let fullDate = new Date(date);
     return fullDate.toLocaleString('pt-BR', { month: 'short' });
 }
+
+export function getDate(date: Date): string{
+    let fullDate = new Date(date);    
+    let formattedDate = fullDate.toLocaleDateString('pt-BR');
+    return formattedDate;
+}
+
+export function getTime(date: Date): string{
+    let fullDate = new Date(date);    
+    let hours = fullDate.getHours();
+    let minutes = fullDate.getMinutes();
+
+    return `${hours}:${minutes}`;
+}
+
