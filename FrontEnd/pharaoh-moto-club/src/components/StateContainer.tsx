@@ -9,7 +9,7 @@ import { faGreaterThan } from "@fortawesome/free-solid-svg-icons";
 import {useNavigate } from "react-router";
 
 
-export function StateContainer({ state, stateId, cities }: State) {
+export function StateContainer({ state, cities }: State) {
   const [visible, setVisible] = useState(false);
   const [changeDisplayIcon, setchangeDisplayIcon] = useState("inline");
   const [containerBackgroundColor, setcontainerBackgroundColor] = useState(colors.inputBackground);
