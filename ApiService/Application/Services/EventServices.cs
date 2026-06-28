@@ -62,7 +62,8 @@ namespace Services {
                         Author = m.Nickname,
                         CommentDate = c.CommentDate
                     }
-                );
+                )
+                .OrderByDescending(x => x.CommentDate);
 
             var newEventWithAttendants = new EventWithAttendantsDto {
                 Event = Event,
