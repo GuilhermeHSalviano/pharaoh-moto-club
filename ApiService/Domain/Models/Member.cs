@@ -1,9 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
+using Microsoft.EntityFrameworkCore;
 
 namespace pharaoh_moto_club.Models {
     [Table("members")]
+    [Index(nameof(Email), IsUnique = true)]
     public class Member {
         [Key]
         [Column("member_id")]
@@ -12,6 +14,7 @@ namespace pharaoh_moto_club.Models {
         public required string Name { get; set; }
         [Column("nickname")]
         public required string Nickname { get; set; }
+        
         [Required]
         [RegularExpression(@"^[^@\s]+@[^@\s]+\.[^@\s]+$", ErrorMessage = "Invalid email format.")]
         [Column("email")]

@@ -1,10 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>pharaoh_moto_club</RootNamespace>
+    <UserSecretsId>3c563bfc-4185-40ac-a7a1-327aac3ce718</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

@@ -1,6 +1,5 @@
 namespace pharaoh_moto_club.Dtos {
     public class TypeOfEventDto {
-        public required string Title { get; set; }
         public required string Description { get; set; }
     }
 }

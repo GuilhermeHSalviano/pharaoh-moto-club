@@ -11,9 +11,11 @@ using pharaoh_moto_club.Models;
 namespace Services {
     public class MemberServices {
         private readonly AppDbContext _context;
+        private readonly IConfiguration _configuration;
 
-        public MemberServices(AppDbContext context) {
+        public MemberServices(AppDbContext context, IConfiguration configuration) {
             _context = context;
+            _configuration = configuration;
         }
 
         public async Task InsertNewMemberOnDb(MemberDto model) {
@@ -26,7 +28,7 @@ namespace Services {
 
         public string GenerateJwtToken(Member model) {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes("Ry74cBQva5dThwbwchR9jhbtRFnJxWSZ");
+            byte[] key = Encoding.UTF8.GetBytes(_configuration["ApiKey"]!);
             var claims = new ClaimsIdentity(
             [
                 new Claim(ClaimTypes.NameIdentifier, model.MemberId.ToString()),
@@ -56,7 +58,7 @@ namespace Services {
             return member;
         }
 
-        public async Task checkUserCredentials(AuthenticationDto model) {
+        public async Task CheckUserCredentials(AuthenticationDto model) {
             var member = await _context.Members.FirstOrDefaultAsync(c => c.Email == model.Email);
             if(member == null) throw new EntityNotFound("Usuário ou senha incorretos!");
             if (!BCrypt.Net.BCrypt.Verify(model.Password, member.Password)) throw new MemberNotAllowed("Usuário ou senha incorretos!");

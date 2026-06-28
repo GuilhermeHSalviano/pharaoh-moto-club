@@ -152,7 +152,7 @@ namespace pharaoh_moto_club.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
+                        .HasColumnType("nvarchar(450)")
                         .HasColumnName("email");
 
                     b.Property<string>("Name")
@@ -172,6 +172,9 @@ namespace pharaoh_moto_club.Migrations
 
                     b.HasKey("MemberId");
 
+                    b.HasIndex("Email")
+                        .IsUnique();
+
                     b.ToTable("members");
                 });
 
@@ -186,10 +189,13 @@ namespace pharaoh_moto_club.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
+                        .HasColumnType("nvarchar(450)")
                         .HasColumnName("description");
 
                     b.HasKey("TypeOfEventId");
+
+                    b.HasIndex("Description")
+                        .IsUnique();
 
                     b.ToTable("type_of_event");
                 });

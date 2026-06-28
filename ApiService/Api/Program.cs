@@ -6,8 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Services;
 using Entities;
-using RepositoryInterfaces;
-using Repositories;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +17,8 @@ builder.Services.AddControllers()
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
+
+string ApiKey = builder.Configuration["ApiKey"]!;
 
 builder.Services.AddAuthentication(options => {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -31,7 +32,7 @@ builder.Services.AddAuthentication(options => {
     {
         ValidateIssuer = false,
         ValidateAudience = false,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("Ry74cBQva5dThwbwchR9jhbtRFnJxWSZ"))
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(ApiKey))
     };
 });
 
@@ -40,8 +41,7 @@ var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 builder.Services.AddCors(options => {
     options.AddPolicy(name: MyAllowSpecificOrigins,
         builder => {
-            builder.WithOrigins("http://localhost:5173",
-                                "https://pharaoh-moto-club.netlify.app/")
+            builder.WithOrigins("AllowedOrigins")
                    .AllowAnyHeader()
                    .AllowAnyMethod();
         });
@@ -58,7 +58,7 @@ builder.Services.AddScoped<EventServices>();
 builder.Services.AddScoped<EditEvent>();
 builder.Services.AddScoped<CommentServices>();
 builder.Services.AddScoped<EventAttendantServices>();
-builder.Services.AddScoped<IMemberRepository, MemberRepository>();
+builder.Services.AddScoped<TypeOfEventServices>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
