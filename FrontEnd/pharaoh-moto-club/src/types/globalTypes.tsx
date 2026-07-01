@@ -1,10 +1,24 @@
 export interface State {
-    state: string;
-    stateId: number;
-    cities: [city: string, cityId: number];
+  state: string;
+  stateId: number;
+  cities: [city: string, cityId: number];
 }
 
-export interface ApiError{
-    message: string
+export interface ApiError {
+  message: string;
 }
 
+export interface StyleObject {
+  property: string;
+  value: string;
+}
+
+export type CustomCssStyles = {
+  [key: string]: string;
+};
+
+export interface MyJwtPayload {
+  name: string;
+  nickname: string;
+  nameid: string;
+}

@@ -11,14 +11,12 @@ import { jwtDecode } from "jwt-decode";
 import { colors } from "../styles/colors";
 import { fonts } from "../styles/fonts";
 import { MainSection } from "../components/MainSection";
+import type { MyJwtPayload } from "../types/globalTypes";
 
-interface Jwt {
-  name: string;
-  nickname: string;
-}
+
 
 export function Dashboard() {
-  const token: Jwt = jwtDecode(useContext(TokenContext));
+  const token: MyJwtPayload = jwtDecode(useContext(TokenContext));
 
   return (
     <>

@@ -1,3 +1,6 @@
+import type { StyleObject, CustomCssStyles } from "./types/globalTypes";
+
+
 export function getDay(date: Date): string{
     let fullDate = new Date(date).getDate();    
     let formattedDate = fullDate.toLocaleString.length < 2 ? 0 + fullDate.toLocaleString(): fullDate.toLocaleString();
@@ -21,5 +24,14 @@ export function getTime(date: Date): string{
     let minutes = fullDate.getMinutes();
 
     return `${hours}:${minutes}`;
+}
+
+export function convertStyleObjectIntoCssStyles(styleObject: StyleObject[]): CustomCssStyles {
+
+    let CustomCssStyles :CustomCssStyles = {};
+    for(var i = 0; i < styleObject.length; i++){
+        CustomCssStyles[styleObject[i].property] = styleObject[i].value
+    }
+    return CustomCssStyles;
 }
 

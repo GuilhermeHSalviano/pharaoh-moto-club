@@ -9,10 +9,19 @@ import { colors } from "../styles/colors";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { getDate, getTime } from "../utilFunctions";
+import SmallTitle from "../components/SmallTitle";
+import type { MyJwtPayload, StyleObject } from "../types/globalTypes";
+import { useContext } from "react";
+import { jwtDecode } from "jwt-decode";
+import { TokenContext } from "../components/TokenContext";
+import Loading from "../components/Loading";
+import ConfirmAttendanceButton from "../components/ConfirmAttendanceButton";
 
 export default function SelectedEvent() {
   const params = useParams();
   const baseURL = import.meta.env.VITE_API_URL;
+  const token: MyJwtPayload = jwtDecode(useContext(TokenContext));
+  console.log(token);
 
   async function getEventyById() {
     try {
@@ -23,12 +32,20 @@ export default function SelectedEvent() {
     }
   }
 
-  const { data: eventData } = useQuery({
+  const {
+    data: eventData,
+    isLoading,
+    refetch,
+  } = useQuery({
     queryKey: ["eventData"],
     queryFn: () => {
       return getEventyById();
     },
   });
+
+  const SmallTitleCustomStyles: Array<StyleObject> = [
+    { property: "fontFamily", value: fonts.cardFont },
+  ];
 
   return (
     <MainBackgroundDiv>
@@ -36,6 +53,7 @@ export default function SelectedEvent() {
         <Nav title={"Evento"}></Nav>
         <MainSection>
           <>
+            {isLoading && <Loading></Loading>}
             <Title>{eventData?.event.title}</Title>
             <DescriptionBaloon>
               <DescriptionTitle>Descrição</DescriptionTitle>
@@ -44,8 +62,29 @@ export default function SelectedEvent() {
             </DescriptionBaloon>
             <TimeAndDateContainer>
               <TimeAndDate>HORÁRIO E DATA DO EVENTO:</TimeAndDate>
-              <EventDate>{ `${getDate(eventData?.event.beginningOfEvent)} - ${getTime(eventData?.event.beginningOfEvent)}`}</EventDate>
+              <EventDate>{`${getDate(eventData?.event.beginningOfEvent)} - ${getTime(eventData?.event.beginningOfEvent)}`}</EventDate>
             </TimeAndDateContainer>
+            <AttendantsSection>
+              <AttendantsContainer>
+                <SmallTitle
+                  description="Faraós Confirmados:"
+                  aditionalStyles={SmallTitleCustomStyles}
+                ></SmallTitle>
+                {eventData?.attendants.length > 0 ? (
+                  eventData.attendants.map((name: string) => (
+                    <AttendantName key={name}>{name}</AttendantName>
+                  ))
+                ) : (
+                  <AttendantName>{"Nenhuma presença confirmada"}</AttendantName>
+                )}
+              </AttendantsContainer>
+              <ConfirmAttendanceButton
+                memberId={token.nameid}
+                eventId={eventData?.event.eventId}
+                refetch={refetch}
+                hasMemberConfirmedAttendance={eventData?.attendants.includes(token.nickname)}
+              ></ConfirmAttendanceButton>
+            </AttendantsSection>
           </>
         </MainSection>
         <MyFooter></MyFooter>
@@ -95,19 +134,31 @@ const TimeAndDateContainer = styled.div`
   flex-direction: column;
   padding: 0 1em 0 1em;
   width: 100%;
-`
+`;
 
 const TimeAndDate = styled.h2`
   color: ${colors.titleInDarkBackground};
   font-family: ${fonts.citiesFont};
   font-weight: 600;
   margin: 0.5em 0 0.3em 0;
-`
+`;
 
 const EventDate = styled.h3`
   color: ${colors.minorTitle};
   font-family: ${fonts.citiesFont};
   font-weight: 600;
-`
+`;
 
-
+const AttendantsSection = styled.section`
+  display: flex;
+  justify-content: space-between;
+  padding-left: 1em;
+  width: 100%;
+`;
+const AttendantsContainer = styled.div`
+  width: 60%;
+`;
+const AttendantName = styled.p`
+  color: ${colors.titleInDarkBackground};
+  font-family: ${fonts.citiesFont};
+`;

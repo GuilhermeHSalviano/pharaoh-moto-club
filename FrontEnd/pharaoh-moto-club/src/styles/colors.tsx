@@ -8,5 +8,8 @@ export const colors = {
     footerIcons: "#3A3636",
     selectedCard: "#242222",
     titleInDarkBackground: "#ffffff",
-    minorTitle: "#686565"
+    minorTitle: "#686565",
+    smallTitle:"#FFA704",
+    confirmAttendance: "#06da06",
+    quitAttendance: "#e70303"
 }
