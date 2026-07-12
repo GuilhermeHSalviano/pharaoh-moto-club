@@ -17,6 +17,7 @@ import { TokenContext } from "../components/TokenContext";
 import Loading from "../components/Loading";
 import ConfirmAttendanceButton from "../components/ConfirmAttendanceButton";
 import SendCommentButton from "../components/SendCommentButton";
+import CommentList from "../components/CommentList";
 
 export default function SelectedEvent() {
   const params = useParams();
@@ -97,13 +98,19 @@ export default function SelectedEvent() {
                   onChange={event => setCommentInput(event.target.value)}
                   type="text"
                   placeholder="comente aqui..."
+                  value={commentInput}
                 ></CommentInput>
                 <SendCommentButton 
                   eventId={eventData?.event.eventId}
-                  authorId={eventData?.event.authorId}
+                  authorId={token.nameid}
                   commentText={commentInput}
+                  refetch={refetch}
+                  eraseInput={setCommentInput}
                 ></SendCommentButton>
               </CommentDiv>
+              <CommentList
+                commentList={eventData?.comments}
+              ></CommentList>
             </CommentSection>
           </>
         </MainSection>
@@ -118,7 +125,7 @@ const Title = styled.h1`
   font-family: ${fonts.dateNumber};
   font-size: x-large;
   height: 2rem;
-  margin-left: 2rem;
+  padding-left: 2rem;
   margin-top: 2rem;
   margin-bottom: 2rem;
   width: 100%;

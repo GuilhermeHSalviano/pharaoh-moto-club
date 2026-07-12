@@ -4,7 +4,7 @@ import axios from "axios";
 
 export async function createComment({eventId, authorId, commentText}: Comment) {
   try {
-    const result = await apiClient.post(`comments/${eventId}/${authorId}`, commentText)
+    const result = await apiClient.post(`comments/create/${eventId}/${authorId}`, {commentText})
     return result.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {

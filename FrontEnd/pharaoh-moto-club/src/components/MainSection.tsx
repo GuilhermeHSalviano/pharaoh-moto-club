@@ -13,5 +13,6 @@ const Section = styled.main`
     display: flex;
     flex-direction: column;
     min-height: ${sizes.mainSection};
-    width: 100%;
+    overflow-y: auto;
+    width: 100vw;
 `
