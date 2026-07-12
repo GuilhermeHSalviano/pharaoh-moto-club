@@ -11,16 +11,18 @@ import { useQuery } from "@tanstack/react-query";
 import { getDate, getTime } from "../utilFunctions";
 import SmallTitle from "../components/SmallTitle";
 import type { MyJwtPayload, StyleObject } from "../types/globalTypes";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import { TokenContext } from "../components/TokenContext";
 import Loading from "../components/Loading";
 import ConfirmAttendanceButton from "../components/ConfirmAttendanceButton";
+import SendCommentButton from "../components/SendCommentButton";
 
 export default function SelectedEvent() {
   const params = useParams();
   const baseURL = import.meta.env.VITE_API_URL;
   const token: MyJwtPayload = jwtDecode(useContext(TokenContext));
+  const [commentInput, setCommentInput] = useState("");
   console.log(token);
 
   async function getEventyById() {
@@ -85,6 +87,24 @@ export default function SelectedEvent() {
                 hasMemberConfirmedAttendance={eventData?.attendants.includes(token.nickname)}
               ></ConfirmAttendanceButton>
             </AttendantsSection>
+            <CommentSection>
+              <SmallTitle 
+                description={"Comentários"}
+                aditionalStyles={SmallTitleCustomStyles}
+              ></SmallTitle>
+              <CommentDiv>
+                <CommentInput 
+                  onChange={event => setCommentInput(event.target.value)}
+                  type="text"
+                  placeholder="comente aqui..."
+                ></CommentInput>
+                <SendCommentButton 
+                  eventId={eventData?.event.eventId}
+                  authorId={eventData?.event.authorId}
+                  commentText={commentInput}
+                ></SendCommentButton>
+              </CommentDiv>
+            </CommentSection>
           </>
         </MainSection>
         <MyFooter></MyFooter>
@@ -152,6 +172,7 @@ const EventDate = styled.h3`
 const AttendantsSection = styled.section`
   display: flex;
   justify-content: space-between;
+  margin: 1rem 0 1rem 0;
   padding-left: 1em;
   width: 100%;
 `;
@@ -162,3 +183,43 @@ const AttendantName = styled.p`
   color: ${colors.titleInDarkBackground};
   font-family: ${fonts.citiesFont};
 `;
+
+const CommentSection = styled.section`
+  display: flex;
+  flex-direction: column;
+  margin: 1rem 0 1rem 0;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  width: 100%;
+`
+
+const CommentDiv = styled.div`
+  align-items: center;
+  display: flex;
+  justify-content: space-around;
+`
+
+const CommentInput = styled.input`
+  background-color: ${colors.inputBackground2};
+  border: none;
+  height: 3rem;
+  margin: 1rem 0 1rem 0;
+  padding: 0.5em;
+  width: 80%;
+
+  &::placeholder {
+    color: ${colors.lines};
+    font-family: ${fonts.inputFont};
+  }
+
+  &:focus {
+    color: white;
+    font-family: ${fonts.inputFont};
+  }
+
+  &:not(:focus) {
+    color: white;
+    font-family: ${fonts.inputFont};
+  }
+`
+

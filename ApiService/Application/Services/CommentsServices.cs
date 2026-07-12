@@ -2,6 +2,7 @@ using pharaoh_moto_club.Models;
 using pharaoh_moto_club.Dtos;
 using My.Exceptions;
 using pharaoh_moto_club.Factories;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace Services {
@@ -20,6 +21,7 @@ namespace Services {
             _context.Comment.Add(newComment);
             await _context.SaveChangesAsync();
         }
+
 
     }
 

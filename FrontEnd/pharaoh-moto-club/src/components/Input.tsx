@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { colors } from "../styles/colors";
 import { sizes } from "../styles/sizes";
+import { fonts } from "../styles/fonts";
 
 interface InputComponent {
   setValue: React.Dispatch<React.SetStateAction<string>>;
@@ -34,16 +35,16 @@ const GenericInput = styled.input`
 
   &::placeholder {
     color: ${colors.lines};
-    font-family: "Big Shoulders Inline", sans-serif;
+    font-family: ${fonts.inputFont};
   }
 
   &:focus {
     color: white;
-    font-family: "Big Shoulders Inline", sans-serif;
+    font-family: ${fonts.inputFont};
   }
 
   &:not(:focus) {
     color: white;
-    font-family: "Big Shoulders Inline", sans-serif;
+    font-family: ${fonts.inputFont};
   }
 `;

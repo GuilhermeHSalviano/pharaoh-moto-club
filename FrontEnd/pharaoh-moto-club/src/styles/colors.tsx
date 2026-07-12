@@ -3,6 +3,7 @@ export const colors = {
     mainBackground: "#191717",
     lines: "#827E7E",
     inputBackground: "#3A3636",
+    inputBackground2: "#232121",
     mainButtonBackground: "#FFA704",
     navFooterBackground: "#000000",
     footerIcons: "#3A3636",

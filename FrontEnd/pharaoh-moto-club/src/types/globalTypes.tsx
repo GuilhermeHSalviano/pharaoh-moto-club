@@ -22,3 +22,9 @@ export interface MyJwtPayload {
   nickname: string;
   nameid: string;
 }
+
+export interface Comment {
+    eventId: string,
+    authorId: string,
+    commentText: string
+}
