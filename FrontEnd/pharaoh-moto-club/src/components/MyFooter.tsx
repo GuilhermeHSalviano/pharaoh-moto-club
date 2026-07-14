@@ -2,16 +2,19 @@ import styled from "styled-components";
 import { colors } from "../styles/colors";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faCalendarDays,
-  faCheckToSlot,
+  faCalendarPlus
 } from "@fortawesome/free-solid-svg-icons";
 import { sizes } from "../styles/sizes";
+import { fonts } from "../styles/fonts";
+
 
 export function MyFooter() {
   return (
     <Footer>
-      <Callendar icon={faCalendarDays} />
-      <Elections icon={faCheckToSlot} />
+      <AddEventContainer>
+        <CalendarAddIcon icon={faCalendarPlus}></CalendarAddIcon>
+        <Iconlabel>Criar evento</Iconlabel>
+      </AddEventContainer>
     </Footer>
   );
 }
@@ -35,3 +38,20 @@ const Elections = styled(FontAwesomeIcon)`
   color: ${colors.footerIcons};
   font-size: ${sizes.footerIcons};
 `;
+
+const AddEventContainer = styled.div`
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+`
+
+const CalendarAddIcon = styled(FontAwesomeIcon)`
+  color: ${colors.footerIcons};
+  font-size: ${sizes.footerIcons};
+`;
+
+const Iconlabel = styled.p`
+  color: ${colors.footerIcons};
+  font-family: ${fonts.citiesFont};
+  font-weight: 600;
+`
