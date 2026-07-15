@@ -6,14 +6,17 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { sizes } from "../styles/sizes";
 import { fonts } from "../styles/fonts";
+import { useNavigate } from "react-router";
 
 
 export function MyFooter() {
+  const navigate = useNavigate();
+
   return (
     <Footer>
       <AddEventContainer>
         <CalendarAddIcon icon={faCalendarPlus}></CalendarAddIcon>
-        <Iconlabel>Criar evento</Iconlabel>
+        <Iconlabel onClick={()=> navigate("/CreateEvent")}>Criar evento</Iconlabel>
       </AddEventContainer>
     </Footer>
   );
@@ -29,15 +32,6 @@ const Footer = styled.footer`
   width: 100%;
 `;
 
-const Callendar = styled(FontAwesomeIcon)`
-  color: ${colors.footerIcons};
-  font-size: ${sizes.footerIcons};
-`;
-
-const Elections = styled(FontAwesomeIcon)`
-  color: ${colors.footerIcons};
-  font-size: ${sizes.footerIcons};
-`;
 
 const AddEventContainer = styled.div`
   align-items: center;

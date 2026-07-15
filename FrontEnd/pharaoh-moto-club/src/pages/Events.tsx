@@ -2,8 +2,6 @@ import { MainBackgroundDiv } from "../components/MainBackgroundDiv";
 import { Nav } from "../components/Nav";
 import { MyFooter } from "../components/MyFooter";
 import styled from "styled-components";
-import { sizes } from "../styles/sizes";
-import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { StateContainer } from "../components/StateContainer";
 import { MainSection } from "../components/MainSection";

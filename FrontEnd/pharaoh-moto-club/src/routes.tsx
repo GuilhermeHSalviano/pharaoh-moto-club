@@ -7,6 +7,7 @@ import { Events } from "./pages/Events.tsx";
 import Login from "./pages/Login.tsx";
 import SelectedCity from "./pages/SelectedCity.tsx";
 import SelectedEvent from "./pages/SelectedEvent.tsx";
+import CreateEvent from "./pages/CreateEvent.tsx";
 
 
 export function MyRoutes() {
@@ -20,6 +21,7 @@ export function MyRoutes() {
         <Route element={<ProtectedRoutes />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/events" element={<Events />} />
+        <Route path="/CreateEvent" element={<CreateEvent />} />
         <Route path="/cityEvents/:city" element={<SelectedCity />} />
         <Route path="/event/:eventId" element={<SelectedEvent />} />
         <Route />

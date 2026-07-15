@@ -45,7 +45,7 @@ const CommentDiv = styled.ul`
 `
 
 const Author = styled.h4`
-    
+    flex-grow: .2;
 `
 
 const DateAndTextDiv = styled.h3`
@@ -58,5 +58,5 @@ const Date = styled.p`
     
 `
 const Text = styled.p`
-    
+    flex-wrap: wrap
 `
