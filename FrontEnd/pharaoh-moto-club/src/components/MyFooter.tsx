@@ -14,9 +14,9 @@ export function MyFooter() {
 
   return (
     <Footer>
-      <AddEventContainer>
+      <AddEventContainer onClick={()=> navigate("/CreateEvent")}>
         <CalendarAddIcon icon={faCalendarPlus}></CalendarAddIcon>
-        <Iconlabel onClick={()=> navigate("/CreateEvent")}>Criar evento</Iconlabel>
+        <Iconlabel>Criar evento</Iconlabel>
       </AddEventContainer>
     </Footer>
   );

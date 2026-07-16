@@ -6,7 +6,7 @@ import { useParams } from "react-router";
 import styled from "styled-components";
 import { fonts } from "../styles/fonts";
 import { colors } from "../styles/colors";
-import axios from "axios";
+import { getEventyById } from "../api/config/services/eventService";
 import { useQuery } from "@tanstack/react-query";
 import { getDate, getTime } from "../utilFunctions";
 import SmallTitle from "../components/SmallTitle";
@@ -26,14 +26,14 @@ export default function SelectedEvent() {
   const [commentInput, setCommentInput] = useState("");
   console.log(token);
 
-  async function getEventyById() {
+  /*async function getEventyById() {
     try {
       const result = await axios.get(`${baseURL}/events/${params.eventId}`);
       return result.data;
     } catch (error) {
       console.log(error);
     }
-  }
+  }*/
 
   const {
     data: eventData,
@@ -42,7 +42,7 @@ export default function SelectedEvent() {
   } = useQuery({
     queryKey: ["eventData"],
     queryFn: () => {
-      return getEventyById();
+      return getEventyById(params);
     },
   });
 

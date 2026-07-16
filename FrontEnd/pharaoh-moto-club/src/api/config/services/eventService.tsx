@@ -1,10 +1,11 @@
-import apiClient from "../axiosInstance";
+import mainApiClient from "../mainAxiosInstance.ts";
 import type { State } from "../../../types/globalTypes.tsx";
 import axios from "axios";
+import type { Params } from "react-router";
 
 export async function getStatesAndCities() {
   try {
-    const result = await apiClient.get<Array<State>>(`/events/states`);
+    const result = await mainApiClient.get<Array<State>>(`/events/states`);
     return result.data;
   } catch (error) {
     console.log(error);
@@ -13,7 +14,7 @@ export async function getStatesAndCities() {
 
 export async function getCityEvents(city: string | undefined) {
   try {
-    const result = await apiClient.get(`/events/city/${city}`);
+    const result = await mainApiClient.get(`/events/city/${city}`);
     return result.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -21,3 +22,12 @@ export async function getCityEvents(city: string | undefined) {
     }
   }
 }
+
+export async function getEventyById(params: Readonly<Params<string>>) {
+    try {
+      const result = await mainApiClient.get(`/events/${params.eventId}`);
+      return result.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
