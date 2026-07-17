@@ -9,10 +9,11 @@ interface InputComponent {
   type: string;
   name: string;
   placeholder: string;
-  id: string
+  id: string;
+  value?: string
 }
 
-export function MyInput({ setValue, width, type, name, placeholder, id }: InputComponent) {
+export function MyInput({ setValue, width, type, name, placeholder, id, value }: InputComponent) {
   return (
     <GenericInput
       type={type}
@@ -21,6 +22,7 @@ export function MyInput({ setValue, width, type, name, placeholder, id }: InputC
       name={name}
       placeholder={placeholder}
       id={id}
+      value={value}
     />
   );
 }

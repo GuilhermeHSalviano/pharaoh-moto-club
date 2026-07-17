@@ -13,5 +13,6 @@ export const colors = {
     smallTitle:"#FFA704",
     confirmAttendance: "#06da06",
     quitAttendance: "#e70303",
-    mainCard: "#3A3636"
+    mainCard: "#3A3636",
+    cleanColor: "#f0f8ff"
 }
