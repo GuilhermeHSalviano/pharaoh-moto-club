@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { colors } from "../styles/colors";
-import type { State } from "../interfaces.tsx";
+import type { State } from "../types/globalTypes.tsx";
 import { useState } from "react";
 import { fonts } from "../styles/fonts.tsx";
 import { sizes } from "../styles/sizes.tsx";
@@ -9,7 +9,7 @@ import { faGreaterThan } from "@fortawesome/free-solid-svg-icons";
 import {useNavigate } from "react-router";
 
 
-export function StateContainer({ state, stateId, cities }: State) {
+export function StateContainer({ state, cities }: State) {
   const [visible, setVisible] = useState(false);
   const [changeDisplayIcon, setchangeDisplayIcon] = useState("inline");
   const [containerBackgroundColor, setcontainerBackgroundColor] = useState(colors.inputBackground);
