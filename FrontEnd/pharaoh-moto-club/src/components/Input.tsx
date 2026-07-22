@@ -10,19 +10,21 @@ interface InputComponent {
   name: string;
   placeholder: string;
   id: string;
-  value?: string
+  value?: string,
+  height?: string,
 }
 
-export function MyInput({ setValue, width, type, name, placeholder, id, value }: InputComponent) {
+export function MyInput({ setValue, width, type, name, placeholder, id, value, height }: InputComponent) {
   return (
     <GenericInput
       type={type}
       onChange={(event) => setValue(event.target.value)}
-      style={{ width: width }}
+      style={{ width: width, height: height }}
       name={name}
       placeholder={placeholder}
       id={id}
       value={value}
+
     />
   );
 }

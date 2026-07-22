@@ -35,5 +35,15 @@ export default defineConfig({
         navigateFallback: "index.html",
       },
     }),
-  ]
+  ],
+   server: {
+    host: true,
+    port: 5173,
+    allowedHosts: [
+      'localhost',
+      '10.0.3.2',
+      '192.168.1.50',
+      'aposporic-moony-azaria.ngrok-free.dev'
+    ]
+  }
 });

@@ -7,15 +7,19 @@ import { Nav } from "../components/Nav";
 import { fonts } from "../styles/fonts";
 import { colors } from "../styles/colors";
 import { MyInput } from "../components/Input";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { getCitiesFromIbgeById, getStatesFromIbge } from "../api/config/services/ibgeService";
 import { useQuery } from "@tanstack/react-query";
+import { getTypesOfEvent } from "../api/config/services/eventService";
+import "react-datepicker/dist/react-datepicker.css";
 
 export default function CreateEvent() {
   const [titleInput, setTitleInput] = useState("");
   const [selectedState, setSelectedState] = useState("MG");
   const [cityInput, setCityInput] = useState("");
   const [isCityOptionsVisible, setIsCityOptionsVisible] = useState(false);
+  const [dateTimeInput, setDateTimeInput] = useState();
+  const [eventDescription, setEventDescription] = useState('');
 
   interface CitiesFromIbge{
     id: number;
@@ -26,6 +30,11 @@ export default function CreateEvent() {
       nome: string;
       sigla: string
     }
+  }
+
+  interface TypeOfEvent{
+    typeOfEventId: number,
+    description: string
   }
 
 
@@ -51,6 +60,14 @@ export default function CreateEvent() {
     },
   });
 
+  let { data: typesOfEvent} = useQuery({
+    queryKey: ["typesOfEvent"],
+    queryFn: () => {
+        return getTypesOfEvent();
+    },
+  });
+
+
   const filteredCities: CitiesFromIbge[] = citiesFromIbge?.filter((city: CitiesFromIbge) => city.nome.toLowerCase().includes(cityInput.toLowerCase()));
 
   return (
@@ -69,7 +86,7 @@ export default function CreateEvent() {
               id={"title"}
             ></MyInput>
           </TitleInputContainer>
-          <StateAndCityContainer>
+          <GeneralContainer>
             <StateInputContainer>
               <StateAndCity>{"Estado"}</StateAndCity>
               <Select
@@ -77,7 +94,7 @@ export default function CreateEvent() {
                 onChange={(event) => { setSelectedState(event.target.value); setIsCityOptionsVisible(false) }}
               >
                 {statesFromIbge?.map((state) => (
-                  <Option value={state.sigla}>{state?.sigla}</Option>
+                  <Option value={state.sigla} key={state.id}>{state?.sigla}</Option>
                 ))}
               </Select>
             </StateInputContainer>
@@ -105,7 +122,39 @@ export default function CreateEvent() {
                 }
               </CitiesContainer>
             </CityInputAndSelectContainer>
-          </StateAndCityContainer>
+          </GeneralContainer>
+          <GeneralContainer>
+            <TypeOfEventContainer>
+              <Title>Tipo de evento</Title>
+              <Select
+                value={typesOfEvent?.description}
+              >
+                {typesOfEvent?.map((type: TypeOfEvent) => (
+                  <Option value={type?.description} key={type.typeOfEventId}>{type?.description}</Option>
+                ))}
+              </Select>
+            </TypeOfEventContainer>
+            <DateTimeContainer>
+              <Title>Data do evento</Title>
+              <DateTimeInput
+                type="datetime-local"
+                value={dateTimeInput}
+              ></DateTimeInput>
+            </DateTimeContainer>
+          </GeneralContainer>
+          <DescriptionContainer>
+            <Title>Descrição</Title>
+            <MyInput
+              setValue={setEventDescription}
+                placeholder="Descrição..."
+                width="100%"
+                height="60%"
+                name="description"
+                id="description"
+                type="textarea"
+                value={eventDescription}
+            ></MyInput>
+          </DescriptionContainer>
         </MainCentralCard>
       </MainSection>
       <MyFooter></MyFooter>
@@ -129,7 +178,7 @@ const Title = styled.h2`
   width: 100%;
 `;
 
-const StateAndCityContainer = styled.div`
+const GeneralContainer = styled.div`
   display: flex;
   justify-content: space-around;
 `;
@@ -150,7 +199,7 @@ const StateAndCity = styled.h2`
 
 const Select = styled.select`
   font-family: ${fonts.cardFont};
-  width: 5em;
+  width: 7em;
 `;
 
 const Option = styled.option`
@@ -179,3 +228,26 @@ const City = styled.div`
   background-color: aliceblue;
   font-family: ${fonts.cardFont};
 `
+
+const TypeOfEventContainer = styled.div`
+
+`
+
+const DateTimeContainer = styled.div`
+  
+`
+
+const DescriptionContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding: 0 2rem 2rem 2rem;
+  margin-top: 1rem;
+`
+
+const DateTimeInput = styled.input`
+  font-family: ${fonts.cardFont};
+`
+
+
+

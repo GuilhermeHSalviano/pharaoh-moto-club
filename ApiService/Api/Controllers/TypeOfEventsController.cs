@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using My.Exceptions;
 using pharaoh_moto_club.Dtos;
+using pharaoh_moto_club.Models;
 using Services;
 
 namespace Cotrollers {
@@ -15,7 +16,6 @@ namespace Cotrollers {
             _typeOfEventServices = typeOfEventServices;
         }
 
-        [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateTypeOfEvent(TypeOfEventDto model) {
             try {
@@ -25,6 +25,16 @@ namespace Cotrollers {
             catch (MemberNotAllowed error) {
                 return Conflict(error.Message);
             } 
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetTypesOfEvent() {
+            try {
+                var typesOfEvent = _typeOfEventServices.GetTypesOfEvents();
+                return Ok(typesOfEvent);
+            } catch(EntityNotFound error) {
+                return NotFound(error.Message);
+            }
         }
     }
 }

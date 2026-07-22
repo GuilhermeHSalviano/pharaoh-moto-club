@@ -18,5 +18,11 @@ namespace Services {
             _context.TypeOfEvents.Add(newTypeOfEvent);
             await _context.SaveChangesAsync();
         }
+
+         public List<TypeOfEvent> GetTypesOfEvents() {
+            var typeOfEventList = _context.TypeOfEvents.ToList();
+            if(typeOfEventList.Count == 0) throw new EntityNotFound("Não há tipos de eventos registrados");
+            return typeOfEventList;
+        }
     }
 }

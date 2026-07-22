@@ -24,10 +24,19 @@ export async function getCityEvents(city: string | undefined) {
 }
 
 export async function getEventyById(params: Readonly<Params<string>>) {
-    try {
-      const result = await mainApiClient.get(`/events/${params.eventId}`);
-      return result.data;
-    } catch (error) {
-      console.log(error);
-    }
+  try {
+    const result = await mainApiClient.get(`/events/${params.eventId}`);
+    return result.data;
+  } catch (error) {
+    console.log(error);
   }
+}
+
+export async function getTypesOfEvent() {
+  try {
+    const result = await mainApiClient.get(`/TypeOfEvents`);
+    return result.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
