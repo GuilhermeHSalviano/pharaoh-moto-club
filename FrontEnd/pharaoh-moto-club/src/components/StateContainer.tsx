@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { colors } from "../styles/colors";
-import type { State } from "../interfaces.tsx";
+import type { State } from "../types/globalTypes.tsx";
 import { useState } from "react";
 import { fonts } from "../styles/fonts.tsx";
 import { sizes } from "../styles/sizes.tsx";
