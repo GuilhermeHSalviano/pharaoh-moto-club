@@ -14,11 +14,11 @@ import { getTypesOfEvent } from "../api/config/services/eventService";
 import "react-datepicker/dist/react-datepicker.css";
 
 export default function CreateEvent() {
-  const [titleInput, setTitleInput] = useState("");
+  const [, setTitleInput] = useState("");
   const [selectedState, setSelectedState] = useState("MG");
   const [cityInput, setCityInput] = useState("");
   const [isCityOptionsVisible, setIsCityOptionsVisible] = useState(false);
-  const [dateTimeInput, setDateTimeInput] = useState();
+  const [dateTimeInput, ] = useState();
   const [eventDescription, setEventDescription] = useState('');
 
   interface CitiesFromIbge{
