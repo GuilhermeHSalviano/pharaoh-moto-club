@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const ibgeApiClient = axios.create({
-    baseURL: import.meta.env.VITE_IBGE_API_URL,
+    baseURL: "https://servicodados.ibge.gov.br/api/v1/localidades",
 })
 
 
