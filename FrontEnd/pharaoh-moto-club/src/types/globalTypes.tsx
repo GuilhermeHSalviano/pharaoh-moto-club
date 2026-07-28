@@ -28,3 +28,15 @@ export interface Comment {
     authorId: string,
     commentText: string
 }
+
+export interface NewEvent{
+  title: string,
+  state: string,
+  stateId: number,
+  cityId: number,
+  city: string,
+  beginningOfEvent: Date,
+  description: string,
+  authorId: number,
+  typeOfEventId: number
+}

@@ -1,3 +1,6 @@
+import { colors } from "./colors";
+import { fonts } from "./fonts";
+
 export const sizes = {
   widthlines: "1px",
   inputShadow: "1px 1px 5px 0.1px #0000009d inset",
@@ -13,3 +16,26 @@ export const sizes = {
   footerIcons: "2.3rem",
   mainSection: "82%"
 };
+
+export const genericInput = {
+  backgroundColor: `${colors.inputBackground}`,
+  boxShadow: `${sizes.inputShadow}`,
+  borderRadius: `${sizes.borderInput}`,
+  border: "none",
+  paddingLeft: `1rem`,
+
+  placeholder:{
+    color: `${colors.lines}`,
+    fontFamily: `${fonts.inputFont}`
+  },
+
+  focus:{
+    color: '#ffffff',
+    fontFamily: `${fonts.inputFont}`
+  },
+
+  not:{
+    color: "'#ffffff'",
+    fontFamily: `${fonts.inputFont}`
+  }
+}

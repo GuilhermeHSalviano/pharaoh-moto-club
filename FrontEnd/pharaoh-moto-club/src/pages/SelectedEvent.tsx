@@ -21,19 +21,10 @@ import CommentList from "../components/CommentList";
 
 export default function SelectedEvent() {
   const params = useParams();
-  const baseURL = import.meta.env.VITE_API_URL;
   const token: MyJwtPayload = jwtDecode(useContext(TokenContext));
   const [commentInput, setCommentInput] = useState("");
   console.log(token);
 
-  /*async function getEventyById() {
-    try {
-      const result = await axios.get(`${baseURL}/events/${params.eventId}`);
-      return result.data;
-    } catch (error) {
-      console.log(error);
-    }
-  }*/
 
   const {
     data: eventData,

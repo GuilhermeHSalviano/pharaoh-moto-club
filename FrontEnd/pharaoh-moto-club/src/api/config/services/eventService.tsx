@@ -1,5 +1,5 @@
 import mainApiClient from "../mainAxiosInstance.ts";
-import type { State } from "../../../types/globalTypes.tsx";
+import type { NewEvent, State } from "../../../types/globalTypes.tsx";
 import axios from "axios";
 import type { Params } from "react-router";
 
@@ -40,3 +40,16 @@ export async function getTypesOfEvent() {
     console.log(error);
   }
 }
+
+export async function createNewEvent(newEvent: NewEvent) {
+  try {
+    const result = await mainApiClient.post(`/events/create`,
+      newEvent
+    );
+    return result.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+

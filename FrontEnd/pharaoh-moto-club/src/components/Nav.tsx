@@ -16,8 +16,10 @@ export function Nav({title}: NavComponent) {
   return (
     <>
       <MyNav>
-        <DivLessThan onClick={() => navigate(-1)}>
-          <LessThan icon={faLessThan}></LessThan>
+        <DivLessThan >
+          <LessThanContainer  onClick={() => navigate(-1)} style={{zIndex: 2}}>
+            <LessThan icon={faLessThan} ></LessThan>
+          </LessThanContainer>
           <DivTitle>
             <Title>{title}</Title>
           </DivTitle>
@@ -36,6 +38,10 @@ const MyNav = styled.nav`
   width: 100%;
 `;
 
+const LessThanContainer = styled.div`
+  z-index: 2;
+`
+
 const DivLessThan = styled.div`
   align-items: center;
   display: flex;
@@ -43,13 +49,16 @@ const DivLessThan = styled.div`
   justify-content: start;
   position: absolute;
   width: 100%;
-  z-index: 2;
+  z-index: 1;
 `;
+
+
 
 const LessThan = styled(FontAwesomeIcon)`
   color: ${colors.label};
   font-size: 1.5rem;
   padding-left: 2rem;
+  pointer-events: none;
 `;
 
 const DivTitle = styled.div`

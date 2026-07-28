@@ -1,7 +1,5 @@
 import styled from "styled-components";
-import { colors } from "../styles/colors";
-import { sizes } from "../styles/sizes";
-import { fonts } from "../styles/fonts";
+import { genericInput, sizes } from "../styles/sizes";
 
 interface InputComponent {
   setValue: React.Dispatch<React.SetStateAction<string>>;
@@ -19,36 +17,27 @@ export function MyInput({ setValue, width, type, name, placeholder, id, value, h
     <GenericInput
       type={type}
       onChange={(event) => setValue(event.target.value)}
-      style={{ width: width, height: height }}
+      style={{ width: width, height: height, ...genericInput }}
       name={name}
       placeholder={placeholder}
       id={id}
       value={value}
-
     />
   );
 }
 
 const GenericInput = styled.input`
-  background-color: ${colors.inputBackground};
-  box-shadow: ${sizes.inputShadow};
-  border-radius: ${sizes.borderInput};
-  border: none;
   height: ${sizes.inputHight};
-  padding-left: 1rem;
 
   &::placeholder {
-    color: ${colors.lines};
-    font-family: ${fonts.inputFont};
+    ${genericInput.placeholder}
   }
 
   &:focus {
-    color: white;
-    font-family: ${fonts.inputFont};
+    ${genericInput.focus}
   }
 
   &:not(:focus) {
-    color: white;
-    font-family: ${fonts.inputFont};
+   ${genericInput.not}
   }
 `;
