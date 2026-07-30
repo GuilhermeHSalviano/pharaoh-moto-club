@@ -26,7 +26,7 @@ const Footer = styled.footer`
   background-color: ${colors.navFooterBackground};
   align-items: center;
   display: flex;
-  flex: 1;
+  flex-grow: 1;
   justify-content: space-around;
   padding: 0 2rem 0 2rem;
   width: 100%;

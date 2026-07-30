@@ -13,8 +13,8 @@ export const sizes = {
   buttonShadow: "2px 2px 5px 0.1px #000000",
   dashboardCardShadow: "0 2px 5px 0.1px #000000",
   navTitle: "2rem",
-  footerIcons: "2.3rem",
-  mainSection: "82%"
+  footerIcons: "1.7rem",
+  mainSection: "79vh"
 };
 
 export const genericInput = {

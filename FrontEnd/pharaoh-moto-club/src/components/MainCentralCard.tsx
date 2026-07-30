@@ -14,7 +14,7 @@ const MainCardContainer = styled.div`
     align-items: center;
     display: flex;
     flex-direction: column;
-    height: 90%;
+    margin: 2rem 0 2rem 0;
     justify-content: center;
     width: 100%;
 `
@@ -24,6 +24,7 @@ const MainCard = styled.div`
     border-radius: .5em;
     display: flex;
     flex-direction: column;
-    height: 80%;
+    justify-content: space-around;
+    padding: 1rem 0 1rem 0;
     width: 80%;
 `

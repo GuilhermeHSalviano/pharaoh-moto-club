@@ -17,13 +17,14 @@ import { getTypesOfEvent } from "../api/config/services/eventService";
 import "react-datepicker/dist/react-datepicker.css";
 import { genericInput } from "../styles/sizes";
 import { MainButton } from "../components/MainButton";
+import type { NewEvent } from "../types/globalTypes";
 
 export default function CreateEvent() {
-  const [, setTitleInput] = useState("");
+  const [titleInput, setTitleInput] = useState("");
   const [selectedState, setSelectedState] = useState("MG");
   const [cityInput, setCityInput] = useState("");
   const [isCityOptionsVisible, setIsCityOptionsVisible] = useState(false);
-  const [dateTimeInput] = useState();
+  const [dateTimeInput, setDateTimeInput] = useState<Date>();
   const [, setEventDescription] = useState("");
 
   interface CitiesFromIbge {
@@ -44,6 +45,11 @@ export default function CreateEvent() {
 
   function changeCityOptionsVisibility() {
     setIsCityOptionsVisible(!isCityOptionsVisible);
+  }
+
+  function saveNewEvent(){
+    /*let newEvent: NewEvent;
+    if(titleInput === '' || cityInput === '' || dateTimeInput === null)*/
   }
 
   const { data: statesFromIbge } = useQuery({
@@ -152,7 +158,7 @@ export default function CreateEvent() {
               <Title>Data do evento</Title>
               <DateTimeInput
                 type="datetime-local"
-                value={dateTimeInput}
+                onChange={event => setDateTimeInput(new Date(event.target.value))}
               ></DateTimeInput>
             </DateTimeContainer>
           </GeneralVerticalContainer>
@@ -280,5 +286,6 @@ const MainButtonContainer = styled.div`
   display: flex;
   flex-grow: 1;
   justify-content: center;
+  margin: 2rem 0 2rem 0;
   width: 100%;
 `

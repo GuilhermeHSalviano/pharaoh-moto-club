@@ -43,7 +43,7 @@ export default function SelectedEvent() {
 
   return (
     <MainBackgroundDiv>
-      <>
+      {<>
         <Nav title={"Evento"}></Nav>
         <MainSection>
           <>
@@ -106,7 +106,7 @@ export default function SelectedEvent() {
           </>
         </MainSection>
         <MyFooter></MyFooter>
-      </>
+      </>}
     </MainBackgroundDiv>
   );
 }
