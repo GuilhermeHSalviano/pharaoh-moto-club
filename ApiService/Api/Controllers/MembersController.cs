@@ -31,8 +31,8 @@ namespace pharaoh_moto_club.Controllers {
             try {
                 await _memberServices.CheckUserCredentials(model);
                 var member = await _memberServices.FindMemberByEmail(model.Email);
-                var jwt = _memberServices.GenerateJwtToken(member);
-                return Ok(new { jwtToken = jwt });
+                var claims = _memberServices.GenerateJwtToken(member);
+                return Ok(claims);
             }
             catch(MemberNotAllowed error) {
                 return Unauthorized(new {message = error.Message});

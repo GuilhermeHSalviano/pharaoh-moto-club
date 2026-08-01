@@ -9,4 +9,10 @@ namespace pharaoh_moto_club.Dtos {
         public required string Email { get; set; }
         public required string Password { get; set; }
     }
+
+    public class MemberClaimsDto {
+        public required string Name { get; set; }
+        public required string Nickname { get; set; }
+        public required int MemberId {get; set;}
+    }
 }

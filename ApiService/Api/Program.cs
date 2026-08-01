@@ -24,13 +24,20 @@ builder.Services.AddAuthentication(options => {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(options => {
+}).AddCookie( x => x.Cookie.Name = "token")
+.AddJwtBearer(options => {
     options.SaveToken = true;
     options.RequireHttpsMetadata = false;
     options.TokenValidationParameters = new TokenValidationParameters() {
         ValidateIssuer = false,
         ValidateAudience = false,
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(ApiKey))
+    };
+    options.Events = new JwtBearerEvents {
+        OnMessageReceived = context => {
+            context.Token = context.Request.Cookies["token"];
+            return Task.CompletedTask;
+        }
     };
 });
 
@@ -66,6 +73,8 @@ builder.Services.AddScoped<EditEvent>();
 builder.Services.AddScoped<CommentServices>();
 builder.Services.AddScoped<EventAttendantServices>();
 builder.Services.AddScoped<TypeOfEventServices>();
+builder.Services.AddHttpContextAccessor();
+
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

@@ -23,7 +23,7 @@ import { TokenContext } from "../components/TokenContext";
 import { useNavigate } from "react-router";
 
 export default function CreateEvent() {
-  const [, setTitleInput] = useState("");
+  const [titleInput, setTitleInput] = useState("");
   const [selectedState, setSelectedState] = useState("MG");
   const [cityInput, setCityInput] = useState("");
   const [cityId, setCityId] = useState<number>();
