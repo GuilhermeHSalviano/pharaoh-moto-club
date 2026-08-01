@@ -7,49 +7,86 @@ import { Nav } from "../components/Nav";
 import { fonts } from "../styles/fonts";
 import { colors } from "../styles/colors";
 import { MyInput } from "../components/Input";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {
   getCitiesFromIbgeById,
   getStatesFromIbge,
 } from "../api/config/services/ibgeService";
 import { useQuery } from "@tanstack/react-query";
-import { getTypesOfEvent } from "../api/config/services/eventService";
+import { createNewEvent, getTypesOfEvent } from "../api/config/services/eventService";
 import "react-datepicker/dist/react-datepicker.css";
 import { genericInput } from "../styles/sizes";
 import { MainButton } from "../components/MainButton";
-import type { NewEvent } from "../types/globalTypes";
+import type { MyJwtPayload, NewEvent, CityFromIbge, TypeOfEvent } from "../types/globalTypes";
+import { jwtDecode } from "jwt-decode";
+import { TokenContext } from "../components/TokenContext";
+import { useNavigate } from "react-router";
 
 export default function CreateEvent() {
   const [titleInput, setTitleInput] = useState("");
   const [selectedState, setSelectedState] = useState("MG");
   const [cityInput, setCityInput] = useState("");
   const [isCityOptionsVisible, setIsCityOptionsVisible] = useState(false);
-  const [dateTimeInput, setDateTimeInput] = useState<Date>();
-  const [, setEventDescription] = useState("");
+  const [dateTimeInput, setDateTimeInput] = useState("");
+  const [eventDescriptionInput, setEventDescriptionInput] = useState("");
+  const [typeOfEventId, setTypeOfEventId] = useState<number>();
+  const token: MyJwtPayload = jwtDecode(useContext(TokenContext));
+  const navigate = useNavigate()
 
-  interface CitiesFromIbge {
-    id: number;
-    nome: string;
-    sigla: string;
-    regiao: {
-      id: number;
-      nome: string;
-      sigla: string;
-    };
-  }
-
-  interface TypeOfEvent {
-    typeOfEventId: number;
-    description: string;
-  }
 
   function changeCityOptionsVisibility() {
     setIsCityOptionsVisible(!isCityOptionsVisible);
   }
 
+  function verifyWhetherAnyFormFieldIsFilled(){
+    let formField = [
+      {
+        field: titleInput,
+        message: "Preencha o título do evento"
+      },
+      {
+        field: cityInput,
+        message: "Selecione uma cidade"
+      },
+      {
+        field: dateTimeInput,
+        message: "Selecione uma data e horário"
+      },
+      {
+        field: dateTimeInput,
+        message: "Informe a descrição do evento"
+      }
+    ]
+
+      for(let i = 0; i < formField.length; i++){
+        if(formField[i].field === "") {
+          alert(formField[i].message);
+          throw new Error(formField[i].message)
+        }        
+    }
+    
+  }
+
   function saveNewEvent(){
-    /*let newEvent: NewEvent;
-    if(titleInput === '' || cityInput === '' || dateTimeInput === null)*/
+    verifyWhetherAnyFormFieldIsFilled();
+
+    
+    let newEvent: NewEvent = {
+      title: titleInput,
+      state: selectedState,
+      stateId: Number(statesFromIbge?.find(element => element.sigla == selectedState)?.id),
+      city: cityInput,
+      cityId: citiesFromIbge?.find(element => element.nome == cityInput)?.id,
+      beginningOfEvent: new Date(dateTimeInput),
+      description: eventDescriptionInput,
+      authorId: Number(token.nameid),
+      authorName: token.name,
+      typeOfEventId: Number(typeOfEventId) 
+    }
+    createNewEvent(newEvent);
+    alert('Novo evento criado com sucesso!');
+    navigate("/dashboard");
+    
   }
 
   const { data: statesFromIbge } = useQuery({
@@ -76,8 +113,8 @@ export default function CreateEvent() {
     },
   });
 
-  const filteredCities: CitiesFromIbge[] = citiesFromIbge?.filter(
-    (city: CitiesFromIbge) =>
+  const filteredCities = citiesFromIbge?.filter(
+    (city: CityFromIbge) =>
       city.nome.toLowerCase().includes(cityInput.toLowerCase()),
   );
 
@@ -146,9 +183,11 @@ export default function CreateEvent() {
           <GeneralVerticalContainer>
             <TypeOfEventContainer>
               <Title>Tipo de evento</Title>
-              <Select value={typesOfEvent?.description}>
+              <Select value={typesOfEvent?.[0].description}
+                onChange={event => setTypeOfEventId(Number(event.target.value))}
+              >
                 {typesOfEvent?.map((type: TypeOfEvent) => (
-                  <Option value={type?.description} key={type.typeOfEventId}>
+                  <Option value={type?.typeOfEventId} key={type.typeOfEventId}>
                     {type?.description}
                   </Option>
                 ))}
@@ -158,7 +197,7 @@ export default function CreateEvent() {
               <Title>Data do evento</Title>
               <DateTimeInput
                 type="datetime-local"
-                onChange={event => setDateTimeInput(new Date(event.target.value))}
+                onChange={event => setDateTimeInput(event.target.value)}
               ></DateTimeInput>
             </DateTimeContainer>
           </GeneralVerticalContainer>
@@ -167,13 +206,13 @@ export default function CreateEvent() {
             <Description
               style={{ ...genericInput, height: "4rem" }}
               placeholder="Descreva o evento..."
-              onChange={event => setEventDescription(event.target.value)}
+              onChange={event => setEventDescriptionInput(event.target.value)}
               name="description"
             ></Description>
           </DescriptionContainer>
         </MainCentralCard>
         <MainButtonContainer>
-            <MainButton title="Salvar" doOnClick={()=> alert("Salvando")}/>
+            <MainButton title="Salvar" doOnClick={()=> saveNewEvent()}/>
         </MainButtonContainer>
       </MainSection>
       <MyFooter></MyFooter>

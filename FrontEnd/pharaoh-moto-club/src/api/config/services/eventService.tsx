@@ -1,5 +1,5 @@
 import mainApiClient from "../mainAxiosInstance.ts";
-import type { NewEvent, State } from "../../../types/globalTypes.tsx";
+import type { NewEvent, State, TypeOfEvent } from "../../../types/globalTypes.tsx";
 import axios from "axios";
 import type { Params } from "react-router";
 
@@ -32,12 +32,13 @@ export async function getEventyById(params: Readonly<Params<string>>) {
   }
 }
 
-export async function getTypesOfEvent() {
+export async function getTypesOfEvent(): Promise<TypeOfEvent[]> {
   try {
-    const result = await mainApiClient.get(`/TypeOfEvents`);
+    const result = await mainApiClient.get<TypeOfEvent[]>(`/TypeOfEvents`);
     return result.data;
   } catch (error) {
     console.log(error);
+    throw new Error()
   }
 }
 

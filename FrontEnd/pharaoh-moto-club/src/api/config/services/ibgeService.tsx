@@ -1,3 +1,4 @@
+import type { CityFromIbge } from "../../../types/globalTypes";
 import ibgeApiClient from "../ibgeAxiosInstance";
 import axios from "axios";
 
@@ -17,7 +18,7 @@ export async function getStatesFromIbge() {
 
 export async function getCitiesFromIbgeById(stateId: string) {
   try {
-    const result = await ibgeApiClient.get(`/estados/${stateId}/municipios`);
+    const result = await ibgeApiClient.get<CityFromIbge[]>(`/estados/${stateId}/municipios`);
     return result.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {

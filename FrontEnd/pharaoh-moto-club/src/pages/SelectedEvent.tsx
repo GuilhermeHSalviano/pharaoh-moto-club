@@ -127,7 +127,6 @@ const DescriptionBaloon = styled.div`
   border-radius: 1rem;
   display: flex;
   flex-direction: column;
-  min-height: 20%;
   padding: 1rem;
   width: 80%;
 `;
