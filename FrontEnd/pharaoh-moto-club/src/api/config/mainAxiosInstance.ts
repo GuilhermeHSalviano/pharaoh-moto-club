@@ -1,10 +1,7 @@
 import axios from 'axios'
 
 const mainApiClient = axios.create({
-    baseURL: "https://aposporic-moony-azaria.ngrok-free.dev",
-    headers: {
-    "ngrok-skip-browser-warning": "true",
-  },
+    baseURL: `http://${window.location.hostname}:5000`,
 })
 
 

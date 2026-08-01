@@ -7,40 +7,86 @@ import { Nav } from "../components/Nav";
 import { fonts } from "../styles/fonts";
 import { colors } from "../styles/colors";
 import { MyInput } from "../components/Input";
-import { useState } from "react";
-import { getCitiesFromIbgeById, getStatesFromIbge } from "../api/config/services/ibgeService";
+import { useContext, useState } from "react";
+import {
+  getCitiesFromIbgeById,
+  getStatesFromIbge,
+} from "../api/config/services/ibgeService";
 import { useQuery } from "@tanstack/react-query";
-import { getTypesOfEvent } from "../api/config/services/eventService";
+import { createNewEvent, getTypesOfEvent } from "../api/config/services/eventService";
 import "react-datepicker/dist/react-datepicker.css";
+import { genericInput } from "../styles/sizes";
+import { MainButton } from "../components/MainButton";
+import type { MyJwtPayload, NewEvent, CityFromIbge, TypeOfEvent } from "../types/globalTypes";
+import { jwtDecode } from "jwt-decode";
+import { TokenContext } from "../components/TokenContext";
+import { useNavigate } from "react-router";
 
 export default function CreateEvent() {
   const [, setTitleInput] = useState("");
   const [selectedState, setSelectedState] = useState("MG");
   const [cityInput, setCityInput] = useState("");
+  const [cityId, setCityId] = useState<number>();
   const [isCityOptionsVisible, setIsCityOptionsVisible] = useState(false);
-  const [dateTimeInput, ] = useState();
-  const [eventDescription, setEventDescription] = useState('');
-
-  interface CitiesFromIbge{
-    id: number;
-    nome: string;
-    sigla: string;
-    regiao:{
-      id: number;
-      nome: string;
-      sigla: string
-    }
-  }
-
-  interface TypeOfEvent{
-    typeOfEventId: number,
-    description: string
-  }
+  const [dateTimeInput, setDateTimeInput] = useState("");
+  const [eventDescriptionInput, setEventDescriptionInput] = useState("");
+  const [typeOfEventId, setTypeOfEventId] = useState<number>(13);
+  const token: MyJwtPayload = jwtDecode(useContext(TokenContext));
+  const navigate = useNavigate()
 
 
-  
-  function changeCityOptionsVisibility(){
+  function changeCityOptionsVisibility() {
     setIsCityOptionsVisible(!isCityOptionsVisible);
+  }
+
+  function verifyWhetherAnyFormFieldIsFilled(){
+    let formField = [
+      {
+        field: titleInput,
+        message: "Preencha o título do evento"
+      },
+      {
+        field: cityInput,
+        message: "Selecione uma cidade"
+      },
+      {
+        field: dateTimeInput,
+        message: "Selecione uma data e horário"
+      },
+      {
+        field: dateTimeInput,
+        message: "Informe a descrição do evento"
+      }
+    ]
+
+      for(let i = 0; i < formField.length; i++){
+        if(formField[i].field === "") {
+          alert(formField[i].message);
+          throw new Error(formField[i].message)
+        }        
+    }
+    
+  }
+
+  function saveNewEvent(){
+    verifyWhetherAnyFormFieldIsFilled();
+
+    let newEvent: NewEvent = {
+      title: titleInput,
+      state: selectedState,
+      stateId: Number(statesFromIbge?.find(element => element.sigla == selectedState)?.id),
+      city: cityInput,
+      cityId: Number(cityId),
+      beginningOfEvent: new Date(dateTimeInput),
+      description: eventDescriptionInput,
+      authorId: Number(token.nameid),
+      authorName: token.name,
+      typeOfEventId: Number(typeOfEventId) 
+    }
+    createNewEvent(newEvent);
+    alert('Novo evento criado com sucesso!');
+    navigate("/dashboard");
+    
   }
 
   const { data: statesFromIbge } = useQuery({
@@ -50,25 +96,27 @@ export default function CreateEvent() {
     },
   });
 
-  let state = statesFromIbge?.find(state => state.sigla == selectedState);
+  let state = statesFromIbge?.find((state) => state.sigla == selectedState);
 
-  let { data: citiesFromIbge} = useQuery({
+  let { data: citiesFromIbge } = useQuery({
     queryKey: ["citiesFromIbge", selectedState],
     enabled: !!state,
     queryFn: () => {
-        if(state) return getCitiesFromIbgeById(state.id);
+      if (state) return getCitiesFromIbgeById(state.id);
     },
   });
 
-  let { data: typesOfEvent} = useQuery({
+  let { data: typesOfEvent } = useQuery({
     queryKey: ["typesOfEvent"],
     queryFn: () => {
-        return getTypesOfEvent();
+      return getTypesOfEvent();
     },
   });
 
-
-  const filteredCities: CitiesFromIbge[] = citiesFromIbge?.filter((city: CitiesFromIbge) => city.nome.toLowerCase().includes(cityInput.toLowerCase()));
+  const filteredCities = citiesFromIbge?.filter(
+    (city: CityFromIbge) =>
+      city.nome.toLowerCase().includes(cityInput.toLowerCase()),
+  );
 
   return (
     <MainBackgroundDiv>
@@ -86,15 +134,20 @@ export default function CreateEvent() {
               id={"title"}
             ></MyInput>
           </TitleInputContainer>
-          <GeneralContainer>
+          <GeneralHorizontalContainer>
             <StateInputContainer>
               <StateAndCity>{"Estado"}</StateAndCity>
               <Select
                 value={selectedState}
-                onChange={(event) => { setSelectedState(event.target.value); setIsCityOptionsVisible(false) }}
+                onChange={(event) => {
+                  setSelectedState(event.target.value);
+                  setIsCityOptionsVisible(false);
+                }}
               >
                 {statesFromIbge?.map((state) => (
-                  <Option value={state.sigla} key={state.id}>{state?.sigla}</Option>
+                  <Option value={state.sigla} key={state.id}>
+                    {state?.sigla}
+                  </Option>
                 ))}
               </Select>
             </StateInputContainer>
@@ -113,24 +166,34 @@ export default function CreateEvent() {
               </CityInputContainer>
               <CitiesContainer>
                 {
-                  filteredCities?.length <= 5 && isCityOptionsVisible == true ?
-                  filteredCities.map(city => (
-                    <City 
-                      onClick={()=> {setCityInput(city.nome); changeCityOptionsVisibility()}}>{city.nome}
-                    </City>
-                  )): ""
+                  filteredCities&&
+                  filteredCities?.length <= 5 && isCityOptionsVisible == true
+                  ? filteredCities.map((city) => (
+                      <City
+                        onClick={() => {
+                          setCityInput(city.nome);
+                          setCityId(city.id)
+                          changeCityOptionsVisibility();
+                        }}
+                      >
+                        {city.nome}
+                      </City>
+                    ))
+                  : ""
                 }
               </CitiesContainer>
             </CityInputAndSelectContainer>
-          </GeneralContainer>
-          <GeneralContainer>
+          </GeneralHorizontalContainer>
+          <GeneralVerticalContainer>
             <TypeOfEventContainer>
               <Title>Tipo de evento</Title>
-              <Select
-                value={typesOfEvent?.description}
+              <Select value={typeOfEventId}
+                onChange={event => setTypeOfEventId(Number(event.target.value))}
               >
                 {typesOfEvent?.map((type: TypeOfEvent) => (
-                  <Option value={type?.description} key={type.typeOfEventId}>{type?.description}</Option>
+                  <Option value={type?.typeOfEventId} key={type.typeOfEventId}>
+                    {type?.description}
+                  </Option>
                 ))}
               </Select>
             </TypeOfEventContainer>
@@ -138,24 +201,23 @@ export default function CreateEvent() {
               <Title>Data do evento</Title>
               <DateTimeInput
                 type="datetime-local"
-                value={dateTimeInput}
+                onChange={event => setDateTimeInput(event.target.value)}
               ></DateTimeInput>
             </DateTimeContainer>
-          </GeneralContainer>
+          </GeneralVerticalContainer>
           <DescriptionContainer>
             <Title>Descrição</Title>
-            <MyInput
-              setValue={setEventDescription}
-                placeholder="Descrição..."
-                width="100%"
-                height="60%"
-                name="description"
-                id="description"
-                type="textarea"
-                value={eventDescription}
-            ></MyInput>
+            <Description
+              style={{  ...genericInput, height: "4rem" }}
+              placeholder="Descreva o evento..."
+              onChange={event => setEventDescriptionInput(event.target.value)}
+              name="description"
+            ></Description>
           </DescriptionContainer>
         </MainCentralCard>
+        <MainButtonContainer>
+            <MainButton title="Salvar" doOnClick={()=> saveNewEvent()}/>
+        </MainButtonContainer>
       </MainSection>
       <MyFooter></MyFooter>
     </MainBackgroundDiv>
@@ -166,7 +228,7 @@ const TitleInputContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   margin-bottom: 1em;
-  padding: 2em 2em 0 2em;
+  padding: 1em 1em 0 1em;
   width: 100%;
 `;
 
@@ -178,8 +240,15 @@ const Title = styled.h2`
   width: 100%;
 `;
 
-const GeneralContainer = styled.div`
+const GeneralHorizontalContainer = styled.div`
   display: flex;
+  justify-content: space-around;
+`;
+
+const GeneralVerticalContainer = styled.div`
+  align-items: center;
+  display: flex;
+  flex-direction: column;
   justify-content: space-around;
 `;
 
@@ -214,28 +283,23 @@ const CityInputAndSelectContainer = styled.div`
   width: 40%;
 `;
 
-const CityInputContainer = styled.div`
-  
-`
-
+const CityInputContainer = styled.div``;
 
 const CitiesContainer = styled.div`
   display: flex;
   flex-direction: column;
-`
+`;
 
 const City = styled.div`
   background-color: aliceblue;
   font-family: ${fonts.cardFont};
-`
+`;
 
 const TypeOfEventContainer = styled.div`
+  margin: 1rem 0 1rem 0;
+`;
 
-`
-
-const DateTimeContainer = styled.div`
-  
-`
+const DateTimeContainer = styled.div``;
 
 const DescriptionContainer = styled.div`
   display: flex;
@@ -243,11 +307,28 @@ const DescriptionContainer = styled.div`
   flex-grow: 1;
   padding: 0 2rem 2rem 2rem;
   margin-top: 1rem;
-`
+`;
 
 const DateTimeInput = styled.input`
   font-family: ${fonts.cardFont};
+`;
+
+const Description = styled.textarea`
+  &::placeholder {
+    ${genericInput.placeholder}
+  }
+  &:focus {
+    ${genericInput.focus}
+  }
+  &:not {
+    ${genericInput.not}
+  }
+`;
+
+const MainButtonContainer = styled.div`
+  display: flex;
+  flex-grow: 1;
+  justify-content: center;
+  margin: 2rem 0 2rem 0;
+  width: 100%;
 `
-
-
-

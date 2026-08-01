@@ -19,6 +19,7 @@ const BackgroundDiv = styled.div`
   flex-direction: column;
   justify-content: start;
   height: 100dvh;
+  overflow: auto;
   width: 100dvw;
 `;
 

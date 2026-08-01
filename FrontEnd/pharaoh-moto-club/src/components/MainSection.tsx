@@ -12,7 +12,7 @@ const Section = styled.main`
     align-items: center;
     display: flex;
     flex-direction: column;
-    min-height: ${sizes.mainSection};
+    height: ${sizes.mainSection};
     overflow-y: auto;
     width: 100vw;
 `
