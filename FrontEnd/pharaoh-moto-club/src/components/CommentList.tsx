@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { getDate, getTime } from "../utilFunctions";
+import { fonts } from "../styles/fonts";
 
 type Comments = {
   commentList: [
@@ -46,6 +47,8 @@ const CommentDiv = styled.ul`
 
 const Author = styled.h4`
     flex-grow: .2;
+    font-family: ${fonts.citiesFont};
+    font-weight: 650
 `
 
 const DateAndTextDiv = styled.h3`
@@ -55,8 +58,10 @@ const DateAndTextDiv = styled.h3`
 `
 
 const Date = styled.p`
-    
+    font-family: ${fonts.citiesFont};
+    font-size: 0.7em
 `
 const Text = styled.p`
-    flex-wrap: wrap
+    flex-wrap: wrap;
+    font-family: ${fonts.citiesFont}
 `

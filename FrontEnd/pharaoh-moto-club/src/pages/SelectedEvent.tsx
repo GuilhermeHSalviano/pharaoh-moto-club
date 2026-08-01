@@ -25,7 +25,6 @@ export default function SelectedEvent() {
   const [commentInput, setCommentInput] = useState("");
   console.log(token);
 
-
   const {
     data: eventData,
     isLoading,
@@ -43,70 +42,79 @@ export default function SelectedEvent() {
 
   return (
     <MainBackgroundDiv>
-      {<>
-        <Nav title={"Evento"}></Nav>
-        <MainSection>
-          <>
-            {isLoading && <Loading></Loading>}
-            <Title>{eventData?.event.title}</Title>
-            <DescriptionBaloon>
-              <DescriptionTitle>Descrição</DescriptionTitle>
-              <Description>{eventData?.event.description}</Description>
-              <Author>{`Author: ${eventData?.event.authorName}`}</Author>
-            </DescriptionBaloon>
-            <TimeAndDateContainer>
-              <TimeAndDate>HORÁRIO E DATA DO EVENTO:</TimeAndDate>
-              <EventDate>{`${getDate(eventData?.event.beginningOfEvent)} - ${getTime(eventData?.event.beginningOfEvent)}`}</EventDate>
-            </TimeAndDateContainer>
-            <AttendantsSection>
-              <AttendantsContainer>
+      {
+        <>
+          <Nav title={"Evento"}></Nav>
+          <MainSection>
+            <>
+              {isLoading && <Loading></Loading>}
+              <Title>{eventData?.event.title}</Title>
+              <DescriptionBaloon>
+                <DescriptionTitle>Descrição</DescriptionTitle>
+                <Description>{eventData?.event.description}</Description>
+                <Author>{`Author: ${eventData?.event.authorName}`}</Author>
+              </DescriptionBaloon>
+              <TimeAndDateContainer>
+                <TimeAndDate>HORÁRIO E DATA DO EVENTO:</TimeAndDate>
+                <EventDate>{`${getDate(eventData?.event.beginningOfEvent)} - ${getTime(eventData?.event.beginningOfEvent)}`}</EventDate>
+              </TimeAndDateContainer>
+              <AttendantsSection>
+                <AttendantsContainer>
+                  <SmallTitle
+                    description="Faraós Confirmados:"
+                    aditionalStyles={SmallTitleCustomStyles}
+                  ></SmallTitle>
+                  {eventData?.attendants.length > 0 ? (
+                    eventData.attendants.map((name: string) => (
+                      <AttendantName key={name}>{name}</AttendantName>
+                    ))
+                  ) : (
+                    <AttendantName>
+                      {"Nenhuma presença confirmada"}
+                    </AttendantName>
+                  )}
+                </AttendantsContainer>
+                <ConfirmAttendanceButton
+                  memberId={token.nameid}
+                  eventId={eventData?.event.eventId}
+                  refetch={refetch}
+                  hasMemberConfirmedAttendance={eventData?.attendants.includes(
+                    token.nickname,
+                  )}
+                ></ConfirmAttendanceButton>
+              </AttendantsSection>
+              <CommentSection>
                 <SmallTitle
-                  description="Faraós Confirmados:"
+                  description={"Comentários"}
                   aditionalStyles={SmallTitleCustomStyles}
                 ></SmallTitle>
-                {eventData?.attendants.length > 0 ? (
-                  eventData.attendants.map((name: string) => (
-                    <AttendantName key={name}>{name}</AttendantName>
-                  ))
+                <CommentDiv>
+                  <CommentInput
+                    onChange={(event) => setCommentInput(event.target.value)}
+                    type="text"
+                    placeholder="comente aqui..."
+                    value={commentInput}
+                  ></CommentInput>
+                  <SendCommentButton
+                    eventId={eventData?.event.eventId}
+                    authorId={token.nameid}
+                    commentText={commentInput}
+                    refetch={refetch}
+                    eraseInput={setCommentInput}
+                  ></SendCommentButton>
+                </CommentDiv>
+
+                {eventData?.comments.length > 0 ? (
+                  <CommentList commentList={eventData?.comments}></CommentList>
                 ) : (
-                  <AttendantName>{"Nenhuma presença confirmada"}</AttendantName>
+                  ""
                 )}
-              </AttendantsContainer>
-              <ConfirmAttendanceButton
-                memberId={token.nameid}
-                eventId={eventData?.event.eventId}
-                refetch={refetch}
-                hasMemberConfirmedAttendance={eventData?.attendants.includes(token.nickname)}
-              ></ConfirmAttendanceButton>
-            </AttendantsSection>
-            <CommentSection>
-              <SmallTitle 
-                description={"Comentários"}
-                aditionalStyles={SmallTitleCustomStyles}
-              ></SmallTitle>
-              <CommentDiv>
-                <CommentInput 
-                  onChange={event => setCommentInput(event.target.value)}
-                  type="text"
-                  placeholder="comente aqui..."
-                  value={commentInput}
-                ></CommentInput>
-                <SendCommentButton 
-                  eventId={eventData?.event.eventId}
-                  authorId={token.nameid}
-                  commentText={commentInput}
-                  refetch={refetch}
-                  eraseInput={setCommentInput}
-                ></SendCommentButton>
-              </CommentDiv>
-              <CommentList
-                commentList={eventData?.comments}
-              ></CommentList>
-            </CommentSection>
-          </>
-        </MainSection>
-        <MyFooter></MyFooter>
-      </>}
+              </CommentSection>
+            </>
+          </MainSection>
+          <MyFooter></MyFooter>
+        </>
+      }
     </MainBackgroundDiv>
   );
 }
@@ -127,6 +135,7 @@ const DescriptionBaloon = styled.div`
   border-radius: 1rem;
   display: flex;
   flex-direction: column;
+  min-height: 20%;
   padding: 1rem;
   width: 80%;
 `;
@@ -188,13 +197,13 @@ const CommentSection = styled.section`
   padding-left: 1rem;
   padding-right: 1rem;
   width: 100%;
-`
+`;
 
 const CommentDiv = styled.div`
   align-items: center;
   display: flex;
   justify-content: space-around;
-`
+`;
 
 const CommentInput = styled.input`
   background-color: ${colors.inputBackground2};
@@ -218,5 +227,4 @@ const CommentInput = styled.input`
     color: white;
     font-family: ${fonts.inputFont};
   }
-`
-
+`;

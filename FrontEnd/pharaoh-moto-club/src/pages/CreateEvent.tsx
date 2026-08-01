@@ -26,10 +26,11 @@ export default function CreateEvent() {
   const [titleInput, setTitleInput] = useState("");
   const [selectedState, setSelectedState] = useState("MG");
   const [cityInput, setCityInput] = useState("");
+  const [cityId, setCityId] = useState<number>();
   const [isCityOptionsVisible, setIsCityOptionsVisible] = useState(false);
   const [dateTimeInput, setDateTimeInput] = useState("");
   const [eventDescriptionInput, setEventDescriptionInput] = useState("");
-  const [typeOfEventId, setTypeOfEventId] = useState<number>();
+  const [typeOfEventId, setTypeOfEventId] = useState<number>(13);
   const token: MyJwtPayload = jwtDecode(useContext(TokenContext));
   const navigate = useNavigate()
 
@@ -70,13 +71,12 @@ export default function CreateEvent() {
   function saveNewEvent(){
     verifyWhetherAnyFormFieldIsFilled();
 
-    
     let newEvent: NewEvent = {
       title: titleInput,
       state: selectedState,
       stateId: Number(statesFromIbge?.find(element => element.sigla == selectedState)?.id),
       city: cityInput,
-      cityId: citiesFromIbge?.find(element => element.nome == cityInput)?.id,
+      cityId: Number(cityId),
       beginningOfEvent: new Date(dateTimeInput),
       description: eventDescriptionInput,
       authorId: Number(token.nameid),
@@ -165,25 +165,29 @@ export default function CreateEvent() {
                 ></MyInput>
               </CityInputContainer>
               <CitiesContainer>
-                {filteredCities?.length <= 5 && isCityOptionsVisible == true
+                {
+                  filteredCities&&
+                  filteredCities?.length <= 5 && isCityOptionsVisible == true
                   ? filteredCities.map((city) => (
                       <City
                         onClick={() => {
                           setCityInput(city.nome);
+                          setCityId(city.id)
                           changeCityOptionsVisibility();
                         }}
                       >
                         {city.nome}
                       </City>
                     ))
-                  : ""}
+                  : ""
+                }
               </CitiesContainer>
             </CityInputAndSelectContainer>
           </GeneralHorizontalContainer>
           <GeneralVerticalContainer>
             <TypeOfEventContainer>
               <Title>Tipo de evento</Title>
-              <Select value={typesOfEvent?.[0].description}
+              <Select value={typeOfEventId}
                 onChange={event => setTypeOfEventId(Number(event.target.value))}
               >
                 {typesOfEvent?.map((type: TypeOfEvent) => (
@@ -204,7 +208,7 @@ export default function CreateEvent() {
           <DescriptionContainer>
             <Title>Descrição</Title>
             <Description
-              style={{ ...genericInput, height: "4rem" }}
+              style={{  ...genericInput, height: "4rem" }}
               placeholder="Descreva o evento..."
               onChange={event => setEventDescriptionInput(event.target.value)}
               name="description"
