@@ -1,15 +1,15 @@
 import { useContext, useEffect } from "react";
-import { TokenContext } from "./TokenContext";
+import { ClaimsContext } from "./ClaimsContext";
 import { Outlet, useNavigate } from "react-router";
 
 export function ProtectedRoutes() {
   const navigate = useNavigate();
-  const tokenDoUsuario = useContext(TokenContext);
+  const claimsDoUsuario = useContext(ClaimsContext);
 
   useEffect(() => {
-    console.log(tokenDoUsuario)
-    if (!tokenDoUsuario || tokenDoUsuario == null) navigate("/");
-  }, [tokenDoUsuario, navigate]);
+    console.log(claimsDoUsuario)
+    if (!claimsDoUsuario || claimsDoUsuario == null) navigate("/");
+  }, [claimsDoUsuario, navigate]);
 
   return <Outlet />;
 }

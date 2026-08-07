@@ -23,5 +23,6 @@ namespace pharaoh_moto_club.Models {
         public DbSet<Event> Event { get; set; }
         public DbSet<Comment> Comment { get; set; }
         public DbSet<TypeOfEvent> TypeOfEvents { get; set; }
+        public DbSet<RefreshToken> RefreshToken { get; set; }
     }
 }

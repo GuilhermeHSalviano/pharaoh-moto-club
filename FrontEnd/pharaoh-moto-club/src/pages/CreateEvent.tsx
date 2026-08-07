@@ -17,9 +17,8 @@ import { createNewEvent, getTypesOfEvent } from "../api/config/services/eventSer
 import "react-datepicker/dist/react-datepicker.css";
 import { genericInput } from "../styles/sizes";
 import { MainButton } from "../components/MainButton";
-import type { MyJwtPayload, NewEvent, CityFromIbge, TypeOfEvent } from "../types/globalTypes";
-import { jwtDecode } from "jwt-decode";
-import { TokenContext } from "../components/TokenContext";
+import type { NewEvent, CityFromIbge, TypeOfEvent} from "../types/globalTypes";
+import { ClaimsContext } from "../components/ClaimsContext";
 import { useNavigate } from "react-router";
 
 export default function CreateEvent() {
@@ -31,7 +30,7 @@ export default function CreateEvent() {
   const [dateTimeInput, setDateTimeInput] = useState("");
   const [eventDescriptionInput, setEventDescriptionInput] = useState("");
   const [typeOfEventId, setTypeOfEventId] = useState<number>(13);
-  const token: MyJwtPayload = jwtDecode(useContext(TokenContext));
+  const claims = useContext(ClaimsContext);
   const navigate = useNavigate()
 
 
@@ -79,8 +78,8 @@ export default function CreateEvent() {
       cityId: Number(cityId),
       beginningOfEvent: new Date(dateTimeInput),
       description: eventDescriptionInput,
-      authorId: Number(token.nameid),
-      authorName: token.name,
+      authorId: Number(claims?.memberId),
+      authorName: String(claims?.name),
       typeOfEventId: Number(typeOfEventId) 
     }
     createNewEvent(newEvent);

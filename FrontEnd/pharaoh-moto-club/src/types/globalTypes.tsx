@@ -4,6 +4,12 @@ export interface State {
   cities: [{ city: string; cityId: number }];
 }
 
+export interface Claims{
+  name: string,
+  memberId: number,
+  nickname: string
+}
+
 export interface ApiError {
   message: string;
 }

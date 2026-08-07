@@ -178,6 +178,47 @@ namespace pharaoh_moto_club.Migrations
                     b.ToTable("members");
                 });
 
+            modelBuilder.Entity("pharaoh_moto_club.Models.RefreshToken", b =>
+                {
+                    b.Property<int>("RefreshTokenId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("refresh_token_id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RefreshTokenId"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("created_at");
+
+                    b.Property<DateTime>("ExpiresAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("expires_at");
+
+                    b.Property<int>("MemberId")
+                        .HasColumnType("int")
+                        .HasColumnName("member_id");
+
+                    b.Property<string>("RefreshTokenString")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("refresh_token_string");
+
+                    b.Property<string>("ReplacedByToken")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("replaced_by_token");
+
+                    b.Property<DateTime?>("RevokedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("revoked_at");
+
+                    b.HasKey("RefreshTokenId");
+
+                    b.HasIndex("MemberId");
+
+                    b.ToTable("refresh_token");
+                });
+
             modelBuilder.Entity("pharaoh_moto_club.Models.TypeOfEvent", b =>
                 {
                     b.Property<int>("TypeOfEventId")
@@ -255,6 +296,17 @@ namespace pharaoh_moto_club.Migrations
                     b.Navigation("Attendant");
 
                     b.Navigation("Event");
+                });
+
+            modelBuilder.Entity("pharaoh_moto_club.Models.RefreshToken", b =>
+                {
+                    b.HasOne("pharaoh_moto_club.Models.Member", "Member")
+                        .WithMany()
+                        .HasForeignKey("MemberId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Member");
                 });
 #pragma warning restore 612, 618
         }

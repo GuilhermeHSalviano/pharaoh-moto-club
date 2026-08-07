@@ -8,6 +8,7 @@ using My.Exceptions;
 using pharaoh_moto_club.Dtos;
 using pharaoh_moto_club.Factories;
 using pharaoh_moto_club.Models;
+using Utilities;
 
 namespace Services {
     public class MemberServices {
@@ -29,7 +30,7 @@ namespace Services {
             await _context.SaveChangesAsync();
         }
 
-        public MemberClaimsDto GenerateJwtToken(Member model) {
+        public string GenerateJwtToken(Member model) {
             var tokenHandler = new JwtSecurityTokenHandler();
             byte[] key = Encoding.UTF8.GetBytes(_configuration["ApiKey"]!);
             var claims = new ClaimsIdentity(
@@ -38,30 +39,52 @@ namespace Services {
                 new Claim("name", model.Name),
                 new Claim("nickname", model.Nickname),
             ]);
+            var accessTokenMinutes = _configuration["Token:AccessTokenExpirationMinutes"];
+            if (accessTokenMinutes == null) throw new Exception("Defina a duração do access token");
 
             var tokenDescriptor = new SecurityTokenDescriptor {
                 Subject = claims,
-                Expires = DateTime.UtcNow.AddHours(8),
+                Expires = DateTime.UtcNow.AddMinutes(int.Parse(accessTokenMinutes)),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
                 SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
-            var encrypterToken = tokenHandler.WriteToken(token);
+            return tokenHandler.WriteToken(token);
+        }
 
-            _httpContextAccessor?.HttpContext?.Response.Cookies.Append("token", encrypterToken, 
+        public void SendRefreshTokenToHttpOnly(RefreshToken refreshToken) {
+
+            _httpContextAccessor?.HttpContext?.Response.Cookies.Append("refreshToken", refreshToken.RefreshTokenString, 
                 new CookieOptions {
-                    Expires = DateTime.Now.AddDays(7),
+                    Expires = refreshToken.ExpiresAt,
                     HttpOnly = true,
-                    Secure = true,
+                    //Secure = isProduction,
                     IsEssential = true,
-                    SameSite = SameSiteMode.None
+                    //SameSite = SameSiteMode.None
                 }
             );
-            return new MemberClaimsDto {
-                MemberId = model.MemberId,
-                Nickname = model.Nickname,
-                Name = model.Name
-            };
+        }
+
+        public void SendAccessTokenToHttpOnly(string accessToken ) {
+            var accessTokenMinutes = _configuration["Token:AccessTokenExpirationMinutes"];
+            DateTimeOffset accessTokenExpirationTime;
+            if (accessTokenMinutes == null) throw new Exception("Defina a duração do access token");
+            accessTokenExpirationTime = DateTimeOffset.UtcNow.AddMinutes(int.Parse(accessTokenMinutes));
+
+            _httpContextAccessor?.HttpContext?.Response.Cookies.Append("accessToken", accessToken, 
+                new CookieOptions {
+                    Expires = accessTokenExpirationTime,
+                    HttpOnly = true,
+                    //Secure = isProduction,
+                    IsEssential = true,
+                    //SameSite = SameSiteMode.None
+                }
+            );
+        }
+
+        public  void SaveRefreshToken(RefreshToken refreshToken) {
+            _context.RefreshToken.Add(refreshToken);
+             _context.SaveChanges();
         }
 
         public async Task<Member> FindMemberById(int id) {

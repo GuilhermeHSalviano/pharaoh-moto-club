@@ -1,23 +1,24 @@
 import { Routes, Route } from "react-router";
 import { Dashboard } from "./pages/Dashboard.tsx";
 import { useState } from "react";
-import { TokenContext } from "./components/TokenContext.tsx";
+import { ClaimsContext } from "./components/ClaimsContext.tsx";
 import {ProtectedRoutes} from "./components/ProtectedRoutes.tsx"
 import { Events } from "./pages/Events.tsx";
 import Login from "./pages/Login.tsx";
 import SelectedCity from "./pages/SelectedCity.tsx";
 import SelectedEvent from "./pages/SelectedEvent.tsx";
 import CreateEvent from "./pages/CreateEvent.tsx";
+import type { Claims } from "./types/globalTypes.tsx";
 
 
 export function MyRoutes() {
-  const [token, setToken] = useState<string>("");
+  const [claims, setClaims] = useState<Claims>();
 
 
   return (
-    <TokenContext value={token}>
+    <ClaimsContext value={claims?claims:undefined}>
       <Routes>
-        <Route path="/" element={<Login insertTokenToContext={setToken} />} />
+        <Route path="/" element={<Login insertClaimsToContext={setClaims} />} />
         <Route element={<ProtectedRoutes />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/events" element={<Events />} />
@@ -26,6 +27,6 @@ export function MyRoutes() {
         <Route path="/event/:eventId" element={<SelectedEvent />} />
         <Route />
       </Routes>
-    </TokenContext>
+    </ClaimsContext>
   );
 }

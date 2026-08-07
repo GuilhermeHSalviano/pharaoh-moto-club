@@ -8,15 +8,15 @@ import { useState } from "react";
 import { fonts } from "../styles/fonts.tsx";
 import { MainButton } from "../components/MainButton.tsx";
 import { useNavigate } from "react-router";
-import { getTokenByLoggingIn } from "../api/config/services/loginService.tsx";
+import { authenticateAndGetClaims} from "../api/config/services/loginService.tsx";
 import axios from "axios";
-import type { ApiError } from "../types/globalTypes.tsx";
+import type { ApiError, Claims } from "../types/globalTypes.tsx";
 
-interface Token {
-  insertTokenToContext: React.Dispatch<React.SetStateAction<string>>;
+interface Props {
+  insertClaimsToContext: React.Dispatch<React.SetStateAction<Claims|undefined>>;
 }
 
-function App({ insertTokenToContext }: Token) {
+function App({ insertClaimsToContext }: Props) {
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
   const navigate = useNavigate();
@@ -25,8 +25,8 @@ function App({ insertTokenToContext }: Token) {
     try {
       if (userEmail == "" || userPassword == "")
         throw new Error("Preencha devidamente todos os campos");
-      const response = await getTokenByLoggingIn(userEmail, userPassword);
-      insertTokenToContext(response.data.jwtToken);
+      const response = await authenticateAndGetClaims(userEmail, userPassword);
+      insertClaimsToContext(response.data);
       navigate("/dashboard");
     } catch (error) {
       if (axios.isAxiosError<ApiError>(error)) {

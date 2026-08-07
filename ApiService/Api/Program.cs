@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Services;
 using Entities;
+using Microsoft.AspNetCore.Authorization;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,7 +25,7 @@ builder.Services.AddAuthentication(options => {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddCookie( x => x.Cookie.Name = "token")
+}).AddCookie( x => x.Cookie.Name = "accessToken")
 .AddJwtBearer(options => {
     options.SaveToken = true;
     options.RequireHttpsMetadata = false;
@@ -37,8 +38,18 @@ builder.Services.AddAuthentication(options => {
         OnMessageReceived = context => {
             context.Token = context.Request.Cookies["token"];
             return Task.CompletedTask;
+        },
+        OnAuthenticationFailed = context => {
+            Console.WriteLine($"A autenticação falhou: {context.Exception.Message}");
+            return Task.CompletedTask;
         }
     };
+});
+
+builder.Services.AddAuthorization(options => {
+    options.FallbackPolicy = new AuthorizationPolicyBuilder()
+        .RequireAuthenticatedUser()
+        .Build();
 });
 
 var MyAllowedSpecificOrigins = builder.Configuration.GetSection("CorsSettings:AllowedOrigins").Get<string[]>();

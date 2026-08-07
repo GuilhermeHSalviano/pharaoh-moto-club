@@ -10,10 +10,9 @@ import { getEventyById } from "../api/config/services/eventService";
 import { useQuery } from "@tanstack/react-query";
 import { getDate, getTime } from "../utilFunctions";
 import SmallTitle from "../components/SmallTitle";
-import type { MyJwtPayload, StyleObject } from "../types/globalTypes";
+import type { StyleObject } from "../types/globalTypes";
 import { useContext, useState } from "react";
-import { jwtDecode } from "jwt-decode";
-import { TokenContext } from "../components/TokenContext";
+import { ClaimsContext } from "../components/ClaimsContext";
 import Loading from "../components/Loading";
 import ConfirmAttendanceButton from "../components/ConfirmAttendanceButton";
 import SendCommentButton from "../components/SendCommentButton";
@@ -21,9 +20,8 @@ import CommentList from "../components/CommentList";
 
 export default function SelectedEvent() {
   const params = useParams();
-  const token: MyJwtPayload = jwtDecode(useContext(TokenContext));
+  const claims = useContext(ClaimsContext);
   const [commentInput, setCommentInput] = useState("");
-  console.log(token);
 
   const {
     data: eventData,
@@ -74,14 +72,16 @@ export default function SelectedEvent() {
                     </AttendantName>
                   )}
                 </AttendantsContainer>
+                {claims&&
                 <ConfirmAttendanceButton
-                  memberId={token.nameid}
+                  memberId={String(claims?.memberId)}
                   eventId={eventData?.event.eventId}
                   refetch={refetch}
                   hasMemberConfirmedAttendance={eventData?.attendants.includes(
-                    token.nickname,
+                    claims.nickname,
                   )}
                 ></ConfirmAttendanceButton>
+                }
               </AttendantsSection>
               <CommentSection>
                 <SmallTitle
@@ -97,7 +97,7 @@ export default function SelectedEvent() {
                   ></CommentInput>
                   <SendCommentButton
                     eventId={eventData?.event.eventId}
-                    authorId={token.nameid}
+                    authorId={String(claims?.memberId)}
                     commentText={commentInput}
                     refetch={refetch}
                     eraseInput={setCommentInput}

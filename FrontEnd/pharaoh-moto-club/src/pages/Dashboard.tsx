@@ -5,18 +5,16 @@ import { MyFooter } from "../components/MyFooter";
 import { DashboardCard } from "../components/DashboardCard";
 import ballot_box from "../assets/box-ballot.svg";
 import location_icon from "../assets/locationIcon.png";
-import { TokenContext } from "../components/TokenContext";
+import { ClaimsContext } from "../components/ClaimsContext";
 import { useContext } from "react";
-import { jwtDecode } from "jwt-decode";
 import { colors } from "../styles/colors";
 import { fonts } from "../styles/fonts";
 import { MainSection } from "../components/MainSection";
-import type { MyJwtPayload } from "../types/globalTypes";
 
 
 
 export function Dashboard() {
-  const token: MyJwtPayload = jwtDecode(useContext(TokenContext));
+  const claims = useContext(ClaimsContext);
 
   return (
     <>
@@ -29,7 +27,7 @@ export function Dashboard() {
                 <>
                   <WelcomeDiv>
                     <WelcomeTitle>Bem vindo:</WelcomeTitle>
-                    <WelcomeSubtitle>{token.nickname}</WelcomeSubtitle>
+                    <WelcomeSubtitle>{claims?.nickname}</WelcomeSubtitle>
                   </WelcomeDiv>
                   <DashboardCard
                     image={ballot_box}
