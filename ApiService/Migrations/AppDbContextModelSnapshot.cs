@@ -199,10 +199,10 @@ namespace pharaoh_moto_club.Migrations
                         .HasColumnType("int")
                         .HasColumnName("member_id");
 
-                    b.Property<string>("RefreshTokenString")
+                    b.Property<string>("RefreshTokenHash")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
-                        .HasColumnName("refresh_token_string");
+                        .HasColumnName("refresh_token_hash");
 
                     b.Property<string>("ReplacedByToken")
                         .HasColumnType("nvarchar(max)")

@@ -29,7 +29,7 @@ export default function CreateEvent() {
   const [isCityOptionsVisible, setIsCityOptionsVisible] = useState(false);
   const [dateTimeInput, setDateTimeInput] = useState("");
   const [eventDescriptionInput, setEventDescriptionInput] = useState("");
-  const [typeOfEventId, setTypeOfEventId] = useState<number>(13);
+  const [typeOfEventId, setTypeOfEventId] = useState<number>(1);
   const claims = useContext(ClaimsContext);
   const navigate = useNavigate()
 

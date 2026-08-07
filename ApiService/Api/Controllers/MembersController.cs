@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Services;
 using My.Exceptions;
 using pharaoh_moto_club.Factories;
+using Utilities;
 
 namespace pharaoh_moto_club.Controllers {
     [Route("[controller]")]
@@ -40,8 +41,9 @@ namespace pharaoh_moto_club.Controllers {
                 var member = await _memberServices.FindMemberByEmail(model.Email);
                 var accessToken = _memberServices.GenerateJwtToken(member);
                 _memberServices.SendAccessTokenToHttpOnly(accessToken);
-                var refreshToken = RefreshTokenFactory.CreateRefreshToken(member.MemberId, int.Parse(refreshTokenExpirationMinutes));
-                _memberServices.SendRefreshTokenToHttpOnly(refreshToken);
+                var refreshTokenString = TokenUtilities.CreateRefreshTokenString();
+                var refreshToken = RefreshTokenFactory.CreateRefreshToken(member.MemberId, int.Parse(refreshTokenExpirationMinutes), refreshTokenString);
+                _memberServices.SendRefreshTokenToHttpOnly(refreshTokenString);
                 _memberServices.SaveRefreshToken(refreshToken);
                 var claims = ClaimsFactory.CreateMemberClaims(member);
                 return Ok(claims);

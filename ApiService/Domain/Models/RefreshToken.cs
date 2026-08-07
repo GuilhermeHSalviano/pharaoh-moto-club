@@ -9,8 +9,8 @@ namespace pharaoh_moto_club.Models {
         [Key]
         [Column("refresh_token_id")]
         public int RefreshTokenId { get; set; } 
-        [Column("refresh_token_string")]
-        public string RefreshTokenString { get; set; } = string.Empty;
+        [Column("refresh_token_hash")]
+        public string RefreshTokenHash { get; set; } = string.Empty;
         [Column("created_at")]
         public DateTime CreatedAt {get; set;}
         [Column("expires_at")]

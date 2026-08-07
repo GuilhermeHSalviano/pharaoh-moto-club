@@ -1,5 +1,6 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
@@ -52,11 +53,11 @@ namespace Services {
             return tokenHandler.WriteToken(token);
         }
 
-        public void SendRefreshTokenToHttpOnly(RefreshToken refreshToken) {
+        public void SendRefreshTokenToHttpOnly(string refreshToken) {
 
-            _httpContextAccessor?.HttpContext?.Response.Cookies.Append("refreshToken", refreshToken.RefreshTokenString, 
+            _httpContextAccessor?.HttpContext?.Response.Cookies.Append("refreshToken", refreshToken, 
                 new CookieOptions {
-                    Expires = refreshToken.ExpiresAt,
+                    Expires = DateTimeOffset.UtcNow,
                     HttpOnly = true,
                     //Secure = isProduction,
                     IsEssential = true,
