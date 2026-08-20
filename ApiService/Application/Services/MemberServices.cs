@@ -83,9 +83,38 @@ namespace Services {
             );
         }
 
-        public  void SaveRefreshToken(RefreshToken refreshToken) {
-            _context.RefreshToken.Add(refreshToken);
-             _context.SaveChanges();
+        public  void SaveRefreshToken(RefreshTokenDto refreshTokenDto) {
+            RefreshToken newRefreshToken = RefreshTokenFactory.CreateRefreshToken(refreshTokenDto);
+            _context.RefreshToken.Add(newRefreshToken);
+            _context.SaveChanges();
+        }
+
+        public RefreshToken CheckIfTokenExists(string token) {
+            var tokenHash = TokenUtilities.HashToken(token);
+            var existingToken =  _context.RefreshToken.FirstOrDefault(tuple => tuple.RefreshTokenHash == tokenHash);
+            if(existingToken is null) throw new EntityNotFound("O token não foi encontrado");
+            return existingToken;
+        }
+
+        public async Task RevokeAllActiveTokensAsync(int memberId) {
+            var refreshToken = _context.RefreshToken
+                .Where(tuple => tuple.MemberId == memberId)
+                .ExecuteUpdateAsync(setters => setters
+                    .SetProperty(p => p.RevokedAt, DateTimeOffset.UtcNow)
+                );
+        }
+
+        public async Task CheckIfUserExists(int memberId) {
+            var member = _context.Members.FirstOrDefaultAsync(member => member.MemberId == memberId);
+            if(member is null) throw new EntityNotFound("O usuário a que se refere o token não foi encontrado");
+        }
+
+        public async Task ExpireOldRefreshTokenAsync(string newRefreshTokenString, int oldRefreshTokenId) {
+            var oldRefreshToken = await _context.RefreshToken.FirstOrDefaultAsync(refreshToken => refreshToken.RefreshTokenId == oldRefreshTokenId);
+            if(oldRefreshToken is null) throw new EntityNotFound("Não foi encontrado o token");
+            oldRefreshToken.ExpiresAt = DateTimeOffset.UtcNow;
+            oldRefreshToken.ReplacedByToken = TokenUtilities.HashToken(newRefreshTokenString);
+            _context.SaveChanges();
         }
 
         public async Task<Member> FindMemberById(int id) {

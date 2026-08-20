@@ -187,12 +187,12 @@ namespace pharaoh_moto_club.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RefreshTokenId"));
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2")
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("datetimeoffset")
                         .HasColumnName("created_at");
 
-                    b.Property<DateTime>("ExpiresAt")
-                        .HasColumnType("datetime2")
+                    b.Property<DateTimeOffset>("ExpiresAt")
+                        .HasColumnType("datetimeoffset")
                         .HasColumnName("expires_at");
 
                     b.Property<int>("MemberId")
@@ -208,8 +208,8 @@ namespace pharaoh_moto_club.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("replaced_by_token");
 
-                    b.Property<DateTime?>("RevokedAt")
-                        .HasColumnType("datetime2")
+                    b.Property<DateTimeOffset?>("RevokedAt")
+                        .HasColumnType("datetimeoffset")
                         .HasColumnName("revoked_at");
 
                     b.HasKey("RefreshTokenId");
