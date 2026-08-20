@@ -109,7 +109,7 @@ namespace Services {
             if(member is null) throw new EntityNotFound("O usuário a que se refere o token não foi encontrado");
         }
 
-        public async Task ExpireOldRefreshTokenAsync(string newRefreshTokenString, int oldRefreshTokenId) {
+        public async Task RevokeOldRefreshTokenAsync(string newRefreshTokenString, int oldRefreshTokenId) {
             var oldRefreshToken = await _context.RefreshToken.FirstOrDefaultAsync(refreshToken => refreshToken.RefreshTokenId == oldRefreshTokenId);
             if(oldRefreshToken is null) throw new EntityNotFound("Não foi encontrado o token");
             oldRefreshToken.ExpiresAt = DateTimeOffset.UtcNow;

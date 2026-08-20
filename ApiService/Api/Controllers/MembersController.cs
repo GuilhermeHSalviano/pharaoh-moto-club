@@ -85,7 +85,7 @@ namespace pharaoh_moto_club.Controllers {
                 var newRefreshTokenDto = RefreshTokenFactory
                     .CreateRefreshTokenDto(existingToken.MemberId, int.Parse(refreshTokenExpirationMinutes), newRefreshTokenString);
                 
-                await _memberServices.ExpireOldRefreshTokenAsync(newRefreshTokenString, existingToken.RefreshTokenId);
+                await _memberServices.RevokeOldRefreshTokenAsync(newRefreshTokenString, existingToken.RefreshTokenId);
                 var member = await _memberServices.FindMemberById(existingToken.MemberId);
                 var newAccessToken = _memberServices.GenerateJwtToken(member);
                 _memberServices.SendAccessTokenToHttpOnly(newAccessToken);
