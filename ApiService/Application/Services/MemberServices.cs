@@ -53,11 +53,11 @@ namespace Services {
             return tokenHandler.WriteToken(token);
         }
 
-        public void SendRefreshTokenToHttpOnly(string refreshToken) {
+        public void SendRefreshTokenToHttpOnly(string refreshToken, DateTimeOffset expirationTime) {
 
             _httpContextAccessor?.HttpContext?.Response.Cookies.Append("refreshToken", refreshToken, 
                 new CookieOptions {
-                    Expires = DateTimeOffset.UtcNow,
+                    Expires = expirationTime.AddSeconds(5),
                     HttpOnly = true,
                     //Secure = isProduction,
                     IsEssential = true,
@@ -74,7 +74,7 @@ namespace Services {
 
             _httpContextAccessor?.HttpContext?.Response.Cookies.Append("accessToken", accessToken, 
                 new CookieOptions {
-                    Expires = accessTokenExpirationTime,
+                    Expires = accessTokenExpirationTime.AddSeconds(5),
                     HttpOnly = true,
                     //Secure = isProduction,
                     IsEssential = true,

@@ -30,6 +30,7 @@ export default function SelectedCity() {
   const eventsByCity = cityEvents?.map((myEvent : MotoClubEvent) => {
     return (
       <EventCard
+        key={myEvent.eventId}
         date={myEvent.beginningOfEvent}
         description={myEvent.title}
         eventId = {myEvent.eventId}
