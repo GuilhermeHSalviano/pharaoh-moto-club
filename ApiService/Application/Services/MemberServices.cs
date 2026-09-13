@@ -2,6 +2,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using Azure;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -97,7 +98,7 @@ namespace Services {
         }
 
         public async Task RevokeAllActiveTokensAsync(int memberId) {
-            var refreshToken = _context.RefreshToken
+            var refreshToken = await _context.RefreshToken
                 .Where(tuple => tuple.MemberId == memberId)
                 .ExecuteUpdateAsync(setters => setters
                     .SetProperty(p => p.RevokedAt, DateTimeOffset.UtcNow)
@@ -108,6 +109,7 @@ namespace Services {
             var member = _context.Members.FirstOrDefaultAsync(member => member.MemberId == memberId);
             if(member is null) throw new EntityNotFound("O usuário a que se refere o token não foi encontrado");
         }
+
 
         public async Task RevokeOldRefreshTokenAsync(string newRefreshTokenString, int oldRefreshTokenId) {
             var oldRefreshToken = await _context.RefreshToken.FirstOrDefaultAsync(refreshToken => refreshToken.RefreshTokenId == oldRefreshTokenId);

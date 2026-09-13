@@ -98,6 +98,17 @@ namespace pharaoh_moto_club.Controllers {
                 return Unauthorized(new {message = error.Message});
             }
         }
+
+        [HttpPost("logout")]
+        public async Task<ActionResult> LogOut() {
+            var activeRefreshTokenString = Request.Cookies["refreshToken"];
+            if(activeRefreshTokenString == null) throw new Exception("Não foi enviado um refresh token");
+            RefreshToken activeRefreshToken = _memberServices.CheckIfTokenExists(activeRefreshTokenString);
+            await _memberServices.RevokeAllActiveTokensAsync(activeRefreshToken.MemberId);
+            Response.Cookies.Delete("accessToken");
+            Response.Cookies.Delete("refreshToken");
+            return NoContent();
+        }
     }
 }
 

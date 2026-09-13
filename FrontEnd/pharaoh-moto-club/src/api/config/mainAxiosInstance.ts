@@ -27,7 +27,6 @@ mainApiClient.interceptors.response.use(
 
     if (error.response?.status === 401) {
       try {
-        debugger;
         originalRequest._retry = true;
         await mainApiClient.post("/members/refreshToken");
         return mainApiClient(originalRequest);
