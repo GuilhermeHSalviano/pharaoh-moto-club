@@ -68,6 +68,16 @@ namespace pharaoh_moto_club.Controllers {
             }
             
         }
+
+        [HttpGet("member/{memberId}")]
+        public IActionResult GetAllFutureEventsByMemberId(int memberId) {
+            try {
+                var futureEventsByMember = _eventServices.GetAllFutureEventsByMemberId(memberId);
+                return Ok(futureEventsByMember);
+            } catch(EntityNotFound error) {
+                return NotFound(error.Message);
+            }
+        }
     }
 
 }

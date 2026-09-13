@@ -5,6 +5,7 @@ using My.Exceptions;
 using pharaoh_moto_club.Factories;
 using Microsoft.EntityFrameworkCore;
 using pharaoh_moto_club.Migrations;
+using System.Linq.Expressions;
 
 
 namespace Services {
@@ -28,19 +29,19 @@ namespace Services {
                 .Where(e => e.EventId == eventId)
                 .Select(c => new EventDto {
                     Title = c.Title,
-                        StateId = c.StateId,
-                        State = c.State,
-                        CityId = c.CityId,
-                        City = c.City,
-                        BeginningOfEvent = c.BeginningOfEvent,
-                        Description = c.Description,
-                        AuthorId = c.AuthorId,
-                        TypeOfEventId = c.TypeOfEventId,
-                        AuthorName = c.Author.Nickname,
-                        EventId = c.EventId
+                    StateId = c.StateId,
+                    State = c.State,
+                    CityId = c.CityId,
+                    City = c.City,
+                    BeginningOfEvent = c.BeginningOfEvent,
+                    Description = c.Description,
+                    AuthorId = c.AuthorId,
+                    TypeOfEventId = c.TypeOfEventId,
+                    AuthorName = c.Author.Nickname,
+                    EventId = c.EventId
                 })
                 .FirstOrDefaultAsync();
-            
+
             if (Event == null) throw new EntityNotFound("O evento não foi encontrado");
             if (Event == null) throw new EntityNotFound("O evento não foi encontrado!");
 
@@ -108,7 +109,7 @@ namespace Services {
                     City = element.City,
                     CityId = element.CityId
                 };
-                cityWithIdList.Add(city);   
+                cityWithIdList.Add(city);
             }
             return cityWithIdList;
         }
@@ -123,6 +124,35 @@ namespace Services {
             return events;
         }
 
-    }
+        public List<EventWithDateLocationAndTitleDto> GetAllFutureEventsByMemberId(int memberId) {
+            var listOfEvents = new List<EventWithDateLocationAndTitleDto>();
+            var result = _context.Event
+                .Where(tuple => tuple.AuthorId == memberId && tuple.BeginningOfEvent >= BrazilTime.Now())
+                .Select(tuple => new {
+                    tuple.City,
+                    tuple.CityId,
+                    tuple.Title,
+                    tuple.State,
+                    tuple.StateId,
+                    tuple.BeginningOfEvent
+                })
+                .ToList();
+            if (result.Count == 0) throw new EntityNotFound("Não foram encontrados eventos para o autor em questão");
 
+            foreach(var element in result) {
+                EventWithDateLocationAndTitleDto item = new EventWithDateLocationAndTitleDto() {
+                    City = element.City,
+                    CityId = element.CityId,
+                    Title = element.Title,
+                    BeginningOfEvent = element.BeginningOfEvent,
+                    State = element.State,
+                    StateId = element.StateId
+                };
+
+                listOfEvents.Add(item);
+            }
+
+            return listOfEvents;
+        }
+    }
 }
