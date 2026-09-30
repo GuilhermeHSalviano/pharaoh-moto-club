@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { colors } from "../styles/colors";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faCalendarPlus
+  faCalendarPlus, faPenToSquare
 } from "@fortawesome/free-solid-svg-icons";
 import { sizes } from "../styles/sizes";
 import { fonts } from "../styles/fonts";
@@ -14,10 +14,14 @@ export function MyFooter() {
 
   return (
     <Footer>
-      <AddEventContainer onClick={()=> navigate("/CreateEvent")}>
+      <IconContainer onClick={()=> navigate("/CreateEvent")}>
         <CalendarAddIcon icon={faCalendarPlus}></CalendarAddIcon>
         <Iconlabel>Criar evento</Iconlabel>
-      </AddEventContainer>
+      </IconContainer>
+      <IconContainer onClick={()=> navigate("/eventsByAuthor")}>
+        <EditEventIcon icon={faPenToSquare}></EditEventIcon>
+        <Iconlabel>Editar meus eventos</Iconlabel>
+      </IconContainer>
     </Footer>
   );
 }
@@ -33,7 +37,7 @@ const Footer = styled.footer`
 `;
 
 
-const AddEventContainer = styled.div`
+const IconContainer = styled.div`
   align-items: center;
   display: flex;
   flex-direction: column;
@@ -43,6 +47,11 @@ const CalendarAddIcon = styled(FontAwesomeIcon)`
   color: ${colors.footerIcons};
   font-size: ${sizes.footerIcons};
 `;
+
+const EditEventIcon = styled(FontAwesomeIcon)`
+  color: ${colors.footerIcons};
+  font-size: ${sizes.footerIcons};
+`
 
 const Iconlabel = styled.p`
   color: ${colors.footerIcons};

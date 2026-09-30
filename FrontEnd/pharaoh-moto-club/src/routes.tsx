@@ -9,6 +9,7 @@ import SelectedCity from "./pages/SelectedCity.tsx";
 import SelectedEvent from "./pages/SelectedEvent.tsx";
 import CreateEvent from "./pages/CreateEvent.tsx";
 import type { Claims } from "./types/globalTypes.tsx";
+import SelectEventForEdition from "./pages/SelectEventForEdition.tsx";
 
 
 export function MyRoutes() {
@@ -25,6 +26,7 @@ export function MyRoutes() {
         <Route path="/CreateEvent" element={<CreateEvent />} />
         <Route path="/cityEvents/:city" element={<SelectedCity />} />
         <Route path="/event/:eventId" element={<SelectedEvent />} />
+        <Route path="/eventsByAuthor" element={<SelectEventForEdition />} />
         <Route />
       </Routes>
     </ClaimsContext>

@@ -137,7 +137,7 @@ namespace Services {
                     tuple.BeginningOfEvent
                 })
                 .ToList();
-            if (result.Count == 0) throw new EntityNotFound("Não foram encontrados eventos para o autor em questão");
+            if (result.Count == 0) return listOfEvents;
 
             foreach(var element in result) {
                 EventWithDateLocationAndTitleDto item = new EventWithDateLocationAndTitleDto() {
@@ -154,5 +154,6 @@ namespace Services {
 
             return listOfEvents;
         }
+
     }
 }

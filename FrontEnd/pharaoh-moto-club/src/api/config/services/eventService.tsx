@@ -53,4 +53,13 @@ export async function createNewEvent(newEvent: NewEvent) {
   }
 }
 
+export async function getEventsByAuthor(authorId: number){
+  try{
+    const result = await mainApiClient.get(`/events/member/${authorId}`);
+    return result.data;
+  } catch(error){
+    console.log(error);
+  }
+}
+
 

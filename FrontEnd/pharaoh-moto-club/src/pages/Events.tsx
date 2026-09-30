@@ -7,6 +7,7 @@ import { StateContainer } from "../components/StateContainer";
 import { MainSection } from "../components/MainSection";
 import { getStatesAndCities } from "../api/config/services/eventService";
 import { fonts } from "../styles/fonts";
+import ThereIsNothingToRender from "../components/ThereIsNothingToRender";
 
 export function Events() {
   const { data: states } = useQuery({
@@ -38,11 +39,7 @@ export function Events() {
               states &&
               states?.length < 1?
               (
-                <ThereIsNoEventContainer>
-                  <ThereIsNoEventTitle>
-                    Não há eventos marcados
-                  </ThereIsNoEventTitle>
-                </ThereIsNoEventContainer>
+                <ThereIsNothingToRender title="Não há eventos marcados"/>
               ):
               (StateArray)
             }</MainSection>
@@ -62,16 +59,4 @@ const StatesContainer = styled.div`
   width: 80%;
 `;
 
-const ThereIsNoEventContainer = styled.div`
-  align-items: center;
-  display: flex;
-  justify-content: center;
-`
 
-const ThereIsNoEventTitle = styled.h2`
-  color: aliceblue;
-  font-family: ${fonts.cardFont};
-  font-size: 1.5rem;
-  margin-top: 3rem;
-  text-align: center;
-`
