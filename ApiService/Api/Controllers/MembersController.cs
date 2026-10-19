@@ -68,7 +68,7 @@ namespace pharaoh_moto_club.Controllers {
                 var oldAccessToken = Request.Cookies["accessToken"];
                 var oldRefreshToken = Request.Cookies["refreshToken"];
                 if(oldRefreshToken is null) throw new EntityNotFound("Não foi enviado nenhum refresh token");
-                RefreshToken existingToken = _memberServices.CheckIfTokenExists(oldRefreshToken);
+                RefreshToken existingToken = await _memberServices.CheckIfTokenExists(oldRefreshToken);
                 if(existingToken is null)  return Unauthorized();
                 if (!existingToken.IsActive) {
                     if(existingToken.RevokedAt is not null) {
@@ -103,7 +103,7 @@ namespace pharaoh_moto_club.Controllers {
         public async Task<ActionResult> LogOut() {
             var activeRefreshTokenString = Request.Cookies["refreshToken"];
             if(activeRefreshTokenString == null) throw new Exception("Não foi enviado um refresh token");
-            RefreshToken activeRefreshToken = _memberServices.CheckIfTokenExists(activeRefreshTokenString);
+            RefreshToken activeRefreshToken = await _memberServices.CheckIfTokenExists(activeRefreshTokenString);
             await _memberServices.RevokeAllActiveTokensAsync(activeRefreshToken.MemberId);
             Response.Cookies.Delete("accessToken");
             Response.Cookies.Delete("refreshToken");

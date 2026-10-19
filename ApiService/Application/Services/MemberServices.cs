@@ -84,15 +84,15 @@ namespace Services {
             );
         }
 
-        public  void SaveRefreshToken(RefreshTokenDto refreshTokenDto) {
+        public void SaveRefreshToken(RefreshTokenDto refreshTokenDto) {
             RefreshToken newRefreshToken = RefreshTokenFactory.CreateRefreshToken(refreshTokenDto);
             _context.RefreshToken.Add(newRefreshToken);
             _context.SaveChanges();
         }
 
-        public RefreshToken CheckIfTokenExists(string token) {
+        public async Task<RefreshToken> CheckIfTokenExists (string token) {
             var tokenHash = TokenUtilities.HashToken(token);
-            var existingToken =  _context.RefreshToken.FirstOrDefault(tuple => tuple.RefreshTokenHash == tokenHash);
+            var existingToken =  await _context.RefreshToken.FirstOrDefaultAsync(tuple => tuple.RefreshTokenHash == tokenHash);
             if(existingToken is null) throw new EntityNotFound("O token não foi encontrado");
             return existingToken;
         }
@@ -106,7 +106,7 @@ namespace Services {
         }
 
         public async Task CheckIfUserExists(int memberId) {
-            var member = _context.Members.FirstOrDefaultAsync(member => member.MemberId == memberId);
+            var member = await _context.Members.FirstOrDefaultAsync(member => member.MemberId == memberId);
             if(member is null) throw new EntityNotFound("O usuário a que se refere o token não foi encontrado");
         }
 

@@ -30,7 +30,7 @@ namespace Cotrollers {
         [HttpGet]
         public async Task<IActionResult> GetTypesOfEvent() {
             try {
-                var typesOfEvent = _typeOfEventServices.GetTypesOfEvents();
+                var typesOfEvent = await _typeOfEventServices.GetTypesOfEvents();
                 return Ok(typesOfEvent);
             } catch(EntityNotFound error) {
                 return NotFound(error.Message);

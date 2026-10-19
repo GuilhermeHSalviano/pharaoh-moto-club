@@ -19,8 +19,8 @@ namespace Services {
             await _context.SaveChangesAsync();
         }
 
-         public List<TypeOfEvent> GetTypesOfEvents() {
-            var typeOfEventList = _context.TypeOfEvents.ToList();
+         public async Task<List<TypeOfEvent>> GetTypesOfEvents() {
+            var typeOfEventList = await _context.TypeOfEvents.ToListAsync();
             if(typeOfEventList.Count == 0) throw new EntityNotFound("Não há tipos de eventos registrados");
             return typeOfEventList;
         }
