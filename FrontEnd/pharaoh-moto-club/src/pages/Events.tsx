@@ -6,7 +6,6 @@ import { useQuery } from "@tanstack/react-query";
 import { StateContainer } from "../components/StateContainer";
 import { MainSection } from "../components/MainSection";
 import { getStatesAndCities } from "../api/config/services/eventService";
-import { fonts } from "../styles/fonts";
 import ThereIsNothingToRender from "../components/ThereIsNothingToRender";
 
 export function Events() {

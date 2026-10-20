@@ -7,6 +7,8 @@ import { ClaimsContext } from "../components/ClaimsContext";
 import { useContext } from "react";
 import { getEventsByAuthor } from "../api/config/services/eventService";
 import ThereIsNothingToRender from "../components/ThereIsNothingToRender";
+import { EventCard } from "../components/EventCard";
+import type { EventByAuthor } from "../types/globalTypes";
 
 export default function SelectEventForEdition() {
   const claims = useContext(ClaimsContext);
@@ -19,6 +21,16 @@ export default function SelectEventForEdition() {
     },
   });
 
+  const eventsList = eventsByAuthor.map((eventItem: EventByAuthor) =>{
+    return(
+      <EventCard 
+        date={eventItem.beginningOfEvent}
+        description={eventItem.title}
+        eventId={String(eventItem.eventId)}
+      ></EventCard>
+    );
+  });
+
   return (
     <MainBackgroundDiv>
       <Nav title="Selecione o evento"></Nav>
@@ -26,7 +38,7 @@ export default function SelectEventForEdition() {
         {eventsByAuthor && eventsByAuthor?.length < 1 ? (
           <ThereIsNothingToRender title="Você não tem eventos futuros marcados" />
         ) : (
-          ""
+          eventsList
         )}
       </MainSection>
       <MyFooter></MyFooter>

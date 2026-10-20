@@ -116,7 +116,7 @@ namespace Services {
 
         public List<Event> GetAllFutureEventsByCityFromDb(int cityId) {
             var events = _context.Event
-                .Where(c => c.CityId == cityId)
+                .Where(c => c.CityId == cityId && c.BeginningOfEvent >= BrazilTime.Now().Date)
                 .ToList();
 
             if (events.Count == 0) throw new EntityNotFound("Não foram encontrados eventos nesta cidade");
@@ -134,7 +134,8 @@ namespace Services {
                     tuple.Title,
                     tuple.State,
                     tuple.StateId,
-                    tuple.BeginningOfEvent
+                    tuple.BeginningOfEvent,
+                    tuple.EventId
                 })
                 .ToList();
             if (result.Count == 0) return listOfEvents;
@@ -146,7 +147,8 @@ namespace Services {
                     Title = element.Title,
                     BeginningOfEvent = element.BeginningOfEvent,
                     State = element.State,
-                    StateId = element.StateId
+                    StateId = element.StateId,
+                    EventId = element.EventId
                 };
 
                 listOfEvents.Add(item);

@@ -20,5 +20,6 @@ namespace pharaoh_moto_club.Dtos {
         public required int CityId { get; set; }
         public required string City { get; set; }
         public required DateTime BeginningOfEvent { get; set; }
+        public required int EventId {get; set;}
     }
 }

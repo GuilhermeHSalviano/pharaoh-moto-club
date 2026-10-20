@@ -93,3 +93,13 @@ export interface TypeOfEvent{
   typeOfEventId: number,
   description: string
 }
+
+export interface EventByAuthor{
+  title: string,
+  stateId: number,
+  state: string,
+  cityId: number,
+  city: string,
+  beginningOfEvent: Date,
+  eventId: string
+}
